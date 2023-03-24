@@ -22,6 +22,24 @@ class DashboardPage extends StatelessWidget {
         listMenu: listSidebar,
         route: route,
       ),
+      body: Row(
+        children: [
+          Expanded(
+            flex: 1,
+            child: Container(
+              color: backgroundGrey,
+              child: SideNavbar(
+                listMenu: listSidebar,
+                route: route,
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 5,
+            child: widget,
+          ),
+        ],
+      ),
     );
   }
 }

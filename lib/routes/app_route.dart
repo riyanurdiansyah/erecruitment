@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:recruitment/routes/app_route_name.dart';
 import 'package:recruitment/src/presentation/pages/auth/login_page.dart';
+import 'package:recruitment/src/presentation/pages/dashboard_page.dart';
+import 'package:recruitment/src/presentation/pages/home/home_page.dart';
 import '../src/presentation/pages/not_found_page.dart';
 import '../src/presentation/pages/welcome_page.dart';
 
@@ -38,68 +41,82 @@ GoRouter router = GoRouter(
         return const LoginPage();
       },
     ),
-    // ShellRoute(
-    //   navigatorKey: shellNavigatorKey,
-    //   pageBuilder: ((context, state, child) {
-    //     return NoTransitionPage(
-    //       child: WebDashboardPage(
-    //         route: state.location,
-    //         widget: child,
-    //       ),
-    //     );
-    //   }),
-    //   routes: [
-    //     GoRoute(
-    //       path: '/',
-    //       name: "/",
-    //       pageBuilder: (context, state) {
-    //         return NoTransitionPage(
-    //             child: Container(
-    //           color: Colors.red,
-    //         ));
-    //       },
-    //       routes: [
-    //         GoRoute(
-    //           path: AppRouteNameMobile.home,
-    //           name: AppRouteNameMobile.home,
-    //           pageBuilder: (context, state) {
-    //             return const NoTransitionPage(
-    //               child: WebHomePage(),
-    //             );
-    //           },
-    //         ),
-    //         GoRoute(
-    //           path: AppRouteNameMobile.attendance,
-    //           name: AppRouteNameMobile.attendance,
-    //           pageBuilder: (context, state) {
-    //             return const NoTransitionPage(child: WebAttendancePage());
-    //           },
-    //         ),
-    //         GoRoute(
-    //           path: AppRouteNameMobile.request,
-    //           name: AppRouteNameMobile.request,
-    //           pageBuilder: (context, state) {
-    //             return const NoTransitionPage(child: WebRequestPage());
-    //           },
-    //         ),
-    //         GoRoute(
-    //           path: AppRouteNameMobile.profile,
-    //           name: AppRouteNameMobile.profile,
-    //           pageBuilder: (context, state) {
-    //             return const NoTransitionPage(child: WebProfilePage());
-    //           },
-    //         ),
-    //         GoRoute(
-    //           path: AppRouteNameMobile.blast,
-    //           name: AppRouteNameMobile.blast,
-    //           pageBuilder: (context, state) {
-    //             return const NoTransitionPage(child: WebBlastPage());
-    //           },
-    //         ),
-    //       ],
-    //     ),
-    //   ],
-    // ),
+    ShellRoute(
+      navigatorKey: shellNavigatorKey,
+      pageBuilder: ((context, state, child) {
+        return NoTransitionPage(
+          child: DashboardPage(
+            route: state.location,
+            widget: child,
+          ),
+        );
+      }),
+      routes: [
+        GoRoute(
+          path: '/',
+          name: "/",
+          pageBuilder: (context, state) {
+            return NoTransitionPage(
+                child: Container(
+              color: Colors.red,
+            ));
+          },
+          routes: [
+            GoRoute(
+              path: AppRouteName.home,
+              name: AppRouteName.home,
+              pageBuilder: (context, state) {
+                return const NoTransitionPage(
+                  child: HomePage(),
+                );
+              },
+            ),
+
+            GoRoute(
+              path: AppRouteName.disc,
+              name: AppRouteName.disc,
+              pageBuilder: (context, state) {
+                return NoTransitionPage(
+                    child: Container(
+                  color: Colors.blue,
+                ));
+              },
+            ),
+            GoRoute(
+              path: AppRouteName.psi4,
+              name: AppRouteName.psi4,
+              pageBuilder: (context, state) {
+                return NoTransitionPage(
+                    child: Container(
+                  color: Colors.amber,
+                ));
+              },
+            ),
+            // GoRoute(
+            //   path: AppRouteNameMobile.request,
+            //   name: AppRouteNameMobile.request,
+            //   pageBuilder: (context, state) {
+            //     return const NoTransitionPage(child: WebRequestPage());
+            //   },
+            // ),
+            // GoRoute(
+            //   path: AppRouteNameMobile.profile,
+            //   name: AppRouteNameMobile.profile,
+            //   pageBuilder: (context, state) {
+            //     return const NoTransitionPage(child: WebProfilePage());
+            //   },
+            // ),
+            // GoRoute(
+            //   path: AppRouteNameMobile.blast,
+            //   name: AppRouteNameMobile.blast,
+            //   pageBuilder: (context, state) {
+            //     return const NoTransitionPage(child: WebBlastPage());
+            //   },
+            // ),
+          ],
+        ),
+      ],
+    ),
   ],
   initialLocation: "/welcome",
   debugLogDiagnostics: true,

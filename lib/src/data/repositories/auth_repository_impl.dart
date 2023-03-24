@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:crypt/crypt.dart';
 import 'package:dartz/dartz.dart';
 import 'package:recruitment/src/core/exception.dart';
@@ -17,7 +19,8 @@ class AuthRepositoryImpl implements AuthRepository {
       String username, String password) async {
     try {
       final data = await _datasource.getUser(username, password);
-      final hashPassword = Crypt.sha256(password);
+      final hashPassword = Crypt.sha256(password, salt: "#xyzzyx#");
+      log("CEK ${hashPassword.hash}");
       if (hashPassword.hash == data.password) {
         return Right(data);
       }

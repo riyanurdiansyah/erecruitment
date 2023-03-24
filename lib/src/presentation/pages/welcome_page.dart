@@ -16,9 +16,9 @@ class WelcomePage extends StatelessWidget {
         listener: (context, state) {
           if (state is WelcomeAuthenticatedState) {
             if (state.user.role == 1) {
-              context.go(AppRouteName.home);
+              context.go("/home");
             } else {
-              context.go(AppRouteName.home);
+              context.go("/home");
             }
           }
 

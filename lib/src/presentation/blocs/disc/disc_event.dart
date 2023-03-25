@@ -28,3 +28,5 @@ class DiscCreateSoalEvent extends DiscEvent {
 
   final List<String> options;
 }
+
+class DiscTakeQuiz extends DiscEvent {}

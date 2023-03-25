@@ -30,6 +30,7 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   cached_network_image: ^3.2.3
+  camera: ^0.10.3+2
   cloud_firestore: ^4.4.5
   crypt: ^4.2.1
   cupertino_icons: ^1.0.2
@@ -43,6 +44,7 @@ dependencies:
   go_router: ^6.5.0
   google_fonts: ^4.0.3
   intl: ^0.18.0
+  path_provider: ^2.0.14
   shared_preferences: ^2.0.20
 
 dev_dependencies:

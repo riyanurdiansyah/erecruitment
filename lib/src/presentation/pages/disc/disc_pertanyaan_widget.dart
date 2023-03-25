@@ -159,7 +159,7 @@ class DiscPertanyaanWidget extends StatelessWidget {
                     backgroundColor:
                         MaterialStateProperty.all(Colors.grey.shade400),
                   ),
-                  onPressed: () {},
+                  onPressed: () => _discBloc.add(DiscTakeQuiz()),
                   child: AppText.labelW600(
                     "Preview",
                     14,

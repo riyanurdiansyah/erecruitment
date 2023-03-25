@@ -31,6 +31,7 @@ class _DiscPageState extends State<DiscPage> {
     return BlocProvider(
       create: (context) => _discBloc,
       child: Scaffold(
+        key: _discBloc.globalKey,
         backgroundColor: backgroundGrey,
         body: SingleChildScrollView(
           child: Container(

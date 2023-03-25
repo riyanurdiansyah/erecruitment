@@ -1,4 +1,3 @@
-import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -66,54 +65,54 @@ class Header extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Center(
-                  child: Badge(
-                    stackFit: StackFit.passthrough,
-                    badgeContent: Padding(
-                      padding: const EdgeInsets.only(top: 2),
-                      child: AppText.labelW700(
-                        "3",
-                        12.5,
-                        Colors.white,
-                      ),
-                    ),
-                    child: PopupMenuButton(
-                      tooltip: "Notif",
-                      offset: const Offset(0, 40),
-                      icon: const Icon(
-                        Icons.notifications_rounded,
-                        size: 28,
-                      ),
-                      itemBuilder: (_) => [
-                        PopupMenuItem(
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  AppText.labelW600(
-                                    "Notif",
-                                    14,
-                                    Colors.black,
-                                  ),
-                                  TextButton(
-                                    onPressed: () {},
-                                    child: AppText.labelW500(
-                                      "Lihat Semua",
-                                      12,
-                                      Colors.blue,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                // Center(
+                //   child: Badge(
+                //     stackFit: StackFit.passthrough,
+                //     badgeContent: Padding(
+                //       padding: const EdgeInsets.only(top: 2),
+                //       child: AppText.labelW700(
+                //         "3",
+                //         12.5,
+                //         Colors.white,
+                //       ),
+                //     ),
+                //     child: PopupMenuButton(
+                //       tooltip: "Notif",
+                //       offset: const Offset(0, 40),
+                //       icon: const Icon(
+                //         Icons.notifications_rounded,
+                //         size: 28,
+                //       ),
+                //       itemBuilder: (_) => [
+                //         PopupMenuItem(
+                //           child: Column(
+                //             children: [
+                //               Row(
+                //                 mainAxisAlignment:
+                //                     MainAxisAlignment.spaceBetween,
+                //                 children: [
+                //                   AppText.labelW600(
+                //                     "Notif",
+                //                     14,
+                //                     Colors.black,
+                //                   ),
+                //                   TextButton(
+                //                     onPressed: () {},
+                //                     child: AppText.labelW500(
+                //                       "Lihat Semua",
+                //                       12,
+                //                       Colors.blue,
+                //                     ),
+                //                   ),
+                //                 ],
+                //               ),
+                //             ],
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
                 const SizedBox(
                   width: 12,
                 ),

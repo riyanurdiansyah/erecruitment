@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:recruitment/src/domain/entities/disc_entity.dart';
 import 'package:recruitment/src/presentation/blocs/disc/disc_bloc.dart';
+import 'package:recruitment/utils/app_dialog.dart';
 
 import '../../../../utils/app_color.dart';
 import '../../../../utils/app_text.dart';
@@ -148,20 +149,49 @@ class DiscPertanyaanWidget extends StatelessWidget {
         const SizedBox(
           height: 35,
         ),
-        SizedBox(
-          height: 40,
-          width: double.infinity,
-          child: ElevatedButton(
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(colorPrimaryDark),
+        Row(
+          children: [
+            Expanded(
+              child: SizedBox(
+                height: 40,
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all(Colors.grey.shade400),
+                  ),
+                  onPressed: () {},
+                  child: AppText.labelW600(
+                    "Preview",
+                    14,
+                    Colors.white,
+                  ),
+                ),
+              ),
             ),
-            onPressed: () {},
-            child: AppText.labelW600(
-              "Tambah Soal",
-              14,
-              Colors.white,
+            const SizedBox(
+              width: 20,
             ),
-          ),
+            Expanded(
+              child: SizedBox(
+                height: 40,
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all(colorPrimaryDark),
+                  ),
+                  onPressed: () {
+                    AppDialog.dialogTambahSoalDISC(
+                        context: context, discBloc: _discBloc);
+                  },
+                  child: AppText.labelW600(
+                    "Tambah Soal",
+                    14,
+                    Colors.white,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ],
     );

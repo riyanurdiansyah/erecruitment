@@ -29,7 +29,6 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  badges: ^3.0.3
   cached_network_image: ^3.2.3
   cloud_firestore: ^4.4.5
   crypt: ^4.2.1

@@ -14,3 +14,17 @@ class DiscOnChangeTypeEvent extends DiscEvent {
 
   final String type;
 }
+
+class DiscInsertDataToListTempEvent extends DiscEvent {
+  const DiscInsertDataToListTempEvent(this.option);
+
+  final String option;
+}
+
+class DiscCreateSoalEvent extends DiscEvent {
+  const DiscCreateSoalEvent({
+    required this.options,
+  });
+
+  final List<String> options;
+}

@@ -12,6 +12,7 @@ class DiscState extends Equatable {
   DiscState copyWith({
     String? type,
     bool? showPreview,
+    final List<String>? listOptionTemp,
   }) {
     return DiscState(
       type: type ?? this.type,
@@ -20,7 +21,10 @@ class DiscState extends Equatable {
   }
 
   @override
-  List<Object> get props => [type, showPreview];
+  List<Object> get props => [
+        type,
+        showPreview,
+      ];
 }
 
 class DiscInitial extends DiscState {}

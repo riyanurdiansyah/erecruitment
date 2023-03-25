@@ -37,3 +37,8 @@ List<SideNavbarEntity> listSidebar = [
     tipe: "blast",
   ),
 ];
+
+List<String> listDisc = [
+  "Instruksi",
+  "Pertanyaan",
+];

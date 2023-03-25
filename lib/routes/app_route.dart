@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:recruitment/routes/app_route_name.dart';
 import 'package:recruitment/src/presentation/pages/auth/login_page.dart';
 import 'package:recruitment/src/presentation/pages/dashboard_page.dart';
+import 'package:recruitment/src/presentation/pages/disc/disc_page.dart';
 import 'package:recruitment/src/presentation/pages/home/home_page.dart';
 import '../src/presentation/pages/not_found_page.dart';
 import '../src/presentation/pages/welcome_page.dart';
@@ -66,9 +67,7 @@ GoRouter router = GoRouter(
               path: AppRouteName.home,
               name: AppRouteName.home,
               pageBuilder: (context, state) {
-                return const NoTransitionPage(
-                  child: HomePage(),
-                );
+                return const NoTransitionPage(child: HomePage());
               },
             ),
 
@@ -76,10 +75,7 @@ GoRouter router = GoRouter(
               path: AppRouteName.disc,
               name: AppRouteName.disc,
               pageBuilder: (context, state) {
-                return NoTransitionPage(
-                    child: Container(
-                  color: Colors.blue,
-                ));
+                return const NoTransitionPage(child: DiscPage());
               },
             ),
             GoRoute(

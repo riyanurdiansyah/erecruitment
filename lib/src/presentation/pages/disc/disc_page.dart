@@ -34,110 +34,122 @@ class _DiscPageState extends State<DiscPage> {
       child: Scaffold(
         key: _discBloc.globalKey,
         backgroundColor: backgroundGrey,
-        body: SingleChildScrollView(
-          child: Container(
-            width: double.infinity,
-            padding: const EdgeInsets.only(right: 35),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  height: 25,
-                ),
-                const Header(),
-                const SizedBox(
-                  height: 25,
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      flex: 15,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 14),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            AppText.labelBold(
-                              "Setting",
-                              16,
-                              Colors.black,
-                            ),
-                            const SizedBox(
-                              height: 2,
-                            ),
-                            Container(
-                              width: 60,
-                              height: 2,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(4),
-                                color: colorPrimaryDark,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 12,
-                            ),
-                            BlocBuilder<DiscBloc, DiscState>(
-                              builder: (context, state) {
-                                return Row(
-                                  children: List.generate(
-                                    listDisc.length,
-                                    (index) => Container(
-                                      margin: const EdgeInsets.only(right: 6),
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 8, horizontal: 12),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(4),
-                                        color: listDisc[index] == state.type
-                                            ? colorPrimaryDark
-                                            : Colors.white,
-                                      ),
-                                      child: InkWell(
-                                        onTap: () => _discBloc.add(
-                                            DiscOnChangeTypeEvent(
-                                                listDisc[index])),
-                                        child: AppText.labelW500(
-                                          listDisc[index],
-                                          14,
-                                          listDisc[index] == state.type
-                                              ? Colors.white
-                                              : Colors.grey.shade600,
-                                        ),
-                                      ),
+        body: Container(
+          width: double.infinity,
+          padding: const EdgeInsets.only(right: 35),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(
+                height: 25,
+              ),
+              const Header(),
+              const SizedBox(
+                height: 25,
+              ),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            flex: 15,
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 14),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  AppText.labelBold(
+                                    "Setting",
+                                    16,
+                                    Colors.black,
+                                  ),
+                                  const SizedBox(
+                                    height: 2,
+                                  ),
+                                  Container(
+                                    width: 60,
+                                    height: 2,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(4),
+                                      color: colorPrimaryDark,
                                     ),
                                   ),
-                                );
-                              },
+                                  const SizedBox(
+                                    height: 12,
+                                  ),
+                                  BlocBuilder<DiscBloc, DiscState>(
+                                    builder: (context, state) {
+                                      return Row(
+                                        children: List.generate(
+                                          listDisc.length,
+                                          (index) => Container(
+                                            margin:
+                                                const EdgeInsets.only(right: 6),
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 8, horizontal: 12),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(4),
+                                              color:
+                                                  listDisc[index] == state.type
+                                                      ? colorPrimaryDark
+                                                      : Colors.white,
+                                            ),
+                                            child: InkWell(
+                                              onTap: () => _discBloc.add(
+                                                  DiscOnChangeTypeEvent(
+                                                      listDisc[index])),
+                                              child: AppText.labelW500(
+                                                listDisc[index],
+                                                14,
+                                                listDisc[index] == state.type
+                                                    ? Colors.white
+                                                    : Colors.grey.shade600,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                  const SizedBox(
+                                    height: 25,
+                                  ),
+                                  BlocBuilder<DiscBloc, DiscState>(
+                                    builder: (context, state) {
+                                      if (state.type == "Pertanyaan") {
+                                        return DiscPertanyaanWidget(
+                                          discBloc: _discBloc,
+                                        );
+                                      }
+                                      return DiscInstruksiWidget(
+                                        discBloc: _discBloc,
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
                             ),
-                            const SizedBox(
-                              height: 25,
-                            ),
-                            BlocBuilder<DiscBloc, DiscState>(
-                              builder: (context, state) {
-                                if (state.type == "Pertanyaan") {
-                                  return DiscPertanyaanWidget(
-                                    discBloc: _discBloc,
-                                  );
-                                }
-                                return const DiscInstruksiWidget();
-                              },
-                            ),
-                          ],
-                        ),
+                          ),
+                          const SizedBox(
+                            width: 25,
+                          ),
+                          DiscPreviewWidget(size: size, discBloc: _discBloc),
+                        ],
                       ),
-                    ),
-                    const SizedBox(
-                      width: 25,
-                    ),
-                    DiscPreviewWidget(size: size, discBloc: _discBloc),
-                  ],
+                      const SizedBox(
+                        height: 25,
+                      ),
+                    ],
+                  ),
                 ),
-                const SizedBox(
-                  height: 25,
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

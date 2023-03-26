@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:recruitment/src/core/failure.dart';
 import 'package:recruitment/src/domain/entities/disc_entity.dart';
+import 'package:recruitment/src/domain/entities/ujian_entity.dart';
 import 'package:recruitment/src/domain/repositories/dashboard_repository.dart';
 
 class DashboardUseCase {
@@ -18,6 +19,13 @@ class DashboardUseCase {
           Map<String, dynamic> data) async =>
       await _repository.updateSoalDisc(data);
 
+  Future<Either<Failure, bool>> updateInstruksi(
+          Map<String, dynamic> data) async =>
+      await _repository.updateInstruksi(data);
+
   Future<Either<Failure, bool>> deleteSoalDisc(String id) async =>
       await _repository.deleteSoalDisc(id);
+
+  Future<Either<Failure, UjianEntity>> getUjianDetail(String id) async =>
+      await _repository.getUjianDetail(id);
 }

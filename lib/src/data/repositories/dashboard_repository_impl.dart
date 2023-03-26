@@ -2,6 +2,7 @@ import 'package:recruitment/src/core/failure.dart';
 import 'package:dartz/dartz.dart';
 import 'package:recruitment/src/data/datasources/remote/dashbord_remote_datasource.dart';
 import 'package:recruitment/src/domain/entities/disc_entity.dart';
+import 'package:recruitment/src/domain/entities/ujian_entity.dart';
 import 'package:recruitment/src/domain/repositories/dashboard_repository.dart';
 
 import '../../core/exception_handling.dart';
@@ -42,6 +43,27 @@ class DashboardRepositoryImpl implements DashboardRepository {
       Map<String, dynamic> data) async {
     try {
       final response = await _datasource.updateSoalDisc(data);
+      return Right(response);
+    } catch (e) {
+      return Left(ExceptionHandleRepository.execute(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, UjianEntity>> getUjianDetail(String id) async {
+    try {
+      final response = await _datasource.getUjianDetail(id);
+      return Right(response);
+    } catch (e) {
+      return Left(ExceptionHandleRepository.execute(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> updateInstruksi(
+      Map<String, dynamic> data) async {
+    try {
+      final response = await _datasource.updateInstruksi(data);
       return Right(response);
     } catch (e) {
       return Left(ExceptionHandleRepository.execute(e));

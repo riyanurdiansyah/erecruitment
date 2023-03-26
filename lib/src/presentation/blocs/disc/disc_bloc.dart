@@ -6,12 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recruitment/src/domain/entities/disc_entity.dart';
 import 'package:recruitment/utils/app_dialog.dart';
+import 'package:recruitment/utils/app_empty_entity.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../services/app_camera.dart';
 import '../../../data/datasources/remote/dashboard_remote_datasource_impl.dart';
 import '../../../data/repositories/dashboard_repository_impl.dart';
+import '../../../domain/entities/ujian_entity.dart';
 import '../../../domain/usecases/dashboard_usecase.dart';
 
 part 'disc_event.dart';
@@ -28,6 +30,12 @@ class DiscBloc extends Bloc<DiscEvent, DiscState> {
   late SharedPreferences _prefs;
 
   TextEditingController tcOption = TextEditingController();
+
+  TextEditingController tcInstruksi = TextEditingController();
+  TextEditingController tcMaxSoal = TextEditingController();
+  TextEditingController tcWaktu = TextEditingController();
+
+  List<String> listPeraturan = [];
 
   @override
   Future<void> close() {
@@ -48,6 +56,8 @@ class DiscBloc extends Bloc<DiscEvent, DiscState> {
     on<DiscOnChangeRadio>(_onChangeRadio);
     on<DiscUpdateSoalEvent>(_onUpdateDiscSoal);
     on<DiscDeleteSoalEvent>(_onDeleteDiscSoal);
+    on<DiscAddDataToListEvent>(_onAddDataToListInstruksi);
+    on<DiscUpdateUjianDetail>(_onUpdateUjianDetail);
   }
 
   FutureOr<void> _onChangeType(
@@ -67,12 +77,23 @@ class DiscBloc extends Bloc<DiscEvent, DiscState> {
     });
   }
 
+  Future<UjianEntity> getUjianDetail() async {
+    final response = await _usecase.getUjianDetail("0F0TXZd3A7cX6O9BczPb");
+
+    return response.fold((l) => emptyUjianDetail, (data) {
+      tcInstruksi.text = data.instruksi;
+      tcMaxSoal.text = data.maxSoal.toString();
+      tcWaktu.text = data.waktu.toString();
+      return data;
+    });
+  }
+
   FutureOr<void> _onInitialize(
       DiscInitialEvent event, Emitter<DiscState> emit) async {
-    debugPrint("SETUP DISC BLOC");
     _datasource = DashboardRemoteDataSourceImpl();
     _repository = DashboardRepositoryImpl(_datasource);
     _usecase = DashboardUseCase(_repository);
+    getUjianDetail();
     _prefs = await SharedPreferences.getInstance();
     cameraService = AppCameraService();
     // try {
@@ -181,5 +202,34 @@ class DiscBloc extends Bloc<DiscEvent, DiscState> {
         (r) => AppDialog.dialogNoAction(
             context: globalKey.currentContext!,
             title: "Data berhasil dihapus"));
+  }
+
+  FutureOr<void> _onAddDataToListInstruksi(
+      DiscAddDataToListEvent event, Emitter<DiscState> emit) {
+    debugPrint("CEK UP : ${event.instruksi}");
+    // emit(state.copyWith(listInstruksi: event.instruksi));
+  }
+
+  FutureOr<void> _onUpdateUjianDetail(
+      DiscUpdateUjianDetail event, Emitter<DiscState> emit) async {
+    if (state.isUpdateInstruksi) {
+      final body = {
+        "id": "0F0TXZd3A7cX6O9BczPb",
+        "max_soal": int.parse(tcMaxSoal.text),
+        "tipe": "disc",
+        "waktu": int.parse(tcWaktu.text),
+        "instruksi": tcInstruksi.text,
+      };
+
+      final response = await _usecase.updateInstruksi(body);
+      response.fold(
+          (l) => AppDialog.dialogNoAction(
+              context: globalKey.currentContext!, title: "Gagal update data"),
+          (r) => AppDialog.dialogNoAction(
+              context: globalKey.currentContext!,
+              title: "Data berhasil diupdate"));
+    }
+
+    emit(state.copyWith(isUpdateInstruksi: !state.isUpdateInstruksi));
   }
 }

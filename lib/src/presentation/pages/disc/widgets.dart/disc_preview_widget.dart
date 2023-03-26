@@ -41,22 +41,22 @@ class DiscPreviewWidget extends StatelessWidget {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      AppText.labelBold(
-                        "Preview",
-                        16,
-                        Colors.black,
-                      ),
-                      Container(
-                        width: 70,
-                        height: 2,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(4),
-                          color: colorPrimaryDark,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 25,
-                      ),
+                      // AppText.labelBold(
+                      //   "Preview",
+                      //   16,
+                      //   Colors.black,
+                      // ),
+                      // Container(
+                      //   width: 70,
+                      //   height: 2,
+                      //   decoration: BoxDecoration(
+                      //     borderRadius: BorderRadius.circular(4),
+                      //     color: colorPrimaryDark,
+                      //   ),
+                      // ),
+                      // const SizedBox(
+                      //   height: 25,
+                      // ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

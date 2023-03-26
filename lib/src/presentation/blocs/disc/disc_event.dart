@@ -57,9 +57,23 @@ class DiscOnChangeIndexPreviewEvent extends DiscEvent {
   final int index;
 }
 
+class DiscSaveUjianDetail extends DiscEvent {
+  const DiscSaveUjianDetail(this.ujian);
+
+  final UjianEntity ujian;
+}
+
 class DiscOnChangeRadio extends DiscEvent {
   const DiscOnChangeRadio(this.index, this.type);
 
   final int index;
   final String type;
 }
+
+class DiscAddDataToListEvent extends DiscEvent {
+  const DiscAddDataToListEvent(this.instruksi);
+
+  final List<String> instruksi;
+}
+
+class DiscUpdateUjianDetail extends DiscEvent {}

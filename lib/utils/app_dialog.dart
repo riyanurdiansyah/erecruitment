@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:recruitment/src/domain/entities/disc_entity.dart';
 import 'package:recruitment/utils/app_color.dart';
 
 import '../src/presentation/blocs/disc/disc_bloc.dart';
@@ -47,8 +48,14 @@ class AppDialog {
   static dialogTambahSoalDISC({
     required BuildContext context,
     required DiscBloc discBloc,
+    DiscEntity? data,
   }) {
     List<String> listTemp = [];
+    bool status = true;
+    if (data != null) {
+      listTemp = data.soal;
+      status = data.status;
+    }
     final size = MediaQuery.of(context).size;
     return showDialog(
       context: context,
@@ -108,6 +115,79 @@ class AppDialog {
                           },
                           child: const Icon(
                             Icons.add_rounded,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 14,
+                    ),
+                    AppText.labelW600(
+                      "Status",
+                      16,
+                      Colors.black,
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: InkWell(
+                            onTap: () {
+                              status = false;
+                              setState(() {});
+                            },
+                            child: AnimatedContainer(
+                              alignment: Alignment.center,
+                              duration: const Duration(milliseconds: 500),
+                              height: 40,
+                              decoration: BoxDecoration(
+                                color: status == true
+                                    ? Colors.grey.shade300
+                                    : Colors.red,
+                                borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(8),
+                                  bottomLeft: Radius.circular(8),
+                                ),
+                              ),
+                              child: AppText.labelW600(
+                                "Tidak Aktif",
+                                14,
+                                status == true
+                                    ? Colors.grey.shade600
+                                    : Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: InkWell(
+                            onTap: () {
+                              status = true;
+                              setState(() {});
+                            },
+                            child: AnimatedContainer(
+                              alignment: Alignment.center,
+                              duration: const Duration(milliseconds: 500),
+                              height: 40,
+                              decoration: BoxDecoration(
+                                color: status == true
+                                    ? Colors.green
+                                    : Colors.grey.shade300,
+                                borderRadius: const BorderRadius.only(
+                                  topRight: Radius.circular(8),
+                                  bottomRight: Radius.circular(8),
+                                ),
+                              ),
+                              child: AppText.labelW600(
+                                "Aktif",
+                                14,
+                                status == true
+                                    ? Colors.white
+                                    : Colors.grey.shade600,
+                              ),
+                            ),
                           ),
                         ),
                       ],
@@ -174,8 +254,25 @@ class AppDialog {
                                 title: "Silahkan tambahkan option");
                           } else {
                             context.pop();
-                            discBloc
-                                .add(DiscCreateSoalEvent(options: listTemp));
+                            if (data != null) {
+                              discBloc.add(
+                                DiscUpdateSoalEvent(
+                                  disc: DiscEntity(
+                                    id: data.id,
+                                    soal: listTemp,
+                                    status: status,
+                                    updateBy: DiscUpdateByEntity(
+                                      user: data.updateBy.user,
+                                      date: DateTime.now().toIso8601String(),
+                                    ),
+                                    responses: const [],
+                                  ),
+                                ),
+                              );
+                            } else {
+                              discBloc.add(DiscCreateSoalEvent(
+                                  listSoal: listTemp, status: status));
+                            }
                           }
                         },
                         child: AppText.labelW600(

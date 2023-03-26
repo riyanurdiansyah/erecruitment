@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:recruitment/src/domain/entities/disc_entity.dart';
 import 'package:recruitment/src/presentation/blocs/disc/disc_bloc.dart';
@@ -50,13 +51,20 @@ class DiscPertanyaanWidget extends StatelessWidget {
               const SizedBox(
                 width: 12,
               ),
-              Expanded(
-                flex: 2,
-                child: AppText.labelW600(
-                  "LAST UPDATE",
-                  14,
-                  Colors.black,
-                ),
+              BlocBuilder<DiscBloc, DiscState>(
+                builder: (context, state) {
+                  if (state.showPreview) {
+                    return const SizedBox();
+                  }
+                  return Expanded(
+                    flex: 2,
+                    child: AppText.labelW600(
+                      "LAST UPDATE",
+                      14,
+                      Colors.black,
+                    ),
+                  );
+                },
               ),
               const SizedBox(
                 width: 12,
@@ -64,6 +72,13 @@ class DiscPertanyaanWidget extends StatelessWidget {
               Expanded(
                 child: AppText.labelW600(
                   "UPDATE BY",
+                  14,
+                  Colors.black,
+                ),
+              ),
+              Expanded(
+                child: AppText.labelW600(
+                  "",
                   14,
                   Colors.black,
                 ),
@@ -121,13 +136,20 @@ class DiscPertanyaanWidget extends StatelessWidget {
                       const SizedBox(
                         width: 12,
                       ),
-                      Expanded(
-                        flex: 2,
-                        child: AppText.labelW600(
-                          "${DateFormat.yMMMd('id').add_jm().format(DateTime.parse(data.updateBy.date))} WIB",
-                          12,
-                          Colors.grey.shade600,
-                        ),
+                      BlocBuilder<DiscBloc, DiscState>(
+                        builder: (context, state) {
+                          if (state.showPreview) {
+                            return const SizedBox();
+                          }
+                          return Expanded(
+                            flex: 2,
+                            child: AppText.labelW600(
+                              "${DateFormat.yMMMd('id').add_jm().format(DateTime.parse(data.updateBy.date))} WIB",
+                              12,
+                              Colors.grey.shade600,
+                            ),
+                          );
+                        },
                       ),
                       const SizedBox(
                         width: 12,
@@ -137,6 +159,50 @@ class DiscPertanyaanWidget extends StatelessWidget {
                           data.updateBy.user,
                           12,
                           Colors.grey.shade600,
+                        ),
+                      ),
+                      Expanded(
+                        child: Row(
+                          children: [
+                            InkWell(
+                              onTap: () => _discBloc
+                                  .add(DiscDeleteSoalEvent(id: data.id)),
+                              child: Container(
+                                width: 35,
+                                height: 35,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(6),
+                                  color: Colors.red.shade300,
+                                ),
+                                child: const Icon(
+                                  Icons.delete_rounded,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 12,
+                            ),
+                            InkWell(
+                              onTap: () => AppDialog.dialogTambahSoalDISC(
+                                context: context,
+                                discBloc: _discBloc,
+                                data: data,
+                              ),
+                              child: Container(
+                                width: 35,
+                                height: 35,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(6),
+                                  color: Colors.amber.shade300,
+                                ),
+                                child: const Icon(
+                                  Icons.edit_rounded,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
@@ -159,7 +225,7 @@ class DiscPertanyaanWidget extends StatelessWidget {
                     backgroundColor:
                         MaterialStateProperty.all(Colors.grey.shade400),
                   ),
-                  onPressed: () => _discBloc.add(DiscTakeQuiz()),
+                  onPressed: () => _discBloc.add(DiscPreviewEvent()),
                   child: AppText.labelW600(
                     "Preview",
                     14,

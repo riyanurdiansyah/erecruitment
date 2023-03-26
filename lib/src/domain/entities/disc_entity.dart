@@ -8,25 +8,38 @@ List<DiscEntity> discSoalFromJson(String str) =>
 
 class DiscEntity extends Equatable {
   const DiscEntity({
+    required this.id,
     required this.soal,
     required this.status,
     required this.updateBy,
+    required this.responses,
   });
-
+  final String id;
   final List<String> soal;
   final bool status;
   final DiscUpdateByEntity updateBy;
+  final List<dynamic> responses;
 
   @override
   List<Object?> get props => [];
 
   factory DiscEntity.fromJson(Map<String, dynamic> json) => DiscEntity(
+        id: json['id'],
         soal: json['soal'] == null ? [] : List<String>.from(json['soal']),
         status: json['status'] ?? false,
         updateBy: json['update_by'] == null
             ? emptyDiscUpdateBy
             : DiscUpdateByEntity.fromJson(json['update_by']),
+        responses: const [],
       );
+
+  Map<String, dynamic> toJson() => {
+        // "responses": List<dynamic>.from(responses.map((x) => x)),
+        "soal": List<String>.from(soal.map((x) => x)),
+        "id": id,
+        "status": status,
+        "update_by": updateBy.toJson(),
+      };
 }
 
 class DiscUpdateByEntity extends Equatable {
@@ -43,6 +56,11 @@ class DiscUpdateByEntity extends Equatable {
         user: json['user'] ?? "",
         date: json['date'] ?? "",
       );
+
+  Map<String, dynamic> toJson() => {
+        "user": user,
+        "date": date,
+      };
 
   @override
   List<Object?> get props => [user, date];

@@ -23,10 +23,43 @@ class DiscInsertDataToListTempEvent extends DiscEvent {
 
 class DiscCreateSoalEvent extends DiscEvent {
   const DiscCreateSoalEvent({
-    required this.options,
+    required this.listSoal,
+    required this.status,
   });
 
-  final List<String> options;
+  final List<String> listSoal;
+  final bool status;
+}
+
+class DiscUpdateSoalEvent extends DiscEvent {
+  const DiscUpdateSoalEvent({
+    required this.disc,
+  });
+
+  final DiscEntity disc;
+}
+
+class DiscDeleteSoalEvent extends DiscEvent {
+  const DiscDeleteSoalEvent({
+    required this.id,
+  });
+
+  final String id;
 }
 
 class DiscTakeQuiz extends DiscEvent {}
+
+class DiscPreviewEvent extends DiscEvent {}
+
+class DiscOnChangeIndexPreviewEvent extends DiscEvent {
+  const DiscOnChangeIndexPreviewEvent(this.index);
+
+  final int index;
+}
+
+class DiscOnChangeRadio extends DiscEvent {
+  const DiscOnChangeRadio(this.index, this.type);
+
+  final int index;
+  final String type;
+}

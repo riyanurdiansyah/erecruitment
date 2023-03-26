@@ -26,4 +26,25 @@ class DashboardRepositoryImpl implements DashboardRepository {
       return Left(ExceptionHandleRepository.execute(e));
     }
   }
+
+  @override
+  Future<Either<Failure, bool>> deleteSoalDisc(String id) async {
+    try {
+      final response = await _datasource.deleteSoalDisc(id);
+      return Right(response);
+    } catch (e) {
+      return Left(ExceptionHandleRepository.execute(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> updateSoalDisc(
+      Map<String, dynamic> data) async {
+    try {
+      final response = await _datasource.updateSoalDisc(data);
+      return Right(response);
+    } catch (e) {
+      return Left(ExceptionHandleRepository.execute(e));
+    }
+  }
 }

@@ -13,4 +13,11 @@ class DashboardUseCase {
   Future<Either<Failure, bool>> createSoalDisc(
           Map<String, dynamic> data) async =>
       await _repository.createSoalDisc(data);
+
+  Future<Either<Failure, bool>> updateSoalDisc(
+          Map<String, dynamic> data) async =>
+      await _repository.updateSoalDisc(data);
+
+  Future<Either<Failure, bool>> deleteSoalDisc(String id) async =>
+      await _repository.deleteSoalDisc(id);
 }

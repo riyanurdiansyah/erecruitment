@@ -5,27 +5,46 @@ class DiscState extends Equatable {
     this.type = "Instruksi",
     this.showPreview = false,
     this.isRecording = false,
+    this.indexPreview = 0,
+    this.indexSesuai = 99,
+    this.indexTidakSesuai = 99,
   });
 
   final String type;
   final bool showPreview;
   final bool isRecording;
+  final int indexPreview;
+  final int indexSesuai;
+  final int indexTidakSesuai;
 
   DiscState copyWith({
     String? type,
     bool? showPreview,
     bool? isRecording,
     final List<String>? listOptionTemp,
+    int? indexPreview,
+    int? indexSesuai,
+    int? indexTidakSesuai,
   }) {
     return DiscState(
       type: type ?? this.type,
       showPreview: showPreview ?? this.showPreview,
       isRecording: isRecording ?? this.isRecording,
+      indexPreview: indexPreview ?? this.indexPreview,
+      indexSesuai: indexSesuai ?? this.indexSesuai,
+      indexTidakSesuai: indexTidakSesuai ?? this.indexTidakSesuai,
     );
   }
 
   @override
-  List<Object> get props => [type, showPreview, isRecording];
+  List<Object> get props => [
+        type,
+        showPreview,
+        isRecording,
+        indexPreview,
+        indexSesuai,
+        indexTidakSesuai
+      ];
 }
 
 class DiscInitial extends DiscState {}

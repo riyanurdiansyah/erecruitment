@@ -6,4 +6,8 @@ abstract class DashboardRepository {
   Stream<List<DiscEntity>> streamDisc();
 
   Future<Either<Failure, bool>> createSoalDisc(Map<String, dynamic> data);
+
+  Future<Either<Failure, bool>> updateSoalDisc(Map<String, dynamic> data);
+
+  Future<Either<Failure, bool>> deleteSoalDisc(String id);
 }

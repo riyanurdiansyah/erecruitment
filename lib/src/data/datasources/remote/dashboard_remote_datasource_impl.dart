@@ -25,7 +25,34 @@ class DashboardRemoteDataSourceImpl implements DashboardRemoteDataSource {
         .collection("ujian")
         .doc("0F0TXZd3A7cX6O9BczPb")
         .collection("soal")
-        .add(data)
+        .doc(data["id"])
+        .set(data)
+        .then((value) => true)
+        .onError((error, stackTrace) =>
+            ExceptionHandleDataSource.execute(500, "Failed connect to server"));
+  }
+
+  @override
+  Future<bool> deleteSoalDisc(String id) async {
+    return await FirebaseFirestore.instance
+        .collection("ujian")
+        .doc("0F0TXZd3A7cX6O9BczPb")
+        .collection("soal")
+        .doc(id)
+        .delete()
+        .then((value) => true)
+        .onError((error, stackTrace) =>
+            ExceptionHandleDataSource.execute(500, "Failed connect to server"));
+  }
+
+  @override
+  Future<bool> updateSoalDisc(Map<String, dynamic> data) async {
+    return await FirebaseFirestore.instance
+        .collection("ujian")
+        .doc("0F0TXZd3A7cX6O9BczPb")
+        .collection("soal")
+        .doc(data["id"])
+        .update(data)
         .then((value) => true)
         .onError((error, stackTrace) =>
             ExceptionHandleDataSource.execute(500, "Failed connect to server"));

@@ -5,7 +5,7 @@ List<SideNavbarEntity> listSidebar = [
     title: "Home",
     image: "assets/images/sidebar/test.webp",
     route: "home",
-    role: 99,
+    role: 1,
     tipe: "disc",
   ),
   SideNavbarEntity(

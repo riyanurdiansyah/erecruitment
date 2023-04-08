@@ -64,9 +64,9 @@ class DiscSaveUjianDetail extends DiscEvent {
 }
 
 class DiscOnChangeRadio extends DiscEvent {
-  const DiscOnChangeRadio(this.index, this.type);
+  const DiscOnChangeRadio(this.answer, this.type);
 
-  final int index;
+  final String answer;
   final String type;
 }
 

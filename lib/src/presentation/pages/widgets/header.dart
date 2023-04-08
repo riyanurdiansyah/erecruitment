@@ -93,7 +93,7 @@ class Header extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     AppText.labelW600(
-                      "Cyntia Bella",
+                      "Sike Nurdiansyah",
                       12,
                       Colors.black,
                     ),

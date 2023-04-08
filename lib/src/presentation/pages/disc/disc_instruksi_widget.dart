@@ -48,6 +48,8 @@ class DiscInstruksiWidget extends StatelessWidget {
                               FilteringTextInputFormatter.digitsOnly,
                             ],
                             decoration: InputDecoration(
+                              fillColor: Colors.white,
+                              filled: state.isUpdateInstruksi,
                               hintStyle: GoogleFonts.poppins(),
                               contentPadding: const EdgeInsets.symmetric(
                                   vertical: 10, horizontal: 12),
@@ -85,6 +87,8 @@ class DiscInstruksiWidget extends StatelessWidget {
                               FilteringTextInputFormatter.digitsOnly,
                             ],
                             decoration: InputDecoration(
+                              fillColor: Colors.white,
+                              filled: state.isUpdateInstruksi,
                               hintStyle: GoogleFonts.poppins(),
                               contentPadding: const EdgeInsets.symmetric(
                                   vertical: 10, horizontal: 12),
@@ -119,6 +123,8 @@ class DiscInstruksiWidget extends StatelessWidget {
                   controller: _discBloc.tcInstruksi,
                   keyboardType: TextInputType.multiline,
                   decoration: InputDecoration(
+                    fillColor: Colors.white,
+                    filled: state.isUpdateInstruksi,
                     hintStyle: GoogleFonts.poppins(),
                     contentPadding: const EdgeInsets.symmetric(
                         vertical: 10, horizontal: 12),

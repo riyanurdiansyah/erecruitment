@@ -7,7 +7,7 @@ abstract class AppRouteName {
 
   static const String disc = "disc";
 
-  static const String psi4 = "psi4";
+  static const String papiKostick = "papi-kostick";
 
   static const String psi11 = "psi11";
 

@@ -166,8 +166,10 @@ class DiscTableQuestionWidget extends StatelessWidget {
                                 child: Radio(
                                   fillColor: MaterialStateProperty.all(
                                       colorPrimaryDark),
-                                  value: index,
-                                  groupValue: state.indexSesuai,
+                                  value: String.fromCharCode(
+                                          "a".codeUnitAt(0) + index)
+                                      .toUpperCase(),
+                                  groupValue: state.answerSesuai,
                                   onChanged: (val) => _discBloc
                                       .add(DiscOnChangeRadio(val!, "sesuai")),
                                 ),
@@ -182,10 +184,12 @@ class DiscTableQuestionWidget extends StatelessWidget {
                                 width: 30,
                                 height: 30,
                                 child: Radio(
-                                  value: index,
+                                  value: String.fromCharCode(
+                                          "a".codeUnitAt(0) + index)
+                                      .toUpperCase(),
                                   fillColor: MaterialStateProperty.all(
                                       colorPrimaryDark),
-                                  groupValue: state.indexTidakSesuai,
+                                  groupValue: state.answerTidakSesuai,
                                   onChanged: (val) => _discBloc.add(
                                       DiscOnChangeRadio(val!, "tidak_sesuai")),
                                 ),

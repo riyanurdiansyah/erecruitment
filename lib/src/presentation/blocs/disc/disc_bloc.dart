@@ -35,8 +35,6 @@ class DiscBloc extends Bloc<DiscEvent, DiscState> {
   TextEditingController tcMaxSoal = TextEditingController();
   TextEditingController tcWaktu = TextEditingController();
 
-  List<String> listPeraturan = [];
-
   @override
   Future<void> close() {
     cameraController?.dispose();
@@ -78,7 +76,7 @@ class DiscBloc extends Bloc<DiscEvent, DiscState> {
   }
 
   Future<UjianEntity> getUjianDetail() async {
-    final response = await _usecase.getUjianDetail("0F0TXZd3A7cX6O9BczPb");
+    final response = await _usecase.getUjianDetail("disc");
 
     return response.fold((l) => emptyUjianDetail, (data) {
       tcInstruksi.text = data.instruksi;
@@ -171,12 +169,14 @@ class DiscBloc extends Bloc<DiscEvent, DiscState> {
   FutureOr<void> _onChangeRadio(
       DiscOnChangeRadio event, Emitter<DiscState> emit) {
     if (event.type == "sesuai") {
-      if (state.indexTidakSesuai != event.index) {
-        emit(state.copyWith(indexSesuai: event.index));
+      debugPrint(state.answerTidakSesuai);
+      debugPrint(event.answer);
+      if (state.answerTidakSesuai != event.answer) {
+        emit(state.copyWith(answerSesuai: event.answer));
       }
     } else {
-      if (state.indexSesuai != event.index) {
-        emit(state.copyWith(indexTidakSesuai: event.index));
+      if (state.answerSesuai != event.answer) {
+        emit(state.copyWith(answerTidakSesuai: event.answer));
       }
     }
   }
@@ -214,9 +214,8 @@ class DiscBloc extends Bloc<DiscEvent, DiscState> {
       DiscUpdateUjianDetail event, Emitter<DiscState> emit) async {
     if (state.isUpdateInstruksi) {
       final body = {
-        "id": "0F0TXZd3A7cX6O9BczPb",
+        "id": "disc",
         "max_soal": int.parse(tcMaxSoal.text),
-        "tipe": "disc",
         "waktu": int.parse(tcWaktu.text),
         "instruksi": tcInstruksi.text,
       };

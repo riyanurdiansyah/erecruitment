@@ -15,13 +15,13 @@ List<SideNavbarEntity> listSidebar = [
     role: 1,
     tipe: "disc",
   ),
-  // SideNavbarEntity(
-  //   title: "PSI 4",
-  //   image: "assets/images/sidebar/test.webp",
-  //   route: "psi4",
-  //   role: 99,
-  //   tipe: "psi_4",
-  // ),
+  SideNavbarEntity(
+    title: "Papi Kostick",
+    image: "assets/images/sidebar/test.webp",
+    route: "papi-kostick",
+    role: 1,
+    tipe: "papi-kostick",
+  ),
   // SideNavbarEntity(
   //   title: "PSI 11  ",
   //   image: "assets/images/sidebar/test.webp",
@@ -38,7 +38,7 @@ List<SideNavbarEntity> listSidebar = [
   // ),
 ];
 
-List<String> listDisc = [
+List<String> listMenus = [
   "Instruksi",
   "Pertanyaan",
 ];

@@ -5,6 +5,7 @@ import 'package:recruitment/src/presentation/pages/auth/login_page.dart';
 import 'package:recruitment/src/presentation/pages/dashboard_page.dart';
 import 'package:recruitment/src/presentation/pages/disc/disc_page.dart';
 import 'package:recruitment/src/presentation/pages/home/home_page.dart';
+import 'package:recruitment/src/presentation/pages/papi/papi_page.dart';
 import '../src/presentation/pages/not_found_page.dart';
 import '../src/presentation/pages/welcome_page.dart';
 
@@ -79,13 +80,10 @@ GoRouter router = GoRouter(
               },
             ),
             GoRoute(
-              path: AppRouteName.psi4,
-              name: AppRouteName.psi4,
+              path: AppRouteName.papiKostick,
+              name: AppRouteName.papiKostick,
               pageBuilder: (context, state) {
-                return NoTransitionPage(
-                    child: Container(
-                  color: Colors.amber,
-                ));
+                return const NoTransitionPage(child: PapiPage());
               },
             ),
             // GoRoute(

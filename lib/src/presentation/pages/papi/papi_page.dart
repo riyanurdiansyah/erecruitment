@@ -1,38 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:recruitment/src/presentation/blocs/disc/disc_bloc.dart';
-import 'package:recruitment/src/presentation/pages/disc/disc_instruksi_widget.dart';
-import 'package:recruitment/utils/app_constanta_list.dart';
-import 'package:recruitment/utils/app_text.dart';
 
 import '../../../../utils/app_color.dart';
+import '../../../../utils/app_constanta_list.dart';
+import '../../../../utils/app_text.dart';
+import '../../blocs/papi/papi_bloc.dart';
 import '../widgets/header.dart';
-import 'disc_pertanyaan_widget.dart';
-import 'widgets.dart/disc_preview_widget.dart';
+import 'widgets/papi_instruksi_widget.dart';
 
-class DiscPage extends StatefulWidget {
-  const DiscPage({super.key});
+class PapiPage extends StatefulWidget {
+  const PapiPage({super.key});
 
   @override
-  State<DiscPage> createState() => _DiscPageState();
+  State<PapiPage> createState() => _PapiPageState();
 }
 
-class _DiscPageState extends State<DiscPage> {
-  final _discBloc = DiscBloc();
+class _PapiPageState extends State<PapiPage> {
+  final _papiBloc = PapiBloc();
 
   @override
   void initState() {
-    _discBloc.add(DiscInitialEvent());
+    _papiBloc.add(PapiInitializeEvent());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    return BlocProvider(
-      create: (context) => _discBloc,
+    return BlocProvider<PapiBloc>(
+      create: (context) => _papiBloc,
       child: Scaffold(
-        key: _discBloc.globalKey,
+        key: _papiBloc.globalKey,
         backgroundColor: backgroundGrey,
         body: Container(
           width: double.infinity,
@@ -51,9 +48,9 @@ class _DiscPageState extends State<DiscPage> {
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Expanded(
                             flex: 15,
@@ -82,7 +79,7 @@ class _DiscPageState extends State<DiscPage> {
                                   const SizedBox(
                                     height: 12,
                                   ),
-                                  BlocBuilder<DiscBloc, DiscState>(
+                                  BlocBuilder<PapiBloc, PapiState>(
                                     builder: (context, state) {
                                       return Row(
                                         children: List.generate(
@@ -101,8 +98,8 @@ class _DiscPageState extends State<DiscPage> {
                                                       : Colors.white,
                                             ),
                                             child: InkWell(
-                                              onTap: () => _discBloc.add(
-                                                  DiscOnChangeTypeEvent(
+                                              onTap: () => _papiBloc.add(
+                                                  PapiOnChangeTypeEvent(
                                                       listMenus[index])),
                                               child: AppText.labelW500(
                                                 listMenus[index],
@@ -120,35 +117,28 @@ class _DiscPageState extends State<DiscPage> {
                                   const SizedBox(
                                     height: 25,
                                   ),
-                                  BlocBuilder<DiscBloc, DiscState>(
+                                  BlocBuilder<PapiBloc, PapiState>(
                                     builder: (context, state) {
-                                      if (state.type == "Pertanyaan") {
-                                        return DiscPertanyaanWidget(
-                                          discBloc: _discBloc,
-                                        );
-                                      }
-                                      return DiscInstruksiWidget(
-                                        discBloc: _discBloc,
+                                      // if (state.type == "Pertanyaan") {
+                                      //   return PapiPertanyaanWidget(
+                                      //     papiBloc: _papiBloc,
+                                      //   );
+                                      // }
+                                      return PapiInstruksiWidget(
+                                        papiBloc: _papiBloc,
                                       );
                                     },
                                   ),
                                 ],
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            width: 25,
-                          ),
-                          DiscPreviewWidget(size: size, discBloc: _discBloc),
+                          )
                         ],
-                      ),
-                      const SizedBox(
-                        height: 25,
-                      ),
+                      )
                     ],
                   ),
                 ),
-              ),
+              )
             ],
           ),
         ),

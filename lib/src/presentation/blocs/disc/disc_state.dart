@@ -6,8 +6,8 @@ class DiscState extends Equatable {
     this.showPreview = false,
     this.isRecording = false,
     this.indexPreview = 0,
-    this.indexSesuai = 99,
-    this.indexTidakSesuai = 99,
+    this.answerSesuai = "",
+    this.answerTidakSesuai = "",
     this.isUpdateInstruksi = false,
   });
 
@@ -15,8 +15,8 @@ class DiscState extends Equatable {
   final bool showPreview;
   final bool isRecording;
   final int indexPreview;
-  final int indexSesuai;
-  final int indexTidakSesuai;
+  final String answerSesuai;
+  final String answerTidakSesuai;
   final bool isUpdateInstruksi;
 
   DiscState copyWith({
@@ -25,8 +25,8 @@ class DiscState extends Equatable {
     bool? isRecording,
     final List<String>? listOptionTemp,
     int? indexPreview,
-    int? indexSesuai,
-    int? indexTidakSesuai,
+    String? answerSesuai,
+    String? answerTidakSesuai,
     bool? isUpdateInstruksi,
   }) {
     return DiscState(
@@ -34,8 +34,8 @@ class DiscState extends Equatable {
       showPreview: showPreview ?? this.showPreview,
       isRecording: isRecording ?? this.isRecording,
       indexPreview: indexPreview ?? this.indexPreview,
-      indexSesuai: indexSesuai ?? this.indexSesuai,
-      indexTidakSesuai: indexTidakSesuai ?? this.indexTidakSesuai,
+      answerSesuai: answerSesuai ?? this.answerSesuai,
+      answerTidakSesuai: answerTidakSesuai ?? this.answerTidakSesuai,
       isUpdateInstruksi: isUpdateInstruksi ?? this.isUpdateInstruksi,
     );
   }
@@ -46,8 +46,8 @@ class DiscState extends Equatable {
         showPreview,
         isRecording,
         indexPreview,
-        indexSesuai,
-        indexTidakSesuai,
+        answerSesuai,
+        answerTidakSesuai,
         isUpdateInstruksi,
       ];
 }

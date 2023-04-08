@@ -11,7 +11,7 @@ class DashboardRemoteDataSourceImpl implements DashboardRemoteDataSource {
   Stream<List<DiscEntity>> streamDisc() {
     final stream = FirebaseFirestore.instance
         .collection("ujian")
-        .doc("0F0TXZd3A7cX6O9BczPb")
+        .doc("disc")
         .collection("soal")
         .snapshots();
     return stream.map((e) => e.docs).map((ev) {
@@ -24,7 +24,7 @@ class DashboardRemoteDataSourceImpl implements DashboardRemoteDataSource {
   Future<bool> createSoalDisc(Map<String, dynamic> data) async {
     return await FirebaseFirestore.instance
         .collection("ujian")
-        .doc("0F0TXZd3A7cX6O9BczPb")
+        .doc("disc")
         .collection("soal")
         .doc(data["id"])
         .set(data)
@@ -37,7 +37,7 @@ class DashboardRemoteDataSourceImpl implements DashboardRemoteDataSource {
   Future<bool> deleteSoalDisc(String id) async {
     return await FirebaseFirestore.instance
         .collection("ujian")
-        .doc("0F0TXZd3A7cX6O9BczPb")
+        .doc("disc")
         .collection("soal")
         .doc(id)
         .delete()
@@ -50,7 +50,7 @@ class DashboardRemoteDataSourceImpl implements DashboardRemoteDataSource {
   Future<bool> updateSoalDisc(Map<String, dynamic> data) async {
     return await FirebaseFirestore.instance
         .collection("ujian")
-        .doc("0F0TXZd3A7cX6O9BczPb")
+        .doc("disc")
         .collection("soal")
         .doc(data["id"])
         .update(data)
@@ -72,12 +72,27 @@ class DashboardRemoteDataSourceImpl implements DashboardRemoteDataSource {
 
   @override
   Future<bool> updateInstruksi(Map<String, dynamic> data) async {
-    return await FirebaseFirestore.instance
+    final response = await FirebaseFirestore.instance
         .collection("ujian")
         .doc(data["id"])
-        .update(data)
-        .then((value) => true)
-        .onError((error, stackTrace) =>
-            ExceptionHandleDataSource.execute(500, "Failed connect to server"));
+        .get();
+
+    if (response.exists) {
+      return await FirebaseFirestore.instance
+          .collection("ujian")
+          .doc(data["id"])
+          .update(data)
+          .then((value) => true)
+          .onError((error, stackTrace) => ExceptionHandleDataSource.execute(
+              500, "Failed connect to server"));
+    } else {
+      return await FirebaseFirestore.instance
+          .collection("ujian")
+          .doc(data["id"])
+          .set(data)
+          .then((value) => true)
+          .onError((error, stackTrace) => ExceptionHandleDataSource.execute(
+              500, "Failed connect to server"));
+    }
   }
 }

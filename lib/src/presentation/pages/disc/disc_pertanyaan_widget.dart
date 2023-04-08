@@ -118,7 +118,7 @@ class DiscPertanyaanWidget extends StatelessWidget {
                               padding:
                                   const EdgeInsets.symmetric(vertical: 2.5),
                               child: AppText.labelW600(
-                                "- ${data.soal[innerIndex]}",
+                                "${String.fromCharCode("A".codeUnitAt(0) + innerIndex)}. ${data.soal[innerIndex]}",
                                 12,
                                 Colors.grey.shade600,
                               ),

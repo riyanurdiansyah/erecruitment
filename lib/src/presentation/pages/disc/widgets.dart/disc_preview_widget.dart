@@ -68,17 +68,42 @@ class DiscPreviewWidget extends StatelessWidget {
                           BlocBuilder<DiscBloc, DiscState>(
                             builder: (context, state) => Row(
                               children: [
-                                Image.asset(
-                                  "assets/images/sidebar/test.webp",
-                                  width: 14,
+                                InkWell(
+                                  onTap: state.indexPreview == 0
+                                      ? null
+                                      : () => _discBloc.add(
+                                          DiscOnChangeIndexPreviewEvent(
+                                              state.indexPreview - 1)),
+                                  child: AppText.labelW600(
+                                    "Sebelumnya",
+                                    12,
+                                    state.indexPreview == 0
+                                        ? Colors.grey.shade400
+                                        : colorPrimaryDark,
+                                  ),
                                 ),
-                                const SizedBox(
-                                  width: 10,
+                                Container(
+                                  margin: const EdgeInsets.symmetric(
+                                      horizontal: 10),
+                                  width: 2,
+                                  height: 16,
+                                  color: Colors.grey.shade400,
                                 ),
-                                AppText.labelW600(
-                                  "Soal ke ${state.indexPreview + 1}/${snapshot.data?.length ?? 0} ",
-                                  12,
-                                  Colors.grey.shade400,
+                                InkWell(
+                                  onTap: state.indexPreview ==
+                                          snapshot.data!.length - 1
+                                      ? null
+                                      : () => _discBloc.add(
+                                          DiscOnChangeIndexPreviewEvent(
+                                              state.indexPreview + 1)),
+                                  child: AppText.labelW600(
+                                    "Selanjutnya",
+                                    12,
+                                    state.indexPreview ==
+                                            snapshot.data!.length - 1
+                                        ? Colors.grey.shade400
+                                        : colorPrimaryDark,
+                                  ),
                                 ),
                               ],
                             ),
@@ -243,11 +268,13 @@ class DiscPreviewWidget extends StatelessWidget {
                                     (index) => SizedBox(
                                       width: 30,
                                       height: 30,
-                                      child: Radio(
+                                      child: Radio<String>(
                                         fillColor: MaterialStateProperty.all(
                                             colorPrimaryDark),
-                                        value: index,
-                                        groupValue: state.indexSesuai,
+                                        value: String.fromCharCode(
+                                                "a".codeUnitAt(0) + index)
+                                            .toUpperCase(),
+                                        groupValue: state.answerSesuai,
                                         onChanged: (val) => _discBloc.add(
                                             DiscOnChangeRadio(val!, "sesuai")),
                                       ),
@@ -264,11 +291,13 @@ class DiscPreviewWidget extends StatelessWidget {
                                     (index) => SizedBox(
                                       width: 30,
                                       height: 30,
-                                      child: Radio(
-                                        value: index,
+                                      child: Radio<String>(
+                                        value: String.fromCharCode(
+                                                "a".codeUnitAt(0) + index)
+                                            .toUpperCase(),
                                         fillColor: MaterialStateProperty.all(
                                             colorPrimaryDark),
-                                        groupValue: state.indexTidakSesuai,
+                                        groupValue: state.answerTidakSesuai,
                                         onChanged: (val) => _discBloc.add(
                                             DiscOnChangeRadio(
                                                 val!, "tidak_sesuai")),

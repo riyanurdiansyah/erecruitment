@@ -77,3 +77,15 @@ class DiscAddDataToListEvent extends DiscEvent {
 }
 
 class DiscUpdateUjianDetail extends DiscEvent {}
+
+class DiscOnChangePageEvent extends DiscEvent {
+  const DiscOnChangePageEvent(this.currPage);
+
+  final int currPage;
+}
+
+class DiscUpdateListDataEvent extends DiscEvent {
+  const DiscUpdateListDataEvent(this.listData);
+
+  final List<DiscEntity> listData;
+}

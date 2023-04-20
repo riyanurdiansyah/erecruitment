@@ -63,25 +63,6 @@ class _DiscPageState extends State<DiscPage> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  AppText.labelBold(
-                                    "Setting",
-                                    16,
-                                    Colors.black,
-                                  ),
-                                  const SizedBox(
-                                    height: 2,
-                                  ),
-                                  Container(
-                                    width: 60,
-                                    height: 2,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(4),
-                                      color: colorPrimaryDark,
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 12,
-                                  ),
                                   BlocBuilder<DiscBloc, DiscState>(
                                     builder: (context, state) {
                                       return Row(

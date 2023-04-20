@@ -5,6 +5,7 @@ class UserSpfEntity {
     required this.tanggalMulai,
     required this.tanggalBerakhir,
     required this.password,
+    required this.kodeAkses,
   });
 
   final String username;
@@ -12,6 +13,7 @@ class UserSpfEntity {
   final String tanggalMulai;
   final String tanggalBerakhir;
   final String password;
+  final String kodeAkses;
 
   UserSpfEntity copyWith({
     String? username,
@@ -19,6 +21,7 @@ class UserSpfEntity {
     String? tanggalMulai,
     String? tanggalBerakhir,
     String? password,
+    String? kodeAkses,
   }) =>
       UserSpfEntity(
         username: username ?? this.username,
@@ -26,6 +29,7 @@ class UserSpfEntity {
         tanggalMulai: tanggalMulai ?? this.tanggalMulai,
         tanggalBerakhir: tanggalBerakhir ?? this.tanggalBerakhir,
         password: password ?? this.password,
+        kodeAkses: kodeAkses ?? this.kodeAkses,
       );
 
   factory UserSpfEntity.fromJson(Map<String, dynamic> json) => UserSpfEntity(
@@ -33,6 +37,7 @@ class UserSpfEntity {
         role: json["role"],
         tanggalMulai: json["tanggal_mulai"],
         tanggalBerakhir: json["tanggal_berakhir"],
-        password: json["password"],
+        password: json["password"] ?? "",
+        kodeAkses: json["kode_akses"],
       );
 }

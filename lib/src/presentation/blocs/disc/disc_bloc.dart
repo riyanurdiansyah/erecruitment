@@ -56,6 +56,8 @@ class DiscBloc extends Bloc<DiscEvent, DiscState> {
     on<DiscDeleteSoalEvent>(_onDeleteDiscSoal);
     on<DiscAddDataToListEvent>(_onAddDataToListInstruksi);
     on<DiscUpdateUjianDetail>(_onUpdateUjianDetail);
+    on<DiscOnChangePageEvent>(_onChangePage);
+    on<DiscUpdateListDataEvent>(_onUpdateList);
   }
 
   FutureOr<void> _onChangeType(
@@ -65,6 +67,7 @@ class DiscBloc extends Bloc<DiscEvent, DiscState> {
 
   Stream<List<DiscEntity>> streamDisc() {
     return _usecase.streamDisc().map((data) {
+      add(DiscUpdateListDataEvent(data));
       return data;
     });
   }
@@ -230,5 +233,26 @@ class DiscBloc extends Bloc<DiscEvent, DiscState> {
     }
 
     emit(state.copyWith(isUpdateInstruksi: !state.isUpdateInstruksi));
+  }
+
+  FutureOr<void> _onChangePage(
+      DiscOnChangePageEvent event, Emitter<DiscState> emit) {
+    emit(state.copyWith(page: event.currPage));
+  }
+
+  FutureOr<void> _onUpdateList(
+      DiscUpdateListDataEvent event, Emitter<DiscState> emit) {
+    double page = 0;
+    for (int i = 0; i < event.listData.length; i++) {
+      page = (i + 1) / 4;
+      event.listData[i].number = i + 1;
+      if (page < 1) {
+        event.listData[i].page = page.ceil();
+      } else {
+        event.listData[i].page = page.round();
+      }
+    }
+
+    emit(state.copyWith(listData: event.listData));
   }
 }

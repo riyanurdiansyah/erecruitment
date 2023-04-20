@@ -1,10 +1,12 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:recruitment/src/core/exception_handling.dart';
 import 'package:recruitment/src/data/datasources/remote/dashbord_remote_datasource.dart';
 import 'package:recruitment/src/domain/entities/disc_entity.dart';
 import 'package:recruitment/src/domain/entities/ujian_entity.dart';
+import 'package:recruitment/src/domain/entities/user_entity.dart';
 
 class DashboardRemoteDataSourceImpl implements DashboardRemoteDataSource {
   @override
@@ -31,6 +33,19 @@ class DashboardRemoteDataSourceImpl implements DashboardRemoteDataSource {
         .then((value) => true)
         .onError((error, stackTrace) =>
             ExceptionHandleDataSource.execute(500, "Failed connect to server"));
+  }
+
+  @override
+  Stream<List<UserEntity>> streamUsers() {
+    final stream = FirebaseFirestore.instance
+        .collection("users")
+        .where("role", isEqualTo: 2)
+        .snapshots();
+    return stream.map((e) => e.docs).map((ev) {
+      final data =
+          usersFromJson(json.encode(ev.map((data) => data.data()).toList()));
+      return data;
+    });
   }
 
   @override
@@ -94,5 +109,40 @@ class DashboardRemoteDataSourceImpl implements DashboardRemoteDataSource {
           .onError((error, stackTrace) => ExceptionHandleDataSource.execute(
               500, "Failed connect to server"));
     }
+  }
+
+  @override
+  Future<bool> addNewUser(UserEntity user) async {
+    return await FirebaseFirestore.instance
+        .collection("users")
+        .doc(user.username)
+        .set(user.toJson())
+        .then((value) => true)
+        .onError((error, stackTrace) =>
+            ExceptionHandleDataSource.execute(500, "Failed connect to server"));
+  }
+
+  @override
+  Future<bool> updateUser(UserEntity user) async {
+    return await FirebaseFirestore.instance
+        .collection("users")
+        .doc(user.username)
+        .update(user.toJson())
+        .then((value) => true)
+        .onError((error, stackTrace) {
+      debugPrint("ERR : ${error.toString()}");
+      return ExceptionHandleDataSource.execute(500, "Failed connect to server");
+    });
+  }
+
+  @override
+  Future<bool> deleteUser(String username) async {
+    return await FirebaseFirestore.instance
+        .collection("users")
+        .doc(username)
+        .delete()
+        .then((value) => true)
+        .onError((error, stackTrace) =>
+            ExceptionHandleDataSource.execute(500, "Failed connect to server"));
   }
 }

@@ -9,6 +9,13 @@ List<SideNavbarEntity> listSidebar = [
     tipe: "disc",
   ),
   SideNavbarEntity(
+    title: "User",
+    image: "assets/images/sidebar/test.webp",
+    route: "user",
+    role: 1,
+    tipe: "disc",
+  ),
+  SideNavbarEntity(
     title: "DISC",
     image: "assets/images/sidebar/test.webp",
     route: "disc",

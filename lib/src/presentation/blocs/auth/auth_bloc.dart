@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -68,7 +67,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   FutureOr<void> _onSetup(AuthSetupEvent event, Emitter<AuthState> emit) async {
-    log("SETUP AUTH BLOC");
     _datasource = AuthRemoteDataSourceImpl();
     _repository = AuthRepositoryImpl(_datasource);
     _usecase = AuthUseCase(_repository);

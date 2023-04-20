@@ -5,6 +5,8 @@ abstract class AppRouteName {
 
   static const String home = "home";
 
+  static const String user = "user";
+
   static const String disc = "disc";
 
   static const String papiKostick = "papi-kostick";

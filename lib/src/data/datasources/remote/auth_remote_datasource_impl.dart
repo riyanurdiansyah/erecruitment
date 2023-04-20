@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:recruitment/src/core/exception_handling.dart';
 import 'package:recruitment/src/domain/entities/user_spf_entity.dart';
 
@@ -11,6 +12,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         .collection("users")
         .doc(username)
         .get();
+    debugPrint("CEK UY : ${response.data()}");
     if (response.data() != null) {
       return UserSpfEntity.fromJson(response.data()!);
     }

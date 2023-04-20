@@ -1,10 +1,18 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:recruitment/src/domain/entities/disc_entity.dart';
 import 'package:recruitment/utils/app_color.dart';
+import 'package:recruitment/utils/app_format_text.dart';
+import 'package:recruitment/utils/app_validator.dart';
 
+import '../src/domain/entities/user_entity.dart';
 import '../src/presentation/blocs/disc/disc_bloc.dart';
+import '../src/presentation/blocs/user/user_bloc.dart';
 import 'app_text.dart';
 
 class AppDialog {
@@ -39,6 +47,423 @@ class AppDialog {
                 ),
               ),
             ],
+          ),
+        );
+      },
+    );
+  }
+
+  static dialogTambahUser({
+    required BuildContext context,
+    required UserBloc userBloc,
+    UserEntity? user,
+  }) {
+    final size = MediaQuery.of(context).size;
+    TextEditingController tcNama = TextEditingController();
+    TextEditingController tcNoHp = TextEditingController();
+    TextEditingController tcEmail = TextEditingController();
+    TextEditingController tcUsername = TextEditingController();
+    TextEditingController tcKodeAkses = TextEditingController();
+    TextEditingController tcPosisi = TextEditingController();
+    TextEditingController tcMulai = TextEditingController();
+    TextEditingController tcSelesai = TextEditingController();
+    final formkey = GlobalKey<FormState>();
+    String? tglMulai;
+    String? tglSelesai;
+    if (user != null) {
+      tcEmail.text = user.email;
+      tcUsername.text = user.username;
+      tcKodeAkses.text = user.kodeAkses;
+      tcPosisi.text = user.posisi;
+      tcMulai.text = user.tanggalMulai;
+      tcSelesai.text = user.tanggalSelesai;
+      tcNama.text = user.nama;
+      tcNoHp.text = user.noHp.toString();
+    }
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          content: SizedBox(
+            width: size.width / 4,
+            child: Form(
+              key: formkey,
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        AppText.labelW600(
+                          "Tambah User",
+                          16,
+                          Colors.black,
+                        ),
+                        InkWell(
+                          onTap: () => context.pop(),
+                          child: const Icon(
+                            Icons.close_rounded,
+                            size: 18,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 11,
+                    ),
+                    AppText.labelW500(
+                      "Email",
+                      12,
+                      Colors.black,
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    TextFormField(
+                      controller: tcEmail,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: InputDecoration(
+                        hintStyle: GoogleFonts.poppins(),
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 0, horizontal: 12),
+                        hintText: "....",
+                        border: const OutlineInputBorder(),
+                      ),
+                      validator: (val) => AppValidator.checkEmail(val!),
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                    ),
+                    const SizedBox(
+                      height: 11,
+                    ),
+                    AppText.labelW500(
+                      "Nama",
+                      12,
+                      Colors.black,
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    TextFormField(
+                      controller: tcNama,
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(
+                        hintStyle: GoogleFonts.poppins(),
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 0, horizontal: 12),
+                        hintText: "....",
+                        border: const OutlineInputBorder(),
+                      ),
+                      validator: (val) => AppValidator.requiredField(val!),
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                    ),
+                    const SizedBox(
+                      height: 11,
+                    ),
+                    AppText.labelW500(
+                      "Username",
+                      12,
+                      Colors.black,
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    TextFormField(
+                      readOnly: user == null ? false : true,
+                      controller: tcUsername,
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(
+                        hintStyle: GoogleFonts.poppins(),
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 0, horizontal: 12),
+                        hintText: "....",
+                        border: const OutlineInputBorder(),
+                      ),
+                      validator: (val) => AppValidator.requiredField(val!),
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                    ),
+                    const SizedBox(
+                      height: 11,
+                    ),
+                    AppText.labelW500(
+                      "No Handphone",
+                      12,
+                      Colors.black,
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    TextFormField(
+                      controller: tcNoHp,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                        AppPhoneText(),
+                      ],
+                      decoration: InputDecoration(
+                        hintStyle: GoogleFonts.poppins(),
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 0, horizontal: 12),
+                        hintText: "....",
+                        border: const OutlineInputBorder(),
+                      ),
+                      validator: (val) => AppValidator.checkNumberPhone(val!),
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                    ),
+                    const SizedBox(
+                      height: 11,
+                    ),
+                    AppText.labelW500(
+                      "Kode Akses",
+                      12,
+                      Colors.black,
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    TextFormField(
+                      readOnly: true,
+                      controller: tcKodeAkses,
+                      keyboardType: TextInputType.text,
+                      validator: (val) => AppValidator.requiredField(val!),
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      decoration: InputDecoration(
+                        hintStyle: GoogleFonts.poppins(),
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 0, horizontal: 12),
+                        hintText: "....",
+                        border: const OutlineInputBorder(),
+                        suffixIcon: InkWell(
+                          onTap: () {
+                            const chars =
+                                'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+                            final random = Random.secure();
+
+                            // Usage example:
+                            final randomString = String.fromCharCodes(
+                                Iterable.generate(
+                                    8,
+                                    (_) => chars.codeUnitAt(
+                                        random.nextInt(chars.length))));
+                            tcKodeAkses.text = randomString;
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.only(right: 6),
+                            padding: const EdgeInsets.all(6),
+                            color: Colors.grey.shade300,
+                            child: const Text("Generate"),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 11,
+                    ),
+                    AppText.labelW500(
+                      "Posisi",
+                      12,
+                      Colors.black,
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    TextFormField(
+                      controller: tcPosisi,
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(
+                        hintStyle: GoogleFonts.poppins(),
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 0, horizontal: 12),
+                        hintText: "....",
+                        border: const OutlineInputBorder(),
+                      ),
+                      validator: (val) => AppValidator.requiredField(val!),
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                    ),
+                    const SizedBox(
+                      height: 11,
+                    ),
+                    AppText.labelW500(
+                      "Tanggal Mulai",
+                      12,
+                      Colors.black,
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    TextFormField(
+                      readOnly: true,
+                      controller: tcMulai,
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(
+                        hintStyle: GoogleFonts.poppins(),
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 0, horizontal: 12),
+                        hintText: "....",
+                        border: const OutlineInputBorder(),
+                        suffixIcon: InkWell(
+                          onTap: () async {
+                            final date = await userBloc.getDate();
+                            if (date != null) {
+                              final time = await userBloc.getTime();
+                              if (time != null) {
+                                tglMulai = date
+                                    .add(Duration(
+                                        hours: time.hour, minutes: time.minute))
+                                    .toIso8601String();
+                                tcMulai.text =
+                                    "${DateFormat.yMMMd('id').add_jm().format(DateTime.parse(date.add(Duration(hours: time.hour, minutes: time.minute)).toIso8601String()))} WIB";
+                              }
+                            }
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.only(right: 6),
+                            padding: const EdgeInsets.all(6),
+                            color: Colors.grey.shade300,
+                            child: const Icon(
+                              Icons.calendar_month,
+                            ),
+                          ),
+                        ),
+                      ),
+                      validator: (val) => AppValidator.requiredField(val!),
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                    ),
+                    const SizedBox(
+                      height: 11,
+                    ),
+                    AppText.labelW500(
+                      "Tanggal Selesai",
+                      12,
+                      Colors.black,
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    TextFormField(
+                      readOnly: true,
+                      controller: tcSelesai,
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(
+                        hintStyle: GoogleFonts.poppins(),
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 0, horizontal: 12),
+                        hintText: "....",
+                        border: const OutlineInputBorder(),
+                        suffixIcon: InkWell(
+                          onTap: () async {
+                            final date = await userBloc.getDate();
+                            if (date != null) {
+                              tglSelesai = date.toIso8601String();
+                              final time = await userBloc.getTime();
+                              if (time != null) {
+                                if (tglMulai != null) {
+                                  if (DateTime.parse(tglMulai!).isAfter(
+                                      DateTime.parse(tglSelesai!).add(Duration(
+                                          hours: time.hour,
+                                          minutes: time.minute)))) {
+                                    AppDialog.dialogNoAction(
+                                        context: context,
+                                        title:
+                                            "Tanggal selesai tidak boleh sebelum tanggal mulai");
+                                  } else {
+                                    tcSelesai.text =
+                                        "${DateFormat.yMMMd('id').add_jm().format(DateTime.parse(date.add(Duration(hours: time.hour, minutes: time.minute)).toIso8601String()))} WIB";
+                                  }
+                                } else {
+                                  AppDialog.dialogNoAction(
+                                      context: context,
+                                      title: "Harap isi tanggal mulai dahulu");
+                                }
+                              }
+                            }
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.only(right: 6),
+                            padding: const EdgeInsets.all(6),
+                            color: Colors.grey.shade300,
+                            child: const Icon(
+                              Icons.calendar_month,
+                            ),
+                          ),
+                        ),
+                      ),
+                      validator: (val) => AppValidator.requiredField(val!),
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                    ),
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 45,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (formkey.currentState!.validate()) {
+                            context.pop();
+                            if (user == null) {
+                              userBloc.add(
+                                UserAddNewEvent(
+                                  UserEntity(
+                                    nama: tcNama.text,
+                                    username: tcUsername.text,
+                                    email: tcEmail.text,
+                                    posisi: tcPosisi.text,
+                                    noHp: tcNoHp.text[0] == "0"
+                                        ? int.parse(
+                                            tcNoHp.text.replaceFirst("0", "62"))
+                                        : int.parse(tcNoHp.text),
+                                    tanggalMulai:
+                                        DateTime.now().toIso8601String(),
+                                    tanggalSelesai:
+                                        DateTime.now().toIso8601String(),
+                                    ujians: const [],
+                                    role: 2,
+                                    kodeAkses: tcKodeAkses.text,
+                                  ),
+                                ),
+                              );
+                            } else {
+                              userBloc.add(
+                                UserUpdateEvent(
+                                  UserEntity(
+                                    nama: tcNama.text,
+                                    username: tcUsername.text,
+                                    email: tcEmail.text,
+                                    posisi: tcPosisi.text,
+                                    noHp: tcNoHp.text[0] == "0"
+                                        ? int.parse(
+                                            tcNoHp.text.replaceFirst("0", "62"))
+                                        : int.parse(tcNoHp.text),
+                                    tanggalMulai:
+                                        DateTime.now().toIso8601String(),
+                                    tanggalSelesai:
+                                        DateTime.now().toIso8601String(),
+                                    ujians: const [],
+                                    role: 2,
+                                    kodeAkses: tcKodeAkses.text,
+                                  ),
+                                ),
+                              );
+                            }
+                          }
+                        },
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(colorPrimaryDark),
+                        ),
+                        child: AppText.labelBold(
+                          user != null ? "Ubah" : "Tambah",
+                          12.5,
+                          Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ),
         );
       },

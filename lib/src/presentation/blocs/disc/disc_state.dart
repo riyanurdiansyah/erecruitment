@@ -9,6 +9,8 @@ class DiscState extends Equatable {
     this.answerSesuai = "",
     this.answerTidakSesuai = "",
     this.isUpdateInstruksi = false,
+    this.page = 1,
+    this.listData = const [],
   });
 
   final String type;
@@ -18,6 +20,8 @@ class DiscState extends Equatable {
   final String answerSesuai;
   final String answerTidakSesuai;
   final bool isUpdateInstruksi;
+  final int page;
+  final List<DiscEntity> listData;
 
   DiscState copyWith({
     String? type,
@@ -28,6 +32,8 @@ class DiscState extends Equatable {
     String? answerSesuai,
     String? answerTidakSesuai,
     bool? isUpdateInstruksi,
+    int? page,
+    List<DiscEntity>? listData,
   }) {
     return DiscState(
       type: type ?? this.type,
@@ -37,6 +43,8 @@ class DiscState extends Equatable {
       answerSesuai: answerSesuai ?? this.answerSesuai,
       answerTidakSesuai: answerTidakSesuai ?? this.answerTidakSesuai,
       isUpdateInstruksi: isUpdateInstruksi ?? this.isUpdateInstruksi,
+      page: page ?? this.page,
+      listData: listData ?? this.listData,
     );
   }
 
@@ -49,6 +57,8 @@ class DiscState extends Equatable {
         answerSesuai,
         answerTidakSesuai,
         isUpdateInstruksi,
+        page,
+        listData,
       ];
 }
 

@@ -26,6 +26,7 @@ class WelcomeBloc extends Bloc<WelcomeEvent, WelcomeState> {
         tanggalMulai: tglMulai,
         tanggalBerakhir: tglBerakhir,
         password: "",
+        kodeAkses: "",
       );
       await Future.delayed(const Duration(seconds: 3))
           .whenComplete(() => emit(WelcomeAuthenticatedState(user)));

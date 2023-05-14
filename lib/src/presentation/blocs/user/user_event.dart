@@ -30,3 +30,15 @@ class UserUpdateEvent extends UserEvent {
 }
 
 class UserDeleteEvent extends UserEvent {}
+
+class UserUpdateListDataEvent extends UserEvent {
+  const UserUpdateListDataEvent(this.listData);
+
+  final List<UserEntity> listData;
+}
+
+class UserOnChangePageEvent extends UserEvent {
+  const UserOnChangePageEvent(this.currPage);
+
+  final int currPage;
+}

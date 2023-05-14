@@ -7,6 +7,7 @@ import 'package:recruitment/src/presentation/pages/disc/disc_page.dart';
 import 'package:recruitment/src/presentation/pages/home/home_page.dart';
 import 'package:recruitment/src/presentation/pages/papi/papi_page.dart';
 import 'package:recruitment/src/presentation/pages/user/users_page.dart';
+import '../src/presentation/pages/blast/web_blast_page.dart';
 import '../src/presentation/pages/not_found_page.dart';
 import '../src/presentation/pages/welcome_page.dart';
 
@@ -109,13 +110,13 @@ GoRouter router = GoRouter(
             //     return const NoTransitionPage(child: WebProfilePage());
             //   },
             // ),
-            // GoRoute(
-            //   path: AppRouteNameMobile.blast,
-            //   name: AppRouteNameMobile.blast,
-            //   pageBuilder: (context, state) {
-            //     return const NoTransitionPage(child: WebBlastPage());
-            //   },
-            // ),
+            GoRoute(
+              path: AppRouteName.blast,
+              name: AppRouteName.blast,
+              pageBuilder: (context, state) {
+                return const NoTransitionPage(child: WebBlastPage());
+              },
+            ),
           ],
         ),
       ],

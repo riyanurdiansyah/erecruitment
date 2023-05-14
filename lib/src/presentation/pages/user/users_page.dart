@@ -281,6 +281,14 @@ class _UsersPageState extends State<UsersPage> {
                               ),
                               Expanded(
                                 child: AppText.labelW600(
+                                  "NO HP",
+                                  14,
+                                  Colors.black,
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                              Expanded(
+                                child: AppText.labelW600(
                                   "USERNAME",
                                   14,
                                   Colors.black,
@@ -331,144 +339,174 @@ class _UsersPageState extends State<UsersPage> {
                             if (!snapshot.hasData || snapshot.data!.isEmpty) {
                               return const SizedBox();
                             }
-                            return Column(
-                              children: [
-                                Column(
-                                  children: List.generate(
-                                    snapshot.data?.length ?? 0,
-                                    (i) {
-                                      final data = snapshot.data![i];
-                                      return Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 10),
-                                        color: i.isEven
-                                            ? Colors.white
-                                            : Colors.grey.shade300
-                                                .withOpacity(0.4),
-                                        child: Row(
-                                          children: [
-                                            BlocBuilder<UserBloc, UserState>(
-                                              builder: (context, state) {
-                                                return SizedBox(
-                                                  width: 45,
-                                                  height: 45,
-                                                  child: Checkbox(
-                                                      value: state
-                                                          .listChekedUsername
-                                                          .contains(
-                                                              data.username),
-                                                      activeColor:
-                                                          colorPrimaryDark,
-                                                      onChanged: (val) =>
-                                                          _userBloc.add(
-                                                              UserAddToChecklistEvent(
-                                                                  data.username))),
-                                                );
-                                              },
-                                            ),
-                                            Expanded(
-                                              flex: 2,
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                  horizontal: 10,
+                            return BlocBuilder<UserBloc, UserState>(
+                              builder: (context, state) {
+                                return Column(
+                                  children: [
+                                    Column(
+                                      children: List.generate(
+                                        state.listData
+                                                    .where((e) =>
+                                                        e.page == state.page)
+                                                    .length >
+                                                8
+                                            ? 8
+                                            : state.listData
+                                                .where(
+                                                    (e) => e.page == state.page)
+                                                .length,
+                                        (i) {
+                                          final data = state.listData
+                                              .where(
+                                                  (e) => e.page == state.page)
+                                              .toList()[i];
+                                          return Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 10),
+                                            color: i.isEven
+                                                ? Colors.white
+                                                : Colors.grey.shade300
+                                                    .withOpacity(0.4),
+                                            child: Row(
+                                              children: [
+                                                BlocBuilder<UserBloc,
+                                                    UserState>(
+                                                  builder: (context, state) {
+                                                    return SizedBox(
+                                                      width: 45,
+                                                      height: 45,
+                                                      child: Checkbox(
+                                                          value: state
+                                                              .listChekedUsername
+                                                              .contains(data
+                                                                  .username),
+                                                          activeColor:
+                                                              colorPrimaryDark,
+                                                          onChanged: (val) =>
+                                                              _userBloc.add(
+                                                                  UserAddToChecklistEvent(
+                                                                      data.username))),
+                                                    );
+                                                  },
                                                 ),
-                                                child: AppText.labelW600(
-                                                  data.email,
-                                                  12,
-                                                  Colors.grey.shade600,
+                                                Expanded(
+                                                  flex: 2,
+                                                  child: Padding(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                      horizontal: 10,
+                                                    ),
+                                                    child: AppText.labelW600(
+                                                      data.email,
+                                                      12,
+                                                      Colors.grey.shade600,
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              child: AppText.labelW600(
-                                                data.username,
-                                                12,
-                                                Colors.grey.shade600,
-                                                textAlign: TextAlign.center,
-                                              ),
-                                            ),
-                                            Expanded(
-                                              child: AppText.labelW600(
-                                                data.kodeAkses,
-                                                12,
-                                                Colors.grey.shade600,
-                                                textAlign: TextAlign.center,
-                                              ),
-                                            ),
-                                            Expanded(
-                                              child: AppText.labelW600(
-                                                data.posisi,
-                                                12,
-                                                Colors.grey.shade600,
-                                                textAlign: TextAlign.center,
-                                              ),
-                                            ),
-                                            Expanded(
-                                              child: Center(
-                                                child: AppText.labelW600(
-                                                  "${DateFormat.yMMMd('id').add_jm().format(DateTime.parse(data.tanggalMulai))} WIB",
-                                                  12,
-                                                  Colors.grey.shade600,
-                                                  textAlign: TextAlign.center,
+                                                Expanded(
+                                                  child: AppText.labelW600(
+                                                    data.noHp.toString(),
+                                                    12,
+                                                    Colors.grey.shade600,
+                                                    textAlign: TextAlign.center,
+                                                  ),
                                                 ),
-                                              ),
-                                            ),
-                                            const SizedBox(
-                                              width: 16,
-                                            ),
-                                            Expanded(
-                                              child: Center(
-                                                child: AppText.labelW600(
-                                                  "${DateFormat.yMMMd('id').add_jm().format(DateTime.parse(data.tanggalSelesai))} WIB",
-                                                  12,
-                                                  Colors.grey.shade600,
-                                                  textAlign: TextAlign.center,
+                                                Expanded(
+                                                  child: AppText.labelW600(
+                                                    data.username,
+                                                    12,
+                                                    Colors.grey.shade600,
+                                                    textAlign: TextAlign.center,
+                                                  ),
                                                 ),
-                                              ),
-                                            ),
-                                            InkWell(
-                                              onTap: () =>
-                                                  AppDialog.dialogTambahUser(
-                                                      context: context,
-                                                      userBloc: _userBloc,
-                                                      user: data),
-                                              child: Container(
-                                                width: 24,
-                                                height: 24,
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(6),
-                                                  color: Colors.grey.shade300,
+                                                Expanded(
+                                                  child: AppText.labelW600(
+                                                    data.kodeAkses,
+                                                    12,
+                                                    Colors.grey.shade600,
+                                                    textAlign: TextAlign.center,
+                                                  ),
                                                 ),
-                                                child: const Icon(
-                                                  Icons.edit_rounded,
-                                                  color: Colors.grey,
-                                                  size: 16,
+                                                Expanded(
+                                                  child: AppText.labelW600(
+                                                    data.posisi,
+                                                    12,
+                                                    Colors.grey.shade600,
+                                                    textAlign: TextAlign.center,
+                                                  ),
                                                 ),
-                                              ),
+                                                Expanded(
+                                                  child: Center(
+                                                    child: AppText.labelW600(
+                                                      "${DateFormat.yMMMd('id').add_jm().format(DateTime.parse(data.tanggalMulai))} WIB",
+                                                      12,
+                                                      Colors.grey.shade600,
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                    ),
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                  width: 16,
+                                                ),
+                                                Expanded(
+                                                  child: Center(
+                                                    child: AppText.labelW600(
+                                                      "${DateFormat.yMMMd('id').add_jm().format(DateTime.parse(data.tanggalSelesai))} WIB",
+                                                      12,
+                                                      Colors.grey.shade600,
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                    ),
+                                                  ),
+                                                ),
+                                                InkWell(
+                                                  onTap: () => AppDialog
+                                                      .dialogTambahUser(
+                                                          context: context,
+                                                          userBloc: _userBloc,
+                                                          user: data),
+                                                  child: Container(
+                                                    width: 24,
+                                                    height: 24,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              6),
+                                                      color:
+                                                          Colors.grey.shade300,
+                                                    ),
+                                                    child: const Icon(
+                                                      Icons.edit_rounded,
+                                                      color: Colors.grey,
+                                                      size: 16,
+                                                    ),
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                  width: 16,
+                                                ),
+                                              ],
                                             ),
-                                            const SizedBox(
-                                              width: 16,
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 25,
-                                ),
-                                if (snapshot.data!.isNotEmpty)
-                                  WebPagination(
-                                    currentPage: 1,
-                                    totalPage:
-                                        (snapshot.data!.length / 5).ceil(),
-                                    displayItemCount: 11,
-                                    onPageChanged: (page) {},
-                                  ),
-                              ],
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 25,
+                                    ),
+                                    if (snapshot.data!.isNotEmpty)
+                                      WebPagination(
+                                        currentPage: 1,
+                                        totalPage:
+                                            (snapshot.data!.length / 8).ceil(),
+                                        displayItemCount: 8,
+                                        onPageChanged: (page) => _userBloc
+                                            .add(UserOnChangePageEvent(page)),
+                                      ),
+                                  ],
+                                );
+                              },
                             );
                           },
                         ),

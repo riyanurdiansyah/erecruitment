@@ -75,8 +75,10 @@ class AppDialog {
       tcUsername.text = user.username;
       tcKodeAkses.text = user.kodeAkses;
       tcPosisi.text = user.posisi;
-      tcMulai.text = user.tanggalMulai;
-      tcSelesai.text = user.tanggalSelesai;
+      tcMulai.text =
+          "${DateFormat.yMMMd('id').add_jm().format(DateTime.parse(user.tanggalMulai))} WIB";
+      tcSelesai.text =
+          "${DateFormat.yMMMd('id').add_jm().format(DateTime.parse(user.tanggalSelesai))} WIB";
       tcNama.text = user.nama;
       tcNoHp.text = user.noHp.toString();
     }
@@ -234,27 +236,29 @@ class AppDialog {
                             vertical: 0, horizontal: 12),
                         hintText: "....",
                         border: const OutlineInputBorder(),
-                        suffixIcon: InkWell(
-                          onTap: () {
-                            const chars =
-                                'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-                            final random = Random.secure();
+                        suffixIcon: user != null
+                            ? null
+                            : InkWell(
+                                onTap: () {
+                                  const chars =
+                                      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+                                  final random = Random.secure();
 
-                            // Usage example:
-                            final randomString = String.fromCharCodes(
-                                Iterable.generate(
-                                    8,
-                                    (_) => chars.codeUnitAt(
-                                        random.nextInt(chars.length))));
-                            tcKodeAkses.text = randomString;
-                          },
-                          child: Container(
-                            margin: const EdgeInsets.only(right: 6),
-                            padding: const EdgeInsets.all(6),
-                            color: Colors.grey.shade300,
-                            child: const Text("Generate"),
-                          ),
-                        ),
+                                  // Usage example:
+                                  final randomString = String.fromCharCodes(
+                                      Iterable.generate(
+                                          8,
+                                          (_) => chars.codeUnitAt(
+                                              random.nextInt(chars.length))));
+                                  tcKodeAkses.text = randomString;
+                                },
+                                child: Container(
+                                  margin: const EdgeInsets.only(right: 6),
+                                  padding: const EdgeInsets.all(6),
+                                  color: Colors.grey.shade300,
+                                  child: const Text("Generate"),
+                                ),
+                              ),
                       ),
                     ),
                     const SizedBox(

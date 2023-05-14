@@ -6,7 +6,7 @@ List<UserEntity> usersFromJson(String str) =>
     List<UserEntity>.from(json.decode(str).map((x) => UserEntity.fromJson(x)));
 
 class UserEntity extends Equatable {
-  const UserEntity({
+  UserEntity({
     required this.nama,
     required this.username,
     required this.email,
@@ -17,6 +17,8 @@ class UserEntity extends Equatable {
     required this.ujians,
     required this.role,
     required this.kodeAkses,
+    this.number = 0,
+    this.page = 0,
   });
 
   final String nama;
@@ -29,6 +31,8 @@ class UserEntity extends Equatable {
   final List<String> ujians;
   final int role;
   final String kodeAkses;
+  int number;
+  int page;
 
   @override
   List<Object?> get props => [
@@ -42,6 +46,8 @@ class UserEntity extends Equatable {
         ujians,
         role,
         kodeAkses,
+        number,
+        page,
       ];
 
   factory UserEntity.fromJson(Map<String, dynamic> json) => UserEntity(

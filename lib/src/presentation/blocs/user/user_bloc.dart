@@ -26,6 +26,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     on<UserAddNewEvent>(_onAddUserNew);
     on<UserUpdateEvent>(_onUpdateUser);
     on<UserDeleteEvent>(_onDeleteUser);
+    on<UserOnChangePageEvent>(_onUserChangePage);
+    on<UserUpdateListDataEvent>(_onUserUpdateListData);
   }
   FutureOr<void> _onInitialize(
       UserInitialEvent event, Emitter<UserState> emit) {
@@ -37,6 +39,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
   Stream<List<UserEntity>> streamUsers() {
     return _usecase.streamUsers().map((data) {
+      add(UserUpdateListDataEvent(data));
       return data;
     });
   }
@@ -50,13 +53,10 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       listTemp.add(data);
     }
     if (listTemp.contains(event.username)) {
-      debugPrint("COK");
       listTemp.removeWhere((e) => e == event.username);
     } else {
-      debugPrint("COK 2");
       listTemp.add(event.username);
     }
-    debugPrint("CEK : $listTemp");
     emit(state.copyWith(listChekedUsername: listTemp));
   }
 
@@ -113,5 +113,22 @@ class UserBloc extends Bloc<UserEvent, UserState> {
                 title: "Data berhasil dihapus"));
       }
     }
+  }
+
+  FutureOr<void> _onUserUpdateListData(
+      UserUpdateListDataEvent event, Emitter<UserState> emit) {
+    double page = 0;
+    for (int i = 0; i < event.listData.length; i++) {
+      page = (i + 1) / 8;
+      event.listData[i].number = i + 1;
+      event.listData[i].page = page.ceil();
+    }
+
+    emit(state.copyWith(listData: event.listData));
+  }
+
+  FutureOr<void> _onUserChangePage(
+      UserOnChangePageEvent event, Emitter<UserState> emit) {
+    emit(state.copyWith(page: event.currPage));
   }
 }

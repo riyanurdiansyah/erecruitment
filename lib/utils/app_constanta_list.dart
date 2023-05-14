@@ -1,4 +1,5 @@
 import '../src/domain/entities/side_navbar_entity.dart';
+import '../src/domain/entities/template_entity.dart';
 
 List<SideNavbarEntity> listSidebar = [
   SideNavbarEntity(
@@ -29,23 +30,28 @@ List<SideNavbarEntity> listSidebar = [
     role: 1,
     tipe: "papi-kostick",
   ),
-  // SideNavbarEntity(
-  //   title: "PSI 11  ",
-  //   image: "assets/images/sidebar/test.webp",
-  //   route: "psi11",
-  //   role: 99,
-  //   tipe: "psi_11",
-  // ),
-  // SideNavbarEntity(
-  //   title: "Blast",
-  //   image: "assets/images/sidebar/test.webp",
-  //   route: "blast",
-  //   role: 99,
-  //   tipe: "blast",
-  // ),
+  SideNavbarEntity(
+    title: "Blast",
+    image: "assets/images/sidebar/test.webp",
+    route: "blast",
+    role: 99,
+    tipe: "blast",
+  ),
 ];
 
 List<String> listMenus = [
   "Instruksi",
   "Pertanyaan",
+];
+
+List<String> listBlast = [
+  "Single",
+  "Multiple",
+];
+
+List<TemplateEntity> templateBlast = [
+  const TemplateEntity(
+    name: "Informasi",
+    kode: "informasi",
+  ),
 ];

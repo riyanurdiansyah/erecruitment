@@ -8,6 +8,7 @@ import '../../../../../utils/app_color.dart';
 import '../../../../../utils/app_constanta_list.dart';
 import '../../../../domain/entities/template_entity.dart';
 import '../../../blocs/blast/blast_bloc.dart';
+import 'web_custom_blast_widget.dart';
 import 'web_informasi_blast_widget.dart';
 
 class WebSingleBlastWidget extends StatelessWidget {
@@ -114,6 +115,10 @@ class WebSingleBlastWidget extends StatelessWidget {
           builder: ((context, state) {
             if (state.template.contains("informasi")) {
               return WebInformasiBlastWidget(blastBloc: _blastBloc);
+            }
+
+            if (state.template.contains("custom")) {
+              return WebCustomBlastWidget(blastBloc: _blastBloc);
             }
             if (state.template.contains("invitation")) {
               return Container(

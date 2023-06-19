@@ -16,22 +16,22 @@ class AppRequestWA {
       "to": nomorWA,
       "type": "template",
       "template": {
-        "name": "informasi",
+        "name": "invitation",
         "language": {
           "code": "id",
         },
         "components": [
-          {
-            "type": "header",
-            "parameters": [
-              {
-                "type": "image",
-                "image": {
-                  "link": image,
-                }
-              }
-            ]
-          },
+          // {
+          //   "type": "header",
+          //   "parameters": [
+          //     {
+          //       "type": "image",
+          //       "image": {
+          //         "link": image,
+          //       }
+          //     }
+          //   ]
+          // },
           {
             "type": "body",
             "parameters": [

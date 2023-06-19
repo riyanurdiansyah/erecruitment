@@ -11,6 +11,7 @@ class BlastState extends Equatable {
     this.hp = "",
     this.posisi = "{{2}}",
     this.hari = "{{3}}",
+    this.custom = "",
     this.jam = "{{4}}",
     this.group = "{{5}}",
     this.linkGroup = "{{6}}",
@@ -28,6 +29,7 @@ class BlastState extends Equatable {
   final String linkGroup;
   final String emailPengirim;
   final String hp;
+  final String custom;
   final String type;
   final Uint8List? imageFile;
   final Uint8List? csvFile;
@@ -49,6 +51,7 @@ class BlastState extends Equatable {
     String? linkGroup,
     String? emailPengirim,
     String? hp,
+    String? custom,
     bool? showPreview,
     bool? isLoading,
   }) {
@@ -65,6 +68,7 @@ class BlastState extends Equatable {
       linkGroup: linkGroup ?? this.linkGroup,
       emailPengirim: emailPengirim ?? this.emailPengirim,
       hp: hp ?? this.hp,
+      custom: custom ?? this.custom,
       hari: hari ?? this.hari,
       showPreview: showPreview ?? this.showPreview,
       isLoading: isLoading ?? this.isLoading,
@@ -84,6 +88,7 @@ class BlastState extends Equatable {
         linkGroup,
         emailPengirim,
         hp,
+        custom,
         hari,
         isLoading,
       ];

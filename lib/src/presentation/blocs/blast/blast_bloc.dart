@@ -61,18 +61,31 @@ class BlastBloc extends Bloc<BlastEvent, BlastState> {
   }
 
   void _onSendMessage(event, emit) async {
-    final body = AppRequestWA.bodyInformasiWithImageTemplate(
-      nomorWA: state.hp,
-      image:
-          "https://firebasestorage.googleapis.com/v0/b/recruitment-f1e2a.appspot.com/o/bot.png?alt=media&token=128654f9-fadd-4f35-ac5a-25eea887f88c",
-      title: state.undangan,
-      job: state.posisi,
-      date: state.hari,
-      time: state.jam,
-      group: state.group,
-      linkGroup: state.linkGroup,
-      from: state.emailPengirim,
-    );
+    Map<String, dynamic> body = {};
+    if (state.template.contains("custom")) {
+      body = {
+        "messaging_product": "whatsapp",
+        "recipient_type": "individual",
+        "to": state.hp,
+        "type": "text",
+        "text": {
+          "body": state.custom,
+        }
+      };
+    } else {
+      body = AppRequestWA.bodyInformasiWithImageTemplate(
+        nomorWA: state.hp,
+        image:
+            "https://firebasestorage.googleapis.com/v0/b/recruitment-f1e2a.appspot.com/o/bot.png?alt=media&token=128654f9-fadd-4f35-ac5a-25eea887f88c",
+        title: state.undangan,
+        job: state.posisi,
+        date: state.hari,
+        time: state.jam,
+        group: state.group,
+        linkGroup: state.linkGroup,
+        from: state.emailPengirim,
+      );
+    }
     final response = await _usecase.sendMessage(_tcToken.text, body);
     response.fold((fail) => ExceptionHandle.execute(fail), (data) {
       if (data) {
@@ -147,9 +160,14 @@ class BlastBloc extends Bloc<BlastEvent, BlastState> {
   }
 
   void _onChangeTextField(BlastOnChangeTextFieldEvent event, emit) async {
+    if (event.type == "custom") {
+      emit(state.copyWith(custom: event.text));
+    }
+
     if (event.type == "hp") {
       emit(state.copyWith(hp: event.text));
     }
+
     if (event.type == "undangan") {
       emit(state.copyWith(undangan: event.text));
     }
@@ -175,18 +193,32 @@ class BlastBloc extends Bloc<BlastEvent, BlastState> {
 
   void _onSendMultipleMessage(BlastSendMultipleMessageEvent event, emit) async {
     for (int i = 0; i < event.listData.length; i++) {
-      final body = AppRequestWA.bodyInformasiWithImageTemplate(
-        nomorWA: event.listData[i].hp,
-        image:
-            "https://prakerja-apps.arkademi.com/wp-content/uploads/2022/12/Menerapkan-Prinsip-Keselamatan-dan-Kesehatan-Kerja-K3-di-Perusahaan-untuk-Ahli-K3-Umum-02.jpg",
-        title: event.listData[i].undangan,
-        job: event.listData[i].posisi,
-        date: event.listData[i].hari,
-        time: event.listData[i].jam,
-        group: event.listData[i].group,
-        linkGroup: event.listData[i].linkGroup,
-        from: event.listData[i].pengirim,
-      );
+      Map<String, dynamic> body = {};
+
+      if (state.template.contains("custom")) {
+        body = {
+          "messaging_product": "whatsapp",
+          "recipient_type": "individual",
+          "to": event.listData[i].hp,
+          "type": "text",
+          "text": {
+            "body": state.custom,
+          }
+        };
+      } else {
+        body = AppRequestWA.bodyInformasiWithImageTemplate(
+          nomorWA: event.listData[i].hp,
+          image:
+              "https://prakerja-apps.arkademi.com/wp-content/uploads/2022/12/Menerapkan-Prinsip-Keselamatan-dan-Kesehatan-Kerja-K3-di-Perusahaan-untuk-Ahli-K3-Umum-02.jpg",
+          title: event.listData[i].undangan,
+          job: event.listData[i].posisi,
+          date: event.listData[i].hari,
+          time: event.listData[i].jam,
+          group: event.listData[i].group,
+          linkGroup: event.listData[i].linkGroup,
+          from: event.listData[i].pengirim,
+        );
+      }
       final response = await _usecase.sendMessage(_tcToken.text, body);
       response.fold((fail) => ExceptionHandle.execute(fail), (data) {
         if (data) {}

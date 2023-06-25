@@ -32,7 +32,7 @@ class SideNavbar extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Image.asset(
-                  "assets/images/logo-no-text.png",
+                  "assets/images/logo-no-text.webp",
                   width: 60,
                 ),
                 const SizedBox(

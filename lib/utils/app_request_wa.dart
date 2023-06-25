@@ -1,7 +1,6 @@
 class AppRequestWA {
-  static Map<String, dynamic> bodyInformasiWithImageTemplate({
+  static Map<String, dynamic> bodyInfoUtama({
     required String nomorWA,
-    required String image,
     required String title,
     required String job,
     required String date,
@@ -9,60 +8,43 @@ class AppRequestWA {
     required String group,
     required String linkGroup,
     required String from,
+    required String fromDivisi,
+    required String fromEmail,
   }) {
     return {
       "messaging_product": "whatsapp",
-      "recipient_type": "individual",
       "to": nomorWA,
       "type": "template",
       "template": {
-        "name": "invitation",
-        "language": {
-          "code": "id",
-        },
+        "name": "info_utama",
+        "language": {"code": "ID"},
         "components": [
-          // {
-          //   "type": "header",
-          //   "parameters": [
-          //     {
-          //       "type": "image",
-          //       "image": {
-          //         "link": image,
-          //       }
-          //     }
-          //   ]
-          // },
           {
-            "type": "body",
+            "type": "button",
+            "sub_type": "url",
+            "index": 0,
             "parameters": [
               {
                 "type": "text",
-                "text": title,
-              },
-              {
-                "type": "text",
-                "text": job,
-              },
-              {
-                "type": "text",
-                "text": date,
-              },
-              {
-                "type": "text",
-                "text": time,
-              },
-              {
-                "type": "text",
-                "text": group,
-              },
-              {
-                "type": "text",
-                "text": linkGroup,
-              },
-              {
-                "type": "text",
-                "text": from,
+                "text": "6283819045192",
               }
+            ]
+          },
+          {
+            "type": "body",
+            "parameters": [
+              {"type": "text", "text": title},
+              {"type": "text", "text": "TMS Group"},
+              {"type": "text", "text": job},
+              {"type": "text", "text": date},
+              {"type": "text", "text": time},
+              {"type": "text", "text": group},
+              {"type": "text", "text": "Indonesia"},
+              {"type": "text", "text": linkGroup},
+              {"type": "text", "text": fromDivisi},
+              {"type": "text", "text": from},
+              {"type": "text", "text": fromEmail},
+              {"type": "text", "text": "Terima Kasih"}
             ]
           }
         ]

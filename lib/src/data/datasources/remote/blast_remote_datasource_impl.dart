@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:recruitment/src/core/exception_handling.dart';
 
 import '../../../../utils/app_url.dart';
-import '../../../core/dio_option.dart';
 import '../../../core/interceptor.dart';
 import 'blast_remote_datasource.dart';
 
@@ -16,11 +15,7 @@ class BlastRemoteDataSourceImpl implements BlastRemoteDataSource {
   @override
   Future<bool> sendMessage(String token, Map<String, dynamic> body) async {
     await dioInterceptorWA(dio, token);
-    final response = await dio.post(
-      messageWaUrl,
-      data: body,
-      options: dioOption(),
-    );
+    final response = await dio.post(messageWaUrl, data: body);
     debugPrint("BODY SEND MESSAGE : $body");
     debugPrint("RESPONSE SEND MESSAGE : ${response.data}");
     return true;

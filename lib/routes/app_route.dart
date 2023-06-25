@@ -8,6 +8,7 @@ import 'package:recruitment/src/presentation/pages/home/home_page.dart';
 import 'package:recruitment/src/presentation/pages/papi/papi_page.dart';
 import 'package:recruitment/src/presentation/pages/user/users_page.dart';
 import '../src/presentation/pages/blast/web_blast_page.dart';
+import '../src/presentation/pages/chat/web_chat_page.dart';
 import '../src/presentation/pages/not_found_page.dart';
 import '../src/presentation/pages/welcome_page.dart';
 
@@ -43,6 +44,16 @@ GoRouter router = GoRouter(
       name: 'signin',
       builder: (context, state) {
         return const LoginPage();
+      },
+    ),
+    GoRoute(
+      path: '/chat/:no',
+      name: 'chat',
+      builder: (context, state) {
+        String no = state.params["no"] ?? "";
+        return WebChatPage(
+          no: no,
+        );
       },
     ),
     ShellRoute(

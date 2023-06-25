@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../../../../utils/app_text.dart';
@@ -21,38 +20,6 @@ class WebInformasiBlastWidget extends StatelessWidget {
       mainAxisSize: MainAxisSize.max,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          width: double.infinity,
-          height: 200,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(4),
-            border: Border.all(
-              color: Colors.grey.shade500,
-            ),
-            color: Colors.grey.shade200,
-          ),
-          child: BlocBuilder<BlastBloc, BlastState>(
-            builder: (context, state) {
-              if (state.imageFile != null) {
-                return Image.memory(
-                  state.imageFile!,
-                  fit: BoxFit.contain,
-                );
-              }
-              return IconButton(
-                onPressed: () => _blastBloc.add(BlastUploadImageEvent()),
-                icon: Icon(
-                  Icons.add_a_photo_rounded,
-                  size: 70,
-                  color: Colors.grey.shade600,
-                ),
-              );
-            },
-          ),
-        ),
-        const SizedBox(
-          height: 35,
-        ),
         AppText.labelW600(
           "Undangan",
           16,

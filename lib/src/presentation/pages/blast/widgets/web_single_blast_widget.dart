@@ -25,30 +25,30 @@ class WebSingleBlastWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        AppText.labelW600(
-          "Token Developer",
-          16,
-          Colors.black,
-        ),
-        const SizedBox(
-          height: 12,
-        ),
-        TextFormField(
-          readOnly: true,
-          controller: _blastBloc.tcToken,
-          decoration: InputDecoration(
-            filled: true,
-            fillColor: Colors.grey.shade200,
-            hintStyle: GoogleFonts.poppins(),
-            contentPadding:
-                const EdgeInsets.symmetric(vertical: 0, horizontal: 12),
-            hintText: "Token",
-            border: const OutlineInputBorder(),
-          ),
-        ),
-        const SizedBox(
-          height: 20,
-        ),
+        // AppText.labelW600(
+        //   "Token Developer",
+        //   16,
+        //   Colors.black,
+        // ),
+        // const SizedBox(
+        //   height: 12,
+        // ),
+        // TextFormField(
+        //   readOnly: true,
+        //   controller: _blastBloc.tcToken,
+        //   decoration: InputDecoration(
+        //     filled: true,
+        //     fillColor: Colors.grey.shade200,
+        //     hintStyle: GoogleFonts.poppins(),
+        //     contentPadding:
+        //         const EdgeInsets.symmetric(vertical: 0, horizontal: 12),
+        //     hintText: "Token",
+        //     border: const OutlineInputBorder(),
+        //   ),
+        // ),
+        // const SizedBox(
+        //   height: 20,
+        // ),
         AppText.labelW600(
           "Nomor Tujuan",
           16,

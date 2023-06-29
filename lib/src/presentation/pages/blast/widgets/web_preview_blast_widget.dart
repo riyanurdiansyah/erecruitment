@@ -91,7 +91,7 @@ class WebPreviewBlastWidget extends StatelessWidget {
                                       ),
                                       TextSpan(
                                         text:
-                                            'TMS Group posisi ${state.posisi} ',
+                                            'di ${state.di} posisi ${state.posisi} ',
                                       ),
                                       TextSpan(
                                         text:
@@ -102,14 +102,14 @@ class WebPreviewBlastWidget extends StatelessWidget {
                                       ),
                                       TextSpan(
                                         text:
-                                            'silahkan gabung ke group ${state.group} ',
+                                            'silahkan segera gabung ${state.group} (${state.keterangan}). ',
                                       ),
                                       const TextSpan(
                                         text:
-                                            'TMS pada link di bawah ini untuk informasi lebih lanjut! \n\n',
+                                            'Untuk informasi lebih lanjut!  \n\n',
                                       ),
                                       TextSpan(
-                                        text: '${state.linkGroup} \n',
+                                        text: '${state.linkGroup} \n\n',
                                         style: GoogleFonts.poppins(
                                           color: Colors.blue,
                                         ),
@@ -124,11 +124,11 @@ class WebPreviewBlastWidget extends StatelessWidget {
                                       const TextSpan(
                                         text: 'Best Regrads, \n',
                                       ),
-                                      const TextSpan(
-                                        text: 'Recruitment Team \n',
+                                      TextSpan(
+                                        text: '${state.tim} \n',
                                       ),
-                                      const TextSpan(
-                                        text: 'Marketing Support Department \n',
+                                      TextSpan(
+                                        text: '${state.divisi} \n',
                                       ),
                                       TextSpan(
                                         text: "${state.emailPengirim} \n",

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'package:csv/csv.dart';
@@ -6,7 +7,9 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gsheets/gsheets.dart';
 
+import '../../../../services/app_sheet_services.dart';
 import '../../../../utils/app_dialog.dart';
 import '../../../../utils/app_request_wa.dart';
 import '../../../core/exception_handling.dart';
@@ -34,6 +37,9 @@ class BlastBloc extends Bloc<BlastEvent, BlastState> {
   final TextEditingController _tcTemplate = TextEditingController();
   TextEditingController get tcTemplate => _tcTemplate;
 
+  final TextEditingController _tcSheet = TextEditingController();
+  TextEditingController get tcSheet => _tcSheet;
+
   BlastBloc() : super(BlastInitial()) {
     on<BlastEvent>(((event, emit) {}));
     on<BlastInitializeEvent>(_onInitialize);
@@ -44,6 +50,7 @@ class BlastBloc extends Bloc<BlastEvent, BlastState> {
     on<BlastOnChangeTypeEvent>(_onChangeType);
     on<BlastOnChangeTextFieldEvent>(_onChangeTextField);
     on<BlastSendMultipleMessageEvent>(_onSendMultipleMessage);
+    on<BlastUploadSheetEvent>(_onUploadSheet);
   }
 
   void _onInitialize(event, emit) async {
@@ -75,14 +82,16 @@ class BlastBloc extends Bloc<BlastEvent, BlastState> {
     } else {
       body = AppRequestWA.bodyInfoUtama(
         nomorWA: state.hp,
-        title: state.undangan,
+        undangan: state.undangan,
         job: state.posisi,
         date: state.hari,
         time: state.jam,
         group: state.group,
         linkGroup: state.linkGroup,
-        from: "Sike Avika",
-        fromDivisi: "Marketing Development",
+        from: state.tim,
+        tempat: state.di,
+        keterangan: state.keterangan,
+        fromDivisi: state.divisi,
         fromEmail: state.emailPengirim,
       );
     }
@@ -186,20 +195,32 @@ class BlastBloc extends Bloc<BlastEvent, BlastState> {
     if (event.type == "linkgroup") {
       emit(state.copyWith(linkGroup: event.text));
     }
+    if (event.type == "keterangan") {
+      emit(state.copyWith(keterangan: event.text));
+    }
     if (event.type == "pengirim") {
       emit(state.copyWith(emailPengirim: event.text));
+    }
+    if (event.type == "tempat") {
+      emit(state.copyWith(di: event.text));
+    }
+    if (event.type == "tim") {
+      emit(state.copyWith(tim: event.text));
+    }
+    if (event.type == "divisi") {
+      emit(state.copyWith(divisi: event.text));
     }
   }
 
   void _onSendMultipleMessage(BlastSendMultipleMessageEvent event, emit) async {
-    for (int i = 0; i < event.listData.length; i++) {
+    for (int i = 0; i < state.datasheets.length; i++) {
       Map<String, dynamic> body = {};
 
       if (state.template.contains("custom")) {
         body = {
           "messaging_product": "whatsapp",
           "recipient_type": "individual",
-          "to": event.listData[i].hp,
+          "to": state.datasheets[i]["HP"],
           "type": "text",
           "text": {
             "body": state.custom,
@@ -207,28 +228,74 @@ class BlastBloc extends Bloc<BlastEvent, BlastState> {
         };
       } else {
         body = AppRequestWA.bodyInfoUtama(
-          nomorWA: event.listData[i].hp,
-          title: event.listData[i].undangan,
-          job: event.listData[i].posisi,
-          date: event.listData[i].hari,
-          time: event.listData[i].jam,
-          group: event.listData[i].group,
-          linkGroup: event.listData[i].linkGroup,
-          from: "Sike Avika",
-          fromDivisi: "Marketing Development",
-          fromEmail: event.listData[i].pengirim,
+          undangan: state.datasheets[i]["UNDANGAN"],
+          tempat: state.datasheets[i]["TEMPAT"],
+          job: state.datasheets[i]["POSISI"],
+          date: state.datasheets[i]["HARI"],
+          time: state.datasheets[i]["JAM"],
+          group: state.datasheets[i]["GROUP"],
+          keterangan: state.datasheets[i]["KETERANGAN"],
+          linkGroup: state.datasheets[i]["LINK"],
+          from: state.datasheets[i]["PENGIRIM"],
+          fromDivisi: state.datasheets[i]["DEPARTEMENT"],
+          fromEmail: state.datasheets[i]["EMAIL"],
+          nomorWA: state.datasheets[i]["HP"],
         );
       }
       final response = await _usecase.sendMessage(_tcToken.text, body);
       response.fold((fail) => ExceptionHandle.execute(fail), (data) {
         if (data) {}
       });
-      if (i == event.listData.length - 1) {
+      if (i == state.datasheets.length - 1) {
         AppDialog.dialogNoAction(
           context: globalKey.currentContext!,
           title: "Pesan berhasil dikirim",
         );
       }
+    }
+  }
+
+  static Future<Worksheet> _getWorkSheet(
+      Spreadsheet spreadsheet, String sheetId) async {
+    try {
+      return await spreadsheet.addWorksheet(sheetId);
+    } catch (e) {
+      return spreadsheet.worksheetById(int.parse(sheetId))!;
+    }
+  }
+
+  FutureOr<void> _onUploadSheet(
+      BlastUploadSheetEvent event, Emitter<BlastState> emit) async {
+    final gsheet = GSheets(credentialSheet);
+
+    if (!tcSheet.text.contains("https://docs.google.com/spreadsheets/d/")) {
+      AppDialog.dialogNoAction(
+          context: globalKey.currentContext!,
+          title: "Masukkan link sheet yang sesuai yahh");
+    } else {
+      final spreadSheetId = tcSheet.text
+          .split("/edit#gid=")[0]
+          .replaceAll("https://docs.google.com/spreadsheets/d/", "");
+      final sheetId = tcSheet.text.split("edit#gid=")[1];
+
+      final spredsheet = await gsheet.spreadsheet(spreadSheetId.trim());
+      // final worksheet = await _getWorkSheet(spredsheet, sheetId.trim());
+      final worksheet = spredsheet.worksheetById(int.parse(sheetId))!;
+
+      final rows = await worksheet.values.map.allRows() ?? [];
+      // List<Map<String, dynamic>> headers = rows[0];
+      Set<String> keys = <String>{};
+      Set<dynamic> values = <dynamic>{};
+      for (var data in rows) {
+        keys.addAll(data.keys);
+        values.addAll(data.values);
+      }
+      List<String> keyList = keys.toList();
+      List<dynamic> valueList = values.toList();
+      print("CEK ROW TITLE : $keyList");
+      print("CEK ROW VALUE : $valueList");
+
+      emit(state.copyWith(datasheets: rows));
     }
   }
 }

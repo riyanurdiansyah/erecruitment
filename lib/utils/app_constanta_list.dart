@@ -9,13 +9,13 @@ List<SideNavbarEntity> listSidebar = [
   //   role: 1,
   //   tipe: "disc",
   // ),
-  SideNavbarEntity(
-    title: "User",
-    image: "assets/images/sidebar/test.webp",
-    route: "user",
-    role: 1,
-    tipe: "user",
-  ),
+  // SideNavbarEntity(
+  //   title: "User",
+  //   image: "assets/images/sidebar/test.webp",
+  //   route: "user",
+  //   role: 1,
+  //   tipe: "user",
+  // ),
   // SideNavbarEntity(
   //   title: "DISC",
   //   image: "assets/images/sidebar/test.webp",
@@ -50,10 +50,10 @@ List<String> listBlast = [
 ];
 
 List<TemplateEntity> templateBlast = [
-  const TemplateEntity(
-    name: "Custom",
-    kode: "custom",
-  ),
+  // const TemplateEntity(
+  //   name: "Custom",
+  //   kode: "custom",
+  // ),
   const TemplateEntity(
     name: "Informasi",
     kode: "informasi",

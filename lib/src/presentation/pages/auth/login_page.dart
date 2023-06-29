@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 import 'package:recruitment/routes/app_route_name.dart';
 
 import '../../../../utils/app_color.dart';
@@ -51,7 +52,7 @@ class _LoginPageState extends State<LoginPage> {
           }
 
           if (state is AuthLoginSuccessState) {
-            router.goNamed(AppRouteName.home);
+            router.goNamed(AppRouteName.blast);
           }
         },
         builder: (context, state) {
@@ -131,6 +132,14 @@ class _LoginPageState extends State<LoginPage> {
                                       style: GoogleFonts.poppins(
                                         color: Colors.black54,
                                       ),
+                                      onEditingComplete: () {
+                                        if (_authBloc.formKey.currentState!
+                                            .validate()) {
+                                          _authBloc.add(AuthLoginEvent(
+                                              _authBloc.tcUsername.text,
+                                              _authBloc.tcPassword.text));
+                                        }
+                                      },
                                       onChanged: (val) => _authBloc
                                           .add(AuthOnChangePassword(val)),
                                       validator: (value) =>

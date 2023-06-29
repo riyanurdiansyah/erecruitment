@@ -8,8 +8,6 @@ import '../../../../../utils/app_constanta_list.dart';
 import '../../../../domain/entities/template_entity.dart';
 import '../../../blocs/blast/blast_bloc.dart';
 import 'user_data_table.dart';
-import 'web_custom_blast_widget.dart';
-import 'web_informasi_blast_widget.dart';
 
 class WebMultipleBlastWidget extends StatelessWidget {
   const WebMultipleBlastWidget({
@@ -23,6 +21,15 @@ class WebMultipleBlastWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+
+    List<DataColumn> _buildColumns(List<Map<String, dynamic>> data) {
+      return data[0].keys.map<DataColumn>((String key) {
+        return DataColumn(
+          label: Text(key),
+        );
+      }).toList();
+    }
+
     return SizedBox(
       height: size.height / 1.16,
       child: SingleChildScrollView(
@@ -30,8 +37,49 @@ class WebMultipleBlastWidget extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // AppText.labelW600(
+            //   "Unggah File",
+            //   16,
+            //   Colors.black,
+            // ),
+            // const SizedBox(
+            //   height: 12,
+            // ),
+            // TextFormField(
+            //   decoration: InputDecoration(
+            //     hintStyle: GoogleFonts.poppins(),
+            //     contentPadding:
+            //         const EdgeInsets.symmetric(vertical: 0, horizontal: 12),
+            //     hintText: "Unggah File .csv",
+            //     border: const OutlineInputBorder(),
+            //     suffixIcon: Container(
+            //       margin: const EdgeInsets.symmetric(vertical: 4),
+            //       padding: const EdgeInsets.only(right: 12),
+            //       child: OutlinedButton(
+            //         style: ButtonStyle(
+            //           backgroundColor: MaterialStateProperty.all(Colors.white),
+            //           side: MaterialStateProperty.all(
+            //             BorderSide(
+            //               color: Colors.grey.shade400,
+            //               width: 0.5,
+            //             ),
+            //           ),
+            //         ),
+            //         onPressed: () => _blastBloc.add(BlastUploadCsvEvent()),
+            //         child: AppText.labelW500(
+            //           "Pilih",
+            //           14,
+            //           Colors.black,
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            // const SizedBox(
+            //   height: 16,
+            // ),
             AppText.labelW600(
-              "Unggah File",
+              "Link Sheet",
               16,
               Colors.black,
             ),
@@ -39,18 +87,20 @@ class WebMultipleBlastWidget extends StatelessWidget {
               height: 12,
             ),
             TextFormField(
+              controller: _blastBloc.tcSheet,
               decoration: InputDecoration(
                 hintStyle: GoogleFonts.poppins(),
                 contentPadding:
                     const EdgeInsets.symmetric(vertical: 0, horizontal: 12),
-                hintText: "Unggah File .csv",
+                hintText: "Masukkan link google Sheet",
                 border: const OutlineInputBorder(),
                 suffixIcon: Container(
                   margin: const EdgeInsets.symmetric(vertical: 4),
                   padding: const EdgeInsets.only(right: 12),
-                  child: OutlinedButton(
+                  child: ElevatedButton(
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.white),
+                      backgroundColor:
+                          MaterialStateProperty.all(colorPrimaryDark),
                       side: MaterialStateProperty.all(
                         BorderSide(
                           color: Colors.grey.shade400,
@@ -58,19 +108,23 @@ class WebMultipleBlastWidget extends StatelessWidget {
                         ),
                       ),
                     ),
-                    onPressed: () => _blastBloc.add(BlastUploadCsvEvent()),
+                    onPressed: () => _blastBloc.add(BlastUploadSheetEvent()),
                     child: AppText.labelW500(
-                      "Pilih",
+                      "Ekstrak",
                       14,
-                      Colors.black,
+                      Colors.white,
                     ),
                   ),
                 ),
               ),
             ),
+
+            const SizedBox(
+              height: 16,
+            ),
             BlocBuilder<BlastBloc, BlastState>(
               builder: (context, state) {
-                if (state.listData == null) {
+                if (state.datasheets.isEmpty) {
                   return const SizedBox();
                 }
                 return Column(
@@ -81,118 +135,9 @@ class WebMultipleBlastWidget extends StatelessWidget {
                     PaginatedDataTable(
                       rowsPerPage: 5,
                       arrowHeadColor: colorPrimaryDark,
-                      columns: [
-                        DataColumn(
-                          label: Expanded(
-                            child: Text(
-                              "Nama",
-                              style: GoogleFonts.poppins(
-                                fontSize: 12,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Expanded(
-                            child: Text(
-                              "Posisi",
-                              style: GoogleFonts.poppins(
-                                fontSize: 12,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Expanded(
-                            child: Text(
-                              "Hari",
-                              style: GoogleFonts.poppins(
-                                fontSize: 12,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Expanded(
-                            child: Text(
-                              "Jam",
-                              style: GoogleFonts.poppins(
-                                fontSize: 12,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Expanded(
-                            child: Text(
-                              "Group",
-                              style: GoogleFonts.poppins(
-                                fontSize: 12,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Expanded(
-                            child: Text(
-                              "Link Group",
-                              style: GoogleFonts.poppins(
-                                fontSize: 12,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Expanded(
-                            child: Text(
-                              "No Whatsapp",
-                              style: GoogleFonts.poppins(
-                                fontSize: 12,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Expanded(
-                            child: Text(
-                              "Undangan",
-                              style: GoogleFonts.poppins(
-                                fontSize: 12,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Expanded(
-                            child: Text(
-                              "Status",
-                              style: GoogleFonts.poppins(
-                                fontSize: 12,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+                      columns: _buildColumns(state.datasheets),
                       source: UserDataTableSource(
-                        userData: state.listData ?? [],
+                        userData: state.datasheets,
                       ),
                     ),
                   ],
@@ -235,29 +180,29 @@ class WebMultipleBlastWidget extends StatelessWidget {
                 border: const OutlineInputBorder(),
               ),
             ),
-            const SizedBox(
-              height: 35,
-            ),
-            BlocBuilder<BlastBloc, BlastState>(
-              builder: ((context, state) {
-                if (state.template.contains("informasi")) {
-                  return WebInformasiBlastWidget(blastBloc: _blastBloc);
-                }
+            // const SizedBox(
+            //   height: 35,
+            // ),
+            // BlocBuilder<BlastBloc, BlastState>(
+            //   builder: ((context, state) {
+            //     if (state.template.contains("informasi")) {
+            //       return WebInformasiBlastWidget(blastBloc: _blastBloc);
+            //     }
 
-                if (state.template.contains("custom")) {
-                  return WebCustomBlastWidget(blastBloc: _blastBloc);
-                }
-                if (state.template.contains("invitation")) {
-                  return Container(
-                    width: double.infinity,
-                    height: 80,
-                    color: Colors.blue,
-                  );
-                }
+            //     if (state.template.contains("custom")) {
+            //       return WebCustomBlastWidget(blastBloc: _blastBloc);
+            //     }
+            //     if (state.template.contains("invitation")) {
+            //       return Container(
+            //         width: double.infinity,
+            //         height: 80,
+            //         color: Colors.blue,
+            //       );
+            //     }
 
-                return const SizedBox();
-              }),
-            ),
+            //     return const SizedBox();
+            //   }),
+            // ),
             const SizedBox(
               height: 35,
             ),
@@ -269,8 +214,8 @@ class WebMultipleBlastWidget extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () => _blastBloc.add(
                       BlastSendMultipleMessageEvent(
-                        listData: state.listData ?? [],
-                      ),
+                          // listData: state.listData ?? [],
+                          ),
                     ),
                     style: ButtonStyle(
                         backgroundColor:

@@ -18,9 +18,9 @@ class BlastOnChangeTemplateEvent extends BlastEvent {
 class BlastSendMessageEvent extends BlastEvent {}
 
 class BlastSendMultipleMessageEvent extends BlastEvent {
-  const BlastSendMultipleMessageEvent({required this.listData});
+  // const BlastSendMultipleMessageEvent({required this.listData});
 
-  final List<BlastEntity> listData;
+  // final List<Map<String, dynamic>> listData;
 }
 
 class BlastUploadImageEvent extends BlastEvent {}
@@ -32,6 +32,8 @@ class BlastOnChangeTypeEvent extends BlastEvent {
 }
 
 class BlastUploadCsvEvent extends BlastEvent {}
+
+class BlastUploadSheetEvent extends BlastEvent {}
 
 class BlastOnChangeTextFieldEvent extends BlastEvent {
   const BlastOnChangeTextFieldEvent(this.type, this.text);

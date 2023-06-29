@@ -97,9 +97,16 @@ class _WebBlastPageState extends State<WebBlastPage> {
                 },
               ),
             ),
-            const Expanded(
-              flex: 1,
-              child: WebPreviewBlastWidget(),
+            BlocBuilder<BlastBloc, BlastState>(
+              builder: (context, state) {
+                if (state.type == "Multiple") {
+                  return const SizedBox();
+                }
+                return const Expanded(
+                  flex: 1,
+                  child: WebPreviewBlastWidget(),
+                );
+              },
             ),
           ],
         ),

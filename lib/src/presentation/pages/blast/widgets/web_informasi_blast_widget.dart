@@ -45,6 +45,30 @@ class WebInformasiBlastWidget extends StatelessWidget {
           height: 20,
         ),
         AppText.labelW600(
+          "Tempat",
+          16,
+          Colors.black,
+        ),
+        const SizedBox(
+          height: 12,
+        ),
+        TextFormField(
+          keyboardType: TextInputType.number,
+          validator: (val) => AppValidator.checkNama(val!),
+          decoration: InputDecoration(
+            hintStyle: GoogleFonts.poppins(),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 0, horizontal: 12),
+            hintText: "TMS Group",
+            border: const OutlineInputBorder(),
+          ),
+          onChanged: (val) =>
+              _blastBloc.add(BlastOnChangeTextFieldEvent("tempat", val)),
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        AppText.labelW600(
           "Posisi",
           16,
           Colors.black,
@@ -141,6 +165,30 @@ class WebInformasiBlastWidget extends StatelessWidget {
           height: 20,
         ),
         AppText.labelW600(
+          "Keterangan",
+          16,
+          Colors.black,
+        ),
+        const SizedBox(
+          height: 12,
+        ),
+        TextFormField(
+          keyboardType: TextInputType.number,
+          validator: (val) => AppValidator.checkNama(val!),
+          decoration: InputDecoration(
+            hintStyle: GoogleFonts.poppins(),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 0, horizontal: 12),
+            hintText: "Infor penutupan",
+            border: const OutlineInputBorder(),
+          ),
+          onChanged: (val) =>
+              _blastBloc.add(BlastOnChangeTextFieldEvent("keterangan", val)),
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        AppText.labelW600(
           "Link Group",
           16,
           Colors.black,
@@ -160,6 +208,54 @@ class WebInformasiBlastWidget extends StatelessWidget {
           ),
           onChanged: (val) =>
               _blastBloc.add(BlastOnChangeTextFieldEvent("linkgroup", val)),
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        AppText.labelW600(
+          "Dari Tim",
+          16,
+          Colors.black,
+        ),
+        const SizedBox(
+          height: 12,
+        ),
+        TextFormField(
+          keyboardType: TextInputType.number,
+          validator: (val) => AppValidator.checkNama(val!),
+          decoration: InputDecoration(
+            hintStyle: GoogleFonts.poppins(),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 0, horizontal: 12),
+            hintText: "Recruitment Team",
+            border: const OutlineInputBorder(),
+          ),
+          onChanged: (val) =>
+              _blastBloc.add(BlastOnChangeTextFieldEvent("tim", val)),
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        AppText.labelW600(
+          "Divisi",
+          16,
+          Colors.black,
+        ),
+        const SizedBox(
+          height: 12,
+        ),
+        TextFormField(
+          keyboardType: TextInputType.number,
+          validator: (val) => AppValidator.checkNama(val!),
+          decoration: InputDecoration(
+            hintStyle: GoogleFonts.poppins(),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 0, horizontal: 12),
+            hintText: "Marketing Department",
+            border: const OutlineInputBorder(),
+          ),
+          onChanged: (val) =>
+              _blastBloc.add(BlastOnChangeTextFieldEvent("divisi", val)),
         ),
         const SizedBox(
           height: 20,

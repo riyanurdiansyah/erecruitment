@@ -3,12 +3,12 @@ import 'package:erecruitment/utils/app_text_normal.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import 'app_route_name.dart';
-
 class AppDialog {
   static dialogEndQuiz({
     required String title,
     required String subtitle,
+    required Function() ontap,
+    bool? isFinished,
   }) {
     return showDialog(
       context: rootNavigatorKey.currentContext!,
@@ -25,15 +25,25 @@ class AppDialog {
         ),
         actions: [
           ElevatedButton(
-            onPressed: () {
-              rootNavigatorKey.currentContext!.goNamed(AppRouteName.test);
-            },
+            onPressed: ontap,
             child: AppTextNormal.labelBold(
               "Kumpulkan",
               16,
               Colors.white,
             ),
           ),
+          if (isFinished == true)
+            ElevatedButton(
+              style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all(Colors.grey.shade400)),
+              onPressed: () => rootNavigatorKey.currentContext!.pop(),
+              child: AppTextNormal.labelBold(
+                "Batal",
+                16,
+                Colors.white,
+              ),
+            ),
         ],
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:erecruitment/src/controllers/dashboard_controller.dart';
+import 'package:erecruitment/src/models/exam_m.dart';
 import 'package:erecruitment/utils/app_route_name.dart';
 import 'package:erecruitment/utils/app_text_normal.dart';
 import 'package:flutter/material.dart';
@@ -19,11 +20,14 @@ class TestPage extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 14),
         child: Column(
           children: [
-            Obx(
-              () {
-                if (_dC.exams.isEmpty) {
+            StreamBuilder<List<ExamM>>(
+              stream: _dC.streamExam(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
                   return const SizedBox();
                 }
+
+                final exams = snapshot.data ?? [];
 
                 return Expanded(
                   child: GridView.builder(
@@ -34,28 +38,29 @@ class TestPage extends StatelessWidget {
                       crossAxisSpacing: 15,
                       mainAxisSpacing: 25,
                     ),
-                    itemCount: _dC.exams.length,
+                    itemCount: exams.length,
                     itemBuilder: (context, index) {
                       return ElevatedButton(
-                        onPressed: _dC.exams[index].users
+                        onPressed: exams[index]
+                                .users
                                 .contains(_dC.user.value.id)
                             ? null
                             : () {
                                 _dC.isStarting.value = true;
                                 context.goNamed(AppRouteName.ongoing, extra: {
-                                  "exam": _dC.exams[index],
+                                  "exam": exams[index],
                                 });
                               },
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             AppTextNormal.labelBold(
-                              _dC.exams[index].title,
+                              exams[index].title,
                               14,
                               Colors.white,
                             ),
                             AppTextNormal.labelBold(
-                              "${_dC.exams[index].number} Soal",
+                              "${exams[index].number} Soal",
                               14,
                               Colors.white,
                             ),

@@ -112,10 +112,12 @@ GoRouter router = GoRouter(
       path: "/ongoing",
       name: AppRouteName.ongoing,
       onExit: (_) {
+        final oC = Get.find<OngoingController>();
+        oC.cameraController.dispose();
+        Get.delete<OngoingController>();
         if (kDebugMode) {
           print("OngoingController has been deleted");
         }
-        Get.delete<OngoingController>();
         return true;
       },
       redirect: (context, state) {
@@ -132,10 +134,10 @@ GoRouter router = GoRouter(
         if (extra != null && extra is Map<String, dynamic>) {
           exam = extra["exam"];
         }
+        final oC = Get.put(OngoingController());
         if (kDebugMode) {
           print("OngoingController has been created");
         }
-        final oC = Get.put(OngoingController());
         oC.exams.value = exam ?? examEmpty;
         oC.time.value = exam?.time ?? 40;
 

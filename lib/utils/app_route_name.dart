@@ -9,5 +9,7 @@ abstract class AppRouteName {
 
   static const String ongoing = "ongoing";
 
+  static const String permission = "permission";
+
   static const String test = "test";
 }

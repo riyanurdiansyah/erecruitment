@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:erecruitment/src/controllers/ongoing_controller.dart';
 import 'package:erecruitment/utils/app_text_normal.dart';
 import 'package:flutter/material.dart';
@@ -12,202 +13,270 @@ class OngoingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      body: Column(
+      body: Stack(
         children: [
-          Obx(() {
-            if (_oC.isLoading.value) {
-              return SizedBox(
-                height: size.height,
-                child: const Center(
-                  child: CircularProgressIndicator(),
-                ),
-              );
-            }
+          Column(
+            children: [
+              Obx(() {
+                if (_oC.isLoading.value) {
+                  return SizedBox(
+                    height: size.height,
+                    child: const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                }
 
-            return Container(
-              height: _oC.maxQuestion.value > 50 ? 150 : 100,
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 12),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 5),
-                      child: GridView.builder(
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 25,
-                          childAspectRatio: 1,
-                          mainAxisExtent: 30,
-                          crossAxisSpacing: 6,
-                        ),
-                        itemCount: _oC.maxQuestion.value,
-                        itemBuilder: (context, index) {
-                          return InkWell(
-                            onTap: _oC.indexQuestion.value == index
-                                ? null
-                                : () => _oC.onTapQuestion(index),
-                            child: Container(
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(4),
-                                color: _oC.getColorQuestion(index),
-                              ),
-                              child: AppTextNormal.labelBold(
-                                "${index + 1}",
-                                14,
-                                Colors.white,
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Align(
-                      alignment: Alignment.centerRight,
-                      child: buildTime(),
-                    ),
-                  ),
-                ],
-              ),
-            );
-          }),
-          Expanded(
-            child: Obx(() {
-              if (_oC.exams.value.type == "ist" && _oC.questionIst.isNotEmpty) {
-                return Column(
-                  children: [
-                    const SizedBox(
-                      height: 35,
-                    ),
-                    AppTextNormal.labelW600(
-                      _oC.questionIst[_oC.indexQuestion.value].question,
-                      25,
-                      Colors.black,
-                    ),
-                    const SizedBox(
-                      height: 50,
-                    ),
-                    Column(
-                      children: List.generate(
-                        _oC.questionIst[_oC.indexQuestion.value].options.length,
-                        (index) => InkWell(
-                          onTap: () => _oC.selectedOption(index),
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 12, horizontal: 16),
-                            child: Row(
-                              children: [
-                                Radio(
-                                  value: index,
-                                  groupValue: _oC.indexSelectedOption.value,
-                                  onChanged: _oC.selectedOption,
-                                ),
-                                const SizedBox(
-                                  width: 16,
-                                ),
-                                AppTextNormal.labelW600(
-                                  _oC.questionIst[_oC.indexQuestion.value]
-                                      .options[index].teks,
-                                  16,
-                                  Colors.black,
-                                ),
-                              ],
-                            ),
-                          ),
+                return Container(
+                  height: _oC.maxQuestion.value > 50 ? 150 : 100,
+                  width: double.infinity,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 25, vertical: 12),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: SizedBox(
+                          width: 150,
+                          height: 120,
+                          child: Obx(() {
+                            if (_oC.isLoading.value) {
+                              return const SizedBox();
+                            }
+                            return CameraPreview(_oC.cameraController);
+                          }),
                         ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 35,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: buildTime(),
+                      ),
+                    ],
+                  ),
+                );
+              }),
+              Expanded(
+                child: Obx(() {
+                  if (_oC.exams.value.type == "ist" &&
+                      _oC.questionIst.isNotEmpty) {
+                    return Column(
                       children: [
-                        Obx(() {
-                          if (_oC.answereds.contains(99) == true) {
-                            return const SizedBox();
-                          }
-
-                          return Row(
-                            children: [
-                              SizedBox(
-                                width: 150,
-                                height: 45,
-                                child: ElevatedButton(
-                                  onPressed: () {},
-                                  child: AppTextNormal.labelW600(
-                                    "Kumpulkan",
-                                    16,
-                                    Colors.white,
-                                  ),
+                        const SizedBox(
+                          height: 35,
+                        ),
+                        AppTextNormal.labelW600(
+                          _oC.questionIst[_oC.indexQuestion.value].question,
+                          25,
+                          Colors.black,
+                        ),
+                        const SizedBox(
+                          height: 50,
+                        ),
+                        Column(
+                          children: List.generate(
+                            _oC.questionIst[_oC.indexQuestion.value].options
+                                .length,
+                            (index) => InkWell(
+                              onTap: () => _oC.selectedOption(index),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 12, horizontal: 16),
+                                child: Row(
+                                  children: [
+                                    Radio(
+                                      value: index,
+                                      groupValue: _oC.indexSelectedOption.value,
+                                      onChanged: _oC.selectedOption,
+                                    ),
+                                    const SizedBox(
+                                      width: 16,
+                                    ),
+                                    AppTextNormal.labelW600(
+                                      _oC.questionIst[_oC.indexQuestion.value]
+                                          .options[index].teks,
+                                      16,
+                                      Colors.black,
+                                    ),
+                                  ],
                                 ),
                               ),
-                              const SizedBox(
-                                width: 16,
-                              ),
-                            ],
-                          );
-                        }),
-                        InkWell(
-                          onTap: _oC.answereds[_oC.indexQuestion.value] == 99
-                              ? null
-                              : () => _oC.onBackSeri(),
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 12,
-                              horizontal: 16,
-                            ),
-                            child: AppTextNormal.labelW600(
-                              "Sebelumnya",
-                              16,
-                              Colors.black,
                             ),
                           ),
                         ),
                         const SizedBox(
-                          width: 16,
+                          height: 50,
                         ),
-                        InkWell(
-                          onTap: _oC.answereds[_oC.indexQuestion.value] == 99
-                              ? null
-                              : () {
-                                  if ((_oC.indexQuestion.value + 1) !=
-                                      _oC.maxQuestion.value) {
-                                    _oC.onNextSeri();
-                                  } else {
-                                    print(_oC.answereds);
-                                  }
-                                },
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 12,
-                              horizontal: 16,
-                            ),
-                            child: AppTextNormal.labelW600(
-                              "Selanjutnya",
-                              16,
-                              Colors.black,
-                            ),
-                          ),
+                      ],
+                    );
+                  }
+
+                  return const SizedBox();
+                }),
+              ),
+            ],
+          ),
+        ],
+      ),
+      bottomNavigationBar: Obx(() {
+        if (_oC.isLoading.value) {
+          return const SizedBox();
+        }
+
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: _buildRows(),
+            ),
+            const SizedBox(
+              height: 50,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                InkWell(
+                  onTap: _oC.answereds[_oC.indexQuestion.value] == 99
+                      ? null
+                      : () => _oC.onBackSeri(),
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.keyboard_double_arrow_left_rounded,
+                          color: _oC.indexQuestion.value == 0
+                              ? Colors.grey.shade400
+                              : Colors.blue,
                         ),
                         const SizedBox(
                           width: 16,
+                        ),
+                        AppTextNormal.labelW600(
+                          "Sebelumnya",
+                          16,
+                          _oC.indexQuestion.value == 0
+                              ? Colors.grey.shade400
+                              : Colors.blue,
                         ),
                       ],
                     ),
-                  ],
-                );
-              }
-
-              return const SizedBox();
-            }),
-          )
-        ],
-      ),
+                  ),
+                ),
+                const SizedBox(
+                  width: 18,
+                ),
+                SizedBox(
+                  height: 35,
+                  width: 100,
+                  child: ElevatedButton(
+                    onPressed: _oC.answereds.contains(99)
+                        ? null
+                        : () => _oC.finishedQuiz(isFinished: true),
+                    child: AppTextNormal.labelW600(
+                      "SELESAI",
+                      16,
+                      Colors.white,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  width: 18,
+                ),
+                InkWell(
+                  onTap: _oC.answereds[_oC.indexQuestion.value] == 99 ||
+                          (_oC.indexQuestion.value + 1) == _oC.maxQuestion.value
+                      ? null
+                      : () {
+                          _oC.onNextSeri();
+                        },
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
+                    child: Row(
+                      children: [
+                        AppTextNormal.labelW600(
+                          "Selanjutnya",
+                          16,
+                          _oC.answereds[_oC.indexQuestion.value] == 99 ||
+                                  (_oC.indexQuestion.value + 1) ==
+                                      _oC.maxQuestion.value
+                              ? Colors.grey.shade400
+                              : Colors.blue,
+                        ),
+                        const SizedBox(
+                          width: 16,
+                        ),
+                        Icon(
+                          Icons.keyboard_double_arrow_right_rounded,
+                          color: _oC.answereds[_oC.indexQuestion.value] == 99 ||
+                                  (_oC.indexQuestion.value + 1) ==
+                                      _oC.maxQuestion.value
+                              ? Colors.grey.shade400
+                              : Colors.blue,
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 50,
+            ),
+          ],
+        );
+      }),
     );
+  }
+
+  List<Widget> _buildRows() {
+    List<Widget> rows = [];
+    int itemsPerRow = _oC.maxQuestion.value > 70 ? 25 : 15;
+
+    for (int i = 0; i < _oC.maxQuestion.value; i += itemsPerRow) {
+      int end = (i + itemsPerRow < _oC.maxQuestion.value)
+          ? i + itemsPerRow
+          : _oC.maxQuestion.value;
+      List<Widget> rowItems = [];
+
+      for (int j = i; j < end; j++) {
+        rowItems.add(
+          InkWell(
+            onTap: _oC.indexQuestion.value == j
+                ? null
+                : () => _oC.onTapQuestion(j),
+            child: Container(
+              margin: const EdgeInsets.all(2.5),
+              width: 30,
+              height: 30,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(3.0),
+                color: _oC.getColorQuestion(j),
+              ),
+              child: AppTextNormal.labelW600(
+                (j + 1).toString(),
+                12,
+                Colors.white,
+              ),
+            ),
+          ),
+        );
+      }
+
+      rows.add(
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: rowItems,
+        ),
+      );
+    }
+
+    return rows;
   }
 
   Widget buildTime() {

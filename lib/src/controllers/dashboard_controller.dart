@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:erecruitment/src/models/exam_m.dart';
 import 'package:erecruitment/src/models/sidebar_m.dart';
 import 'package:erecruitment/src/models/user_m.dart';
@@ -27,7 +30,7 @@ class DashboardController extends GetxController {
     prefs = await SharedPreferences.getInstance();
     await getUserDetail();
     getMenus();
-    getExams();
+    // getExams();
     super.onInit();
   }
 
@@ -37,6 +40,20 @@ class DashboardController extends GetxController {
     if (data != null) {
       user.value = data;
     }
+  }
+
+  Stream<List<ExamM>> streamExam() {
+    Stream<QuerySnapshot<Map<String, dynamic>>> stream =
+        FirebaseFirestore.instance.collection("exam").snapshots();
+    return stream.map((e) => e.docs).map((ev) {
+      exams.value =
+          examsMFromJson(json.encode(ev.map((e) => e.data()).toList()));
+
+      exams.value =
+          exams.where((e) => user.value.quizes.contains(e.id)).toList();
+      exams.sort(((a, b) => a.title.compareTo(b.title)));
+      return exams;
+    });
   }
 
   void getMenus() async {

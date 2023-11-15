@@ -4,6 +4,9 @@ ExamM examMFromJson(String str) => ExamM.fromJson(json.decode(str));
 
 String examMToJson(ExamM data) => json.encode(data.toJson());
 
+List<ExamM> examsMFromJson(String str) =>
+    List<ExamM>.from(json.decode(str).map((x) => ExamM.fromJson(x)));
+
 class ExamM {
   final String id;
   final String title;

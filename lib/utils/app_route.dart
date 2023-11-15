@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:erecruitment/src/controllers/dashboard_controller.dart';
 import 'package:erecruitment/src/controllers/home_controller.dart';
 import 'package:erecruitment/src/controllers/ongoing_controller.dart';
@@ -8,6 +6,7 @@ import 'package:erecruitment/src/repositories/user_repository.dart';
 import 'package:erecruitment/src/views/dashboard_page.dart';
 import 'package:erecruitment/src/views/ongoing_page.dart';
 import 'package:erecruitment/src/views/profile_page.dart';
+import 'package:erecruitment/src/views/result_page.dart';
 import 'package:erecruitment/src/views/signin_page.dart';
 import 'package:erecruitment/src/views/test_page.dart';
 import 'package:erecruitment/utils/app_constanta_empty.dart';
@@ -80,7 +79,7 @@ GoRouter router = GoRouter(
           },
           routes: [
             GoRoute(
-              path: "home",
+              path: AppRouteName.home,
               name: AppRouteName.home,
               onExit: (context) {
                 Get.delete<HomeController>();
@@ -91,17 +90,24 @@ GoRouter router = GoRouter(
               },
             ),
             GoRoute(
-              path: "profile",
+              path: AppRouteName.profile,
               name: AppRouteName.profile,
               pageBuilder: (context, state) {
                 return NoTransitionPage(child: ProfilePage());
               },
             ),
             GoRoute(
-              path: "test",
+              path: AppRouteName.test,
               name: AppRouteName.test,
               pageBuilder: (context, state) {
                 return NoTransitionPage(child: TestPage());
+              },
+            ),
+            GoRoute(
+              path: AppRouteName.result,
+              name: AppRouteName.result,
+              pageBuilder: (context, state) {
+                return const NoTransitionPage(child: ResultPage());
               },
             ),
           ],

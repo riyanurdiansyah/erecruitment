@@ -1,11 +1,10 @@
 import 'package:erecruitment/src/controllers/dashboard_controller.dart';
+import 'package:erecruitment/utils/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:uuid/uuid.dart';
-import '../../../utils/app_responsive.dart';
-import '../../../utils/app_text_normal.dart';
 
 class Siderbar extends StatelessWidget {
   Siderbar({
@@ -22,27 +21,53 @@ class Siderbar extends StatelessWidget {
     return Drawer(
       elevation: 0,
       child: Material(
-        color: Colors.brown,
+        color: colorPrimaryDark,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Image.asset(
+                "images/logo.webp",
+              ),
+              Center(
+                child: SizedBox(
+                  width: 80,
+                  height: 80,
+                  child: Image.asset(
+                    "images/man.png",
+                  ),
+                ),
+              ),
               const SizedBox(
-                height: 20,
+                height: 25,
               ),
-              AppTextNormal.labelW600(
-                "Welcome...",
-                16,
-                Colors.white,
+              Obx(
+                () => Center(
+                  child: Text(
+                    _dC.user.value.name,
+                    style: GoogleFonts.caveat(
+                      fontSize: 25,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
               ),
               const SizedBox(
-                height: 12,
+                height: 8,
               ),
-              AppTextNormal.labelW600(
-                "E-Recruitment",
-                25,
-                Colors.white,
+              Obx(
+                () => Center(
+                  child: Text(
+                    _dC.user.value.position,
+                    style: GoogleFonts.sourceCodePro(
+                      fontSize: 14,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
               ),
               const SizedBox(
                 height: 45,
@@ -61,17 +86,16 @@ class Siderbar extends StatelessWidget {
                         ),
                         decoration: BoxDecoration(
                           color: route.contains(_dC.sidebars[index].route)
-                              ? Colors.green
+                              ? colorPrimary
                               : null,
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        height: 50.0,
+                        height: 40.0,
                         child: InkWell(
-                          overlayColor:
-                              route.contains(_dC.sidebars[index].route)
-                                  ? null
-                                  : MaterialStateProperty.all(
-                                      Colors.green.withOpacity(0.5)),
+                          overlayColor: route
+                                  .contains(_dC.sidebars[index].route)
+                              ? null
+                              : MaterialStateProperty.all(Colors.grey.shade400),
                           onTap: () {
                             const Uuid uuid = Uuid();
 
@@ -83,46 +107,24 @@ class Siderbar extends StatelessWidget {
                                 "Random DATE: ${DateTime.now().toIso8601String()}");
                             context.goNamed(_dC.sidebars[index].route);
                           },
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 20.0),
-                            child: Row(
-                              children: [
-                                // Image.asset(
-                                //   _dC.sidebars[index].image,
-                                //   width: route.contains(_dC.sidebars[index].route)
-                                //       ? 18
-                                //       : 15,
-                                //   color: route.contains(_dC.sidebars[index].route)
-                                //       ? Colors.white
-                                //       : Colors.green,
-                                // ),
-                                if (!AppResponsive.isTablet(context) &&
-                                    !AppResponsive.isMobileWeb(context))
-                                  const SizedBox(
-                                    width: 15,
-                                  ),
-                                if (!AppResponsive.isTablet(context) &&
-                                    !AppResponsive.isMobileWeb(context))
-                                  Text(
-                                    _dC.sidebars[index].title,
-                                    style: GoogleFonts.poppins(
-                                      fontSize: route.contains(
-                                              _dC.sidebars[index].route)
-                                          ? 14.5
-                                          : 13.5,
-                                      color: route.contains(
-                                              _dC.sidebars[index].route)
-                                          ? Colors.white
-                                          : Colors.green,
-                                      letterSpacing: 1.2,
-                                      fontWeight: route.contains(
-                                              _dC.sidebars[index].route)
-                                          ? FontWeight.w600
-                                          : FontWeight.w500,
-                                    ),
-                                  )
-                              ],
+                          child: Center(
+                            child: Text(
+                              _dC.sidebars[index].title,
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.poppins(
+                                fontSize:
+                                    route.contains(_dC.sidebars[index].route)
+                                        ? 14.5
+                                        : 13.5,
+                                color: route.contains(_dC.sidebars[index].route)
+                                    ? colorPrimaryDark
+                                    : Colors.white,
+                                letterSpacing: 1.2,
+                                fontWeight:
+                                    route.contains(_dC.sidebars[index].route)
+                                        ? FontWeight.w600
+                                        : FontWeight.w500,
+                              ),
                             ),
                           ),
                         ),

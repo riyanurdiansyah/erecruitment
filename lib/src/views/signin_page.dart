@@ -1,11 +1,10 @@
 import 'package:erecruitment/src/controllers/auth_controller.dart';
-import 'package:erecruitment/utils/app_route_name.dart';
+import 'package:erecruitment/utils/app_color.dart';
 import 'package:erecruitment/utils/app_text_normal.dart';
 import 'package:erecruitment/utils/app_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../utils/app_decoration.dart';
 
@@ -30,7 +29,7 @@ class SigninPage extends StatelessWidget {
                   Expanded(
                     flex: 6,
                     child: Container(
-                      color: Colors.blue,
+                      color: colorPrimaryDark,
                     ),
                   ),
                   Expanded(
@@ -53,7 +52,7 @@ class SigninPage extends StatelessWidget {
                             child: AppTextNormal.labelW600(
                               "Username",
                               16,
-                              Colors.blue,
+                              colorPrimaryDark,
                             ),
                           ),
                           const SizedBox(
@@ -79,7 +78,7 @@ class SigninPage extends StatelessWidget {
                             child: AppTextNormal.labelW600(
                               "Password",
                               16,
-                              Colors.blue,
+                              colorPrimaryDark,
                             ),
                           ),
                           const SizedBox(
@@ -121,6 +120,10 @@ class SigninPage extends StatelessWidget {
                             width: double.infinity,
                             height: 45,
                             child: ElevatedButton(
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all(colorPrimaryDark),
+                              ),
                               onPressed: () {
                                 _authC.signIn();
                               },
@@ -148,10 +151,10 @@ class SigninPage extends StatelessWidget {
                   height: 50,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
-                    color: Colors.grey.shade600,
+                    color: Colors.white,
                   ),
                   child: const CupertinoActivityIndicator(
-                    color: Colors.blue,
+                    color: colorPrimaryDark,
                   ),
                 ),
               );

@@ -11,6 +11,8 @@ class UserM {
   final List<String> quizes;
   final String started;
   final String username;
+  final String name;
+  final String position;
   final int role;
 
   UserM({
@@ -20,6 +22,8 @@ class UserM {
     required this.quizes,
     required this.started,
     required this.username,
+    required this.name,
+    required this.position,
     required this.role,
   });
 
@@ -30,6 +34,8 @@ class UserM {
     List<String>? quizes,
     String? started,
     String? username,
+    String? name,
+    String? position,
     int? role,
   }) =>
       UserM(
@@ -39,6 +45,8 @@ class UserM {
         quizes: quizes ?? this.quizes,
         started: started ?? this.started,
         username: username ?? this.username,
+        name: name ?? this.name,
+        position: position ?? this.position,
         role: role ?? this.role,
       );
 
@@ -52,6 +60,8 @@ class UserM {
         started: json["started"] ?? DateTime.now().toIso8601String(),
         username: json["username"] ?? "",
         role: json["role"] ?? 99,
+        name: json["name"] ?? "",
+        position: json["position"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {
@@ -62,5 +72,7 @@ class UserM {
         "started": started,
         "username": username,
         "role": role,
+        "name": name,
+        "position": position,
       };
 }

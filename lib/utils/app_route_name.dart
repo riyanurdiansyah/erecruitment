@@ -12,4 +12,6 @@ abstract class AppRouteName {
   static const String permission = "permission";
 
   static const String test = "test";
+
+  static const String result = "result";
 }

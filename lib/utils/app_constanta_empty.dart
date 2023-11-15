@@ -9,6 +9,8 @@ final userEmpty = UserM(
   started: "",
   username: "",
   role: 99,
+  name: "",
+  position: "",
 );
 
 final examEmpty = ExamM(

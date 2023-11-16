@@ -8,6 +8,7 @@ import 'package:erecruitment/src/repositories/dashboard_repository.dart';
 import 'package:erecruitment/src/repositories/menu_repository.dart';
 import 'package:erecruitment/utils/app_constanta_empty.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:quill_html_editor/quill_html_editor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -108,6 +109,16 @@ class DashboardController extends GetxController {
   }
 
   void addExams(Map<String, dynamic> body) async {
-    await dashboardRepository.addTest(body);
+    final response = await dashboardRepository.addTest(body);
+    if (response != null) {
+      Fluttertoast.showToast(msg: "Gagal menambahkan data");
+    }
+  }
+
+  void deleteExams(String id) async {
+    final response = await dashboardRepository.deleteTest(id);
+    if (response != null) {
+      Fluttertoast.showToast(msg: "Gagal menghapus data");
+    }
   }
 }

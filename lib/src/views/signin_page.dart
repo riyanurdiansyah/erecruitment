@@ -41,9 +41,9 @@ class SigninPage extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const FlutterLogo(
-                            size: 100,
-                          ),
+                          SizedBox(
+                              width: 175,
+                              child: Image.asset("images/logo.webp")),
                           const SizedBox(
                             height: 50,
                           ),

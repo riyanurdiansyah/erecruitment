@@ -88,15 +88,15 @@ class Siderbar extends StatelessWidget {
                           seconds: 1,
                         ),
                         decoration: BoxDecoration(
-                          color: route.replaceAll("/", "") ==
-                                  _dC.sidebars[index].route
-                              ? colorPrimary
-                              : null,
+                          color:
+                              route.split("/")[1] == _dC.sidebars[index].route
+                                  ? colorPrimary
+                                  : null,
                           borderRadius: BorderRadius.circular(8),
                         ),
                         height: 40.0,
                         child: InkWell(
-                          overlayColor: route.replaceAll("/", "") ==
+                          overlayColor: route.split("/")[1] ==
                                   _dC.sidebars[index].route
                               ? null
                               : MaterialStateProperty.all(Colors.grey.shade400),
@@ -116,16 +116,16 @@ class Siderbar extends StatelessWidget {
                               _dC.sidebars[index].title,
                               textAlign: TextAlign.center,
                               style: GoogleFonts.poppins(
-                                fontSize: route.replaceAll("/", "") ==
+                                fontSize: route.split("/")[1] ==
                                         _dC.sidebars[index].route
                                     ? 14.5
                                     : 13.5,
-                                color: route.replaceAll("/", "") ==
+                                color: route.split("/")[1] ==
                                         _dC.sidebars[index].route
                                     ? colorPrimaryDark
                                     : Colors.white,
                                 letterSpacing: 1.2,
-                                fontWeight: route.replaceAll("/", "") ==
+                                fontWeight: route.split("/")[1] ==
                                         _dC.sidebars[index].route
                                     ? FontWeight.w600
                                     : FontWeight.w500,

@@ -1,8 +1,11 @@
 import 'dart:math';
 
 import 'package:erecruitment/utils/app_dialog.dart';
+import 'package:erecruitment/utils/app_route.dart';
+import 'package:erecruitment/utils/app_route_name.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../utils/app_text_normal.dart';
 import '../controllers/dashboard_controller.dart';
@@ -108,19 +111,57 @@ class KelolaTestPage extends StatelessWidget {
                                       const Spacer(),
                                       ElevatedButton(
                                         style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStateProperty.all(
+                                                  Colors.red),
                                           shape: MaterialStateProperty.all<
                                               RoundedRectangleBorder>(
                                             RoundedRectangleBorder(
                                               borderRadius:
-                                                  BorderRadius.circular(18.0),
+                                                  BorderRadius.circular(14.0),
                                             ),
                                           ),
                                         ),
-                                        onPressed: () {},
-                                        child: AppTextNormal.labelW600(
-                                          "KELOLA",
-                                          16,
-                                          Colors.white,
+                                        onPressed: () {
+                                          AppDialog.dialogLogout(
+                                            title: "Hapus",
+                                            subtitle:
+                                                "Yakin ingin menghapus data ini?",
+                                            ontap: () {
+                                              rootNavigatorKey.currentContext!
+                                                  .pop();
+                                              _dC.deleteExams(exams[index].id);
+                                            },
+                                          );
+                                        },
+                                        child: const Icon(
+                                          Icons.delete_rounded,
+                                          size: 20,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 6,
+                                      ),
+                                      ElevatedButton(
+                                        style: ButtonStyle(
+                                          shape: MaterialStateProperty.all<
+                                              RoundedRectangleBorder>(
+                                            RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(14.0),
+                                            ),
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          context.goNamed(
+                                              AppRouteName.kelolaTestDetail,
+                                              pathParameters: {
+                                                "id": exams[index].id
+                                              });
+                                        },
+                                        child: const Icon(
+                                          Icons.edit_rounded,
+                                          size: 20,
                                         ),
                                       ),
                                     ],

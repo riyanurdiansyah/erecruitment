@@ -1,9 +1,11 @@
 import 'package:erecruitment/src/controllers/dashboard_controller.dart';
 import 'package:erecruitment/src/controllers/home_controller.dart';
 import 'package:erecruitment/src/controllers/ongoing_controller.dart';
+import 'package:erecruitment/src/controllers/test_controller.dart';
 import 'package:erecruitment/src/models/exam_m.dart';
 import 'package:erecruitment/src/repositories/user_repository.dart';
 import 'package:erecruitment/src/views/dashboard_page.dart';
+import 'package:erecruitment/src/views/kelola_test_detail.page.dart';
 import 'package:erecruitment/src/views/kelola_test_page.dart';
 import 'package:erecruitment/src/views/kelola_user_page.dart';
 import 'package:erecruitment/src/views/ongoing_page.dart';
@@ -125,6 +127,26 @@ GoRouter router = GoRouter(
               pageBuilder: (context, state) {
                 return NoTransitionPage(child: KelolaTestPage());
               },
+              routes: [
+                GoRoute(
+                  path: ":id",
+                  name: AppRouteName.kelolaTestDetail,
+                  onExit: (context) {
+                    Get.delete<TestController>();
+                    return true;
+                  },
+                  pageBuilder: (context, state) {
+                    Object? extra = state.extra;
+                    String? examId = state.pathParameters["id"];
+                    debugPrint(examId);
+
+                    Get.put(TestController()).examId.value = examId!;
+                    return NoTransitionPage(
+                      child: KelolaTestDetailPage(),
+                    );
+                  },
+                ),
+              ],
             ),
           ],
         ),
@@ -137,9 +159,7 @@ GoRouter router = GoRouter(
         final oC = Get.find<OngoingController>();
         oC.cameraController.dispose();
         Get.delete<OngoingController>();
-        if (kDebugMode) {
-          print("OngoingController has been deleted");
-        }
+        debugPrint("OngoingController has been deleted");
         return true;
       },
       redirect: (context, state) {

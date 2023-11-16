@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:equatable/equatable.dart';
+
 ExamM examMFromJson(String str) => ExamM.fromJson(json.decode(str));
 
 String examMToJson(ExamM data) => json.encode(data.toJson());
@@ -7,7 +9,7 @@ String examMToJson(ExamM data) => json.encode(data.toJson());
 List<ExamM> examsMFromJson(String str) =>
     List<ExamM>.from(json.decode(str).map((x) => ExamM.fromJson(x)));
 
-class ExamM {
+class ExamM extends Equatable {
   final String id;
   final String title;
   final String created;
@@ -17,7 +19,7 @@ class ExamM {
   final int number;
   final List<String> users;
 
-  ExamM({
+  const ExamM({
     required this.id,
     required this.title,
     required this.created,
@@ -72,4 +74,8 @@ class ExamM {
         "number": number,
         "users": users,
       };
+
+  @override
+  List<Object?> get props =>
+      [id, title, created, updated, type, time, number, users];
 }

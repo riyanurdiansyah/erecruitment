@@ -4,6 +4,8 @@ import 'package:erecruitment/src/controllers/ongoing_controller.dart';
 import 'package:erecruitment/src/models/exam_m.dart';
 import 'package:erecruitment/src/repositories/user_repository.dart';
 import 'package:erecruitment/src/views/dashboard_page.dart';
+import 'package:erecruitment/src/views/kelola_test_page.dart';
+import 'package:erecruitment/src/views/kelola_user_page.dart';
 import 'package:erecruitment/src/views/ongoing_page.dart';
 import 'package:erecruitment/src/views/profile_page.dart';
 import 'package:erecruitment/src/views/result_page.dart';
@@ -108,6 +110,20 @@ GoRouter router = GoRouter(
               name: AppRouteName.result,
               pageBuilder: (context, state) {
                 return const NoTransitionPage(child: ResultPage());
+              },
+            ),
+            GoRoute(
+              path: AppRouteName.kelolaUser,
+              name: AppRouteName.kelolaUser,
+              pageBuilder: (context, state) {
+                return NoTransitionPage(child: KelolaUserPage());
+              },
+            ),
+            GoRoute(
+              path: AppRouteName.kelolaTest,
+              name: AppRouteName.kelolaTest,
+              pageBuilder: (context, state) {
+                return NoTransitionPage(child: KelolaTestPage());
               },
             ),
           ],

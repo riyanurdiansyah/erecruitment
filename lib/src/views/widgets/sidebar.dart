@@ -1,10 +1,13 @@
 import 'package:erecruitment/src/controllers/dashboard_controller.dart';
 import 'package:erecruitment/utils/app_color.dart';
+import 'package:erecruitment/utils/app_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:uuid/uuid.dart';
+
+import '../../../utils/app_text_normal.dart';
 
 class Siderbar extends StatelessWidget {
   Siderbar({
@@ -85,15 +88,16 @@ class Siderbar extends StatelessWidget {
                           seconds: 1,
                         ),
                         decoration: BoxDecoration(
-                          color: route.contains(_dC.sidebars[index].route)
+                          color: route.replaceAll("/", "") ==
+                                  _dC.sidebars[index].route
                               ? colorPrimary
                               : null,
                           borderRadius: BorderRadius.circular(8),
                         ),
                         height: 40.0,
                         child: InkWell(
-                          overlayColor: route
-                                  .contains(_dC.sidebars[index].route)
+                          overlayColor: route.replaceAll("/", "") ==
+                                  _dC.sidebars[index].route
                               ? null
                               : MaterialStateProperty.all(Colors.grey.shade400),
                           onTap: () {
@@ -112,18 +116,19 @@ class Siderbar extends StatelessWidget {
                               _dC.sidebars[index].title,
                               textAlign: TextAlign.center,
                               style: GoogleFonts.poppins(
-                                fontSize:
-                                    route.contains(_dC.sidebars[index].route)
-                                        ? 14.5
-                                        : 13.5,
-                                color: route.contains(_dC.sidebars[index].route)
+                                fontSize: route.replaceAll("/", "") ==
+                                        _dC.sidebars[index].route
+                                    ? 14.5
+                                    : 13.5,
+                                color: route.replaceAll("/", "") ==
+                                        _dC.sidebars[index].route
                                     ? colorPrimaryDark
                                     : Colors.white,
                                 letterSpacing: 1.2,
-                                fontWeight:
-                                    route.contains(_dC.sidebars[index].route)
-                                        ? FontWeight.w600
-                                        : FontWeight.w500,
+                                fontWeight: route.replaceAll("/", "") ==
+                                        _dC.sidebars[index].route
+                                    ? FontWeight.w600
+                                    : FontWeight.w500,
                               ),
                             ),
                           ),
@@ -133,6 +138,25 @@ class Siderbar extends StatelessWidget {
                   ),
                 ),
               ),
+              const Spacer(),
+              ListTile(
+                onTap: () {
+                  AppDialog.dialogLogout(
+                    title: "Keluar",
+                    subtitle: "Yakin ingin keluar?",
+                    ontap: () {},
+                  );
+                },
+                leading: const Icon(
+                  Icons.logout_rounded,
+                  color: Colors.red,
+                ),
+                title: AppTextNormal.labelW600(
+                  "Keluar",
+                  16,
+                  Colors.red,
+                ),
+              )
             ],
           ),
         ),

@@ -1,23 +1,17 @@
 import 'dart:async';
 import 'dart:html';
-import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:camera/camera.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:erecruitment/src/controllers/dashboard_controller.dart';
-import 'package:erecruitment/src/models/question_ist_m.dart';
+import 'package:erecruitment/src/models/question_m.dart';
 import 'package:erecruitment/src/repositories/ongoing_repository.dart';
 import 'package:erecruitment/utils/app_constanta_empty.dart';
 import 'package:erecruitment/utils/app_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:firebase_storage/firebase_storage.dart' as fs;
 import 'package:go_router/go_router.dart';
-import 'package:path_provider/path_provider.dart';
 
 import '../../utils/app_route.dart';
 import '../../utils/app_route_name.dart';
@@ -44,7 +38,7 @@ class OngoingController extends GetxController {
 
   final Rx<ExamM> exams = examEmpty.obs;
 
-  final RxList<QuestionIstM> questionIst = <QuestionIstM>[].obs;
+  final RxList<QuestionsM> questionIst = <QuestionsM>[].obs;
 
   final RxList<int> answereds = <int>[].obs;
 
@@ -222,7 +216,7 @@ class OngoingController extends GetxController {
   }
 
   Future<void> getQuestion() async {
-    if (exams.value.type == "ist") {
+    if (exams.value.type == "multiple_choice") {
       await getQuestionIst();
     }
 

@@ -136,9 +136,7 @@ GoRouter router = GoRouter(
                     return true;
                   },
                   pageBuilder: (context, state) {
-                    Object? extra = state.extra;
                     String? examId = state.pathParameters["id"];
-                    debugPrint(examId);
 
                     Get.put(TestController()).examId.value = examId!;
                     return NoTransitionPage(

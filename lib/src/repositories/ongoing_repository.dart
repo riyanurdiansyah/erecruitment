@@ -1,13 +1,13 @@
 import 'package:camera/camera.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:erecruitment/src/models/question_ist_m.dart';
+import 'package:erecruitment/src/models/question_m.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:uuid/uuid.dart';
 
 abstract class OngoingRepository {
-  Future<List<QuestionIstM>> getQuestionIst(String id);
+  Future<List<QuestionsM>> getQuestionIst(String id);
 
   Future<String?> uploadVideo(XFile file, String path);
 
@@ -20,8 +20,8 @@ abstract class OngoingRepository {
 
 class OngoingRepositoryImpl implements OngoingRepository {
   @override
-  Future<List<QuestionIstM>> getQuestionIst(String id) async {
-    List<QuestionIstM> questions = [];
+  Future<List<QuestionsM>> getQuestionIst(String id) async {
+    List<QuestionsM> questions = [];
     try {
       final response = await FirebaseFirestore.instance
           .collection("exam")
@@ -32,7 +32,7 @@ class OngoingRepositoryImpl implements OngoingRepository {
         return [];
       }
       for (var data in response.docs) {
-        questions.add(QuestionIstM.fromJson(data.data()));
+        questions.add(QuestionsM.fromJson(data.data()));
       }
       return questions.where((e) => e.status == true).toList()..shuffle();
     } catch (e) {

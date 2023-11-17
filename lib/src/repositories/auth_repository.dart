@@ -64,12 +64,8 @@ class AuthRepositoryImpl implements AuthRepository {
         final isHaveUser = users.where((e) => e.username == username).toList();
 
         if (isHaveUser.isNotEmpty) {
-          print("response 2");
-
           return isHaveUser.first;
         } else {
-          print("response 3");
-
           return null;
         }
       }

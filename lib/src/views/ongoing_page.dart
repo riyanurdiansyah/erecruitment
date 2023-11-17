@@ -58,7 +58,7 @@ class OngoingPage extends StatelessWidget {
               }),
               Expanded(
                 child: Obx(() {
-                  if (_oC.exams.value.type == "ist" &&
+                  if (_oC.exams.value.type == "multiple_choice" &&
                       _oC.questionIst.isNotEmpty) {
                     return Column(
                       children: [

@@ -1,52 +1,59 @@
 import 'dart:convert';
 
-QuestionIstM questionIstMFromJson(String str) =>
-    QuestionIstM.fromJson(json.decode(str));
+QuestionsM questionsMFromJson(String str) =>
+    QuestionsM.fromJson(json.decode(str));
 
-String questionIstMToJson(QuestionIstM data) => json.encode(data.toJson());
+String questionsMToJson(QuestionsM data) => json.encode(data.toJson());
 
-class QuestionIstM {
+class QuestionsM {
   final String created;
   final String id;
   final String question;
   final String updated;
   final List<QuestionIstOptionM> options;
   final bool status;
+  final int page;
 
-  QuestionIstM({
+  QuestionsM({
     required this.created,
     required this.id,
     required this.question,
     required this.updated,
     required this.options,
     required this.status,
+    required this.page,
   });
 
-  QuestionIstM copyWith({
+  QuestionsM copyWith({
     String? created,
     String? id,
     String? question,
     String? updated,
     List<QuestionIstOptionM>? options,
     bool? status,
+    int? page,
   }) =>
-      QuestionIstM(
+      QuestionsM(
         created: created ?? this.created,
         id: id ?? this.id,
         question: question ?? this.question,
         updated: updated ?? this.updated,
         options: options ?? this.options,
         status: status ?? this.status,
+        page: page ?? this.page,
       );
 
-  factory QuestionIstM.fromJson(Map<String, dynamic> json) => QuestionIstM(
+  factory QuestionsM.fromJson(Map<String, dynamic> json) => QuestionsM(
         created: json["created"],
         id: json["id"],
         question: json["question"],
         updated: json["updated"],
-        options: List<QuestionIstOptionM>.from(
-            json["options"].map((x) => QuestionIstOptionM.fromJson(x))),
+        options: json["options"] == null
+            ? []
+            : List<QuestionIstOptionM>.from(
+                json["options"].map((x) => QuestionIstOptionM.fromJson(x))),
         status: json["status"],
+        page: 0,
       );
 
   Map<String, dynamic> toJson() => {

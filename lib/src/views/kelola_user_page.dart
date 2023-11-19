@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:quill_html_editor/quill_html_editor.dart';
 
+import '../../utils/app_constanta.dart';
+
 class KelolaUserPage extends StatelessWidget {
   KelolaUserPage({super.key});
 
@@ -13,11 +15,9 @@ class KelolaUserPage extends StatelessWidget {
     return Scaffold(
       body: Column(children: [
         ToolBar(
-          toolBarConfig: _dC.customToolBarList,
-          // toolBarColor: _toolbarColor,
+          toolBarConfig: customToolBarList,
           padding: const EdgeInsets.all(8),
           iconSize: 25,
-          // iconColor: _toolbarIconColor,
           activeIconColor: Colors.greenAccent.shade400,
           controller: _dC.controller,
           direction: Axis.horizontal,

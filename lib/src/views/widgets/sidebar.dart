@@ -1,6 +1,7 @@
 import 'package:erecruitment/src/controllers/dashboard_controller.dart';
 import 'package:erecruitment/utils/app_color.dart';
 import 'package:erecruitment/utils/app_dialog.dart';
+import 'package:erecruitment/utils/app_route_name.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
@@ -144,7 +145,9 @@ class Siderbar extends StatelessWidget {
                   AppDialog.dialogLogout(
                     title: "Keluar",
                     subtitle: "Yakin ingin keluar?",
-                    ontap: () {},
+                    ontap: () async => await _dC
+                        .signOut()
+                        .then((value) => context.goNamed(AppRouteName.signin)),
                   );
                 },
                 leading: const Icon(

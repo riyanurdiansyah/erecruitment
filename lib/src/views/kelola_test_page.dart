@@ -92,12 +92,28 @@ class KelolaTestPage extends StatelessWidget {
                                                 .toInt())
                                             .withOpacity(0.2),
                                       ),
-                                      child: AppTextNormal.labelW600(
-                                        exams[index].title,
-                                        30,
-                                        Colors.black,
-                                        maxLines: 3,
-                                        overflow: TextOverflow.ellipsis,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          AppTextNormal.labelW600(
+                                            exams[index].subname,
+                                            30,
+                                            Colors.black,
+                                            maxLines: 3,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                          const SizedBox(
+                                            height: 8,
+                                          ),
+                                          AppTextNormal.labelW600(
+                                            exams[index].title,
+                                            18,
+                                            Colors.grey.shade600,
+                                            maxLines: 3,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ],
                                       ),
                                     ),
                             ),

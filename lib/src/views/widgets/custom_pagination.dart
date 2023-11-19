@@ -9,13 +9,13 @@ class CustomPagination extends StatefulWidget {
     required this.currentPage,
     required this.totalPage,
     required this.onPageChanged,
-    required this.displayItemCount,
+    this.decoration,
   });
 
   final int currentPage;
   final int totalPage;
   final ValueChanged<int> onPageChanged;
-  final int displayItemCount;
+  final Decoration? decoration;
 
   @override
   State<CustomPagination> createState() => _CustomPaginationState();
@@ -24,7 +24,6 @@ class CustomPagination extends StatefulWidget {
 class _CustomPaginationState extends State<CustomPagination> {
   late int currentPage = widget.currentPage;
   late int totalPage = widget.totalPage;
-  late int displayItemCount = widget.displayItemCount;
   late TextEditingController controller = TextEditingController();
 
   @override
@@ -56,13 +55,14 @@ class _CustomPaginationState extends State<CustomPagination> {
           alignment: Alignment.center,
           height: 35,
           padding: const EdgeInsets.symmetric(horizontal: 14),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border.all(
-              color: Colors.white,
-            ),
-            borderRadius: BorderRadius.circular(6),
-          ),
+          decoration: widget.decoration ??
+              BoxDecoration(
+                color: Colors.white,
+                border: Border.all(
+                  color: Colors.white,
+                ),
+                borderRadius: BorderRadius.circular(6),
+              ),
           child: AppTextNormal.labelW500(
             currentPage.toString(),
             14,

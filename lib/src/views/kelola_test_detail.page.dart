@@ -1,5 +1,6 @@
 import 'package:erecruitment/src/controllers/test_controller.dart';
 import 'package:erecruitment/src/models/question_m.dart';
+import 'package:erecruitment/src/views/widgets/info_detail_exam_page.dart';
 import 'package:erecruitment/utils/app_constanta_empty.dart';
 import 'package:erecruitment/utils/app_dialog.dart';
 import 'package:flutter/cupertino.dart';
@@ -45,6 +46,10 @@ class KelolaTestDetailPage extends StatelessWidget {
 
           if (_tC.exam.value == examEmpty) {
             return const SizedBox();
+          }
+
+          if (_tC.mainPage.value == 1) {
+            return InfoDetailExamPage();
           }
 
           return Column(
@@ -123,57 +128,61 @@ class KelolaTestDetailPage extends StatelessWidget {
                                   ),
                                   child: Column(
                                     children: [
-                                      Stack(
+                                      Row(
                                         children: [
-                                          Center(
-                                            child: AppTextNormal.labelW600(
-                                              questions[index]
-                                                  .question
-                                                  .toUpperCase(),
-                                              18,
-                                              Colors.black,
-                                            ),
+                                          const SizedBox(
+                                            width: 120,
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 60),
-                                            child: Align(
-                                              alignment: Alignment.centerRight,
-                                              child: InkWell(
-                                                onTap: () {
-                                                  AppDialog.dialogLogout(
-                                                    title: "Hapus",
-                                                    subtitle:
-                                                        "Yakin ingin menghapus data ini ${questions[index].question}? ",
-                                                    ontap: () {
-                                                      context.pop();
-                                                      _tC.deleteQuestionIST(
-                                                          questions[index].id);
-                                                    },
-                                                  );
-                                                },
-                                                child: const Icon(
-                                                  Icons.delete_rounded,
-                                                  color: Colors.red,
-                                                ),
+                                          Expanded(
+                                            child: Center(
+                                              child: AppTextNormal.labelW600(
+                                                questions[index]
+                                                    .question
+                                                    .toUpperCase(),
+                                                18,
+                                                Colors.black,
+                                                maxLines: 10,
+                                                textAlign: TextAlign.center,
+                                                height: 1.4,
                                               ),
                                             ),
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 16),
-                                            child: Align(
-                                              alignment: Alignment.centerRight,
-                                              child: InkWell(
-                                                onTap: () {
-                                                  _tC.editQuestion(
-                                                      questions[index]);
-                                                },
-                                                child: const Icon(
-                                                  Icons.edit_document,
-                                                  color: Colors.grey,
+                                          SizedBox(
+                                            width: 100,
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              children: [
+                                                InkWell(
+                                                  onTap: () {
+                                                    AppDialog.dialogLogout(
+                                                      title: "Hapus",
+                                                      subtitle:
+                                                          "Yakin ingin menghapus data ini ${questions[index].question}? ",
+                                                      ontap: () {
+                                                        context.pop();
+                                                        _tC.deleteQuestionIST(
+                                                            questions[index]
+                                                                .id);
+                                                      },
+                                                    );
+                                                  },
+                                                  child: const Icon(
+                                                    Icons.delete_rounded,
+                                                    color: Colors.red,
+                                                  ),
                                                 ),
-                                              ),
+                                                InkWell(
+                                                  onTap: () {
+                                                    _tC.editQuestion(
+                                                        questions[index]);
+                                                  },
+                                                  child: const Icon(
+                                                    Icons.edit_document,
+                                                    color: Colors.grey,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ),
                                         ],
@@ -294,7 +303,6 @@ class KelolaTestDetailPage extends StatelessWidget {
                                 currentPage: _tC.page.value,
                                 totalPage: (questions.length / 2).ceil(),
                                 onPageChanged: _tC.onChangePage,
-                                displayItemCount: 1,
                               );
                             }),
                             const SizedBox(
@@ -630,6 +638,40 @@ class KelolaTestDetailPage extends StatelessWidget {
             ],
           );
         },
+      ),
+      floatingActionButton: Obx(
+        () => Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            FloatingActionButton(
+              backgroundColor:
+                  _tC.mainPage.value == 1 ? Colors.grey.shade600 : Colors.blue,
+              onPressed: _tC.mainPage.value == 1
+                  ? null
+                  : () => _tC.onChangeMainPage(1),
+              child: AppTextNormal.labelW600(
+                "«",
+                30,
+                Colors.white,
+              ),
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            FloatingActionButton(
+              backgroundColor:
+                  _tC.mainPage.value == 2 ? Colors.grey.shade600 : Colors.blue,
+              onPressed: _tC.mainPage.value == 2
+                  ? null
+                  : () => _tC.onChangeMainPage(2),
+              child: AppTextNormal.labelW600(
+                "»",
+                30,
+                Colors.white,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

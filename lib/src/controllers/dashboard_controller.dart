@@ -7,7 +7,7 @@ import 'package:erecruitment/src/models/user_m.dart';
 import 'package:erecruitment/src/repositories/dashboard_repository.dart';
 import 'package:erecruitment/src/repositories/menu_repository.dart';
 import 'package:erecruitment/utils/app_constanta_empty.dart';
-import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:quill_html_editor/quill_html_editor.dart';
@@ -34,31 +34,12 @@ class DashboardController extends GetxController {
 
   late QuillEditorController controller;
 
-  final customToolBarList = [
-    ToolBarStyle.bold,
-    ToolBarStyle.italic,
-    ToolBarStyle.align,
-    ToolBarStyle.color,
-    ToolBarStyle.background,
-    ToolBarStyle.listBullet,
-    ToolBarStyle.listOrdered,
-    ToolBarStyle.addTable,
-    ToolBarStyle.editTable,
-    ToolBarStyle.link,
-    ToolBarStyle.underline,
-    ToolBarStyle.size,
-  ];
-
   @override
   void onInit() async {
     prefs = await SharedPreferences.getInstance();
     controller = QuillEditorController();
-    controller.onTextChanged((text) {
-      debugPrint('listening to $text');
-    });
-    controller.onEditorLoaded(() {
-      debugPrint('Editor Loaded :)');
-    });
+    controller.onTextChanged((text) {});
+    controller.onEditorLoaded(() {});
     await getUserDetail();
     getMenus();
     // getExams();
@@ -120,5 +101,9 @@ class DashboardController extends GetxController {
     if (response != null) {
       Fluttertoast.showToast(msg: "Gagal menghapus data");
     }
+  }
+
+  Future signOut() async {
+    await FirebaseAuth.instance.signOut();
   }
 }

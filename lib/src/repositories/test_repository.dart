@@ -2,10 +2,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:erecruitment/src/models/exam_m.dart';
 import 'package:erecruitment/src/models/question_m.dart';
 
+import '../models/user_m.dart';
+
 abstract class TestRepository {
   Future<ExamM?> getExam(String id);
 
+  Future<UserM?> getUserDetail(String id);
+
   Future<List<QuestionsM>> getQuestionIST(String id);
+
+  Future<String?> updateExam(Map<String, dynamic> body);
 
   Future<String?> addQuestionIST(Map<String, dynamic> body);
 
@@ -92,6 +98,31 @@ class TestRepositoryImpl implements TestRepository {
       return null;
     } catch (e) {
       return e.toString();
+    }
+  }
+
+  @override
+  Future<String?> updateExam(Map<String, dynamic> body) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection("exam")
+          .doc(body["id"])
+          .update(body);
+      return null;
+    } catch (e) {
+      return e.toString();
+    }
+  }
+
+  @override
+  Future<UserM?> getUserDetail(String id) async {
+    try {
+      final response =
+          await FirebaseFirestore.instance.collection("user").doc(id).get();
+
+      return UserM.fromJson(response.data()!);
+    } catch (e) {
+      return null;
     }
   }
 }

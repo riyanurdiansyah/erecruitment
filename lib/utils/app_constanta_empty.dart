@@ -11,15 +11,19 @@ final userEmpty = UserM(
   role: 99,
   name: "",
   position: "",
+  page: 0,
 );
 
-final examEmpty = ExamM(
+const examEmpty = ExamM(
   id: "",
   title: "",
+  subname: "",
   created: "",
   updated: "",
   type: "",
+  informasi: "",
   time: 0,
   number: 0,
   users: [],
+  shuffle: false,
 );

@@ -14,6 +14,7 @@ class UserM {
   final String name;
   final String position;
   final int role;
+  final int page;
 
   UserM({
     required this.email,
@@ -25,6 +26,7 @@ class UserM {
     required this.name,
     required this.position,
     required this.role,
+    required this.page,
   });
 
   UserM copyWith({
@@ -37,6 +39,7 @@ class UserM {
     String? name,
     String? position,
     int? role,
+    int? page,
   }) =>
       UserM(
         email: email ?? this.email,
@@ -48,6 +51,7 @@ class UserM {
         name: name ?? this.name,
         position: position ?? this.position,
         role: role ?? this.role,
+        page: page ?? this.page,
       );
 
   factory UserM.fromJson(Map<String, dynamic> json) => UserM(
@@ -62,6 +66,7 @@ class UserM {
         role: json["role"] ?? 99,
         name: json["name"] ?? "",
         position: json["position"] ?? "",
+        page: json["page"] ?? 0,
       );
 
   Map<String, dynamic> toJson() => {

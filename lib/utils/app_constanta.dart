@@ -1,32 +1,16 @@
-// import '../src/models/sidebar_m.dart';
+import 'package:quill_html_editor/quill_html_editor.dart';
 
-// List<SidebarM> listSidebar = [
-//   SidebarM(
-//     title: "Home",
-//     image: "assets/images/dashboard.webp",
-//     route: "home",
-//     role: [
-//       0,
-//       1,
-//     ],
-//   ),
-//   SidebarM(
-//     title: "Profile",
-//     image: "assets/images/clothes.webp",
-//     route: "profile",
-//     role: [
-//       0,
-//       1,
-//     ],
-//   ),
-//   SidebarM(
-//     title: "Profile",
-//     image: "assets/images/clothes.webp",
-//     route: "profile",
-//     role: [
-//       0,
-//       1,
-//     ],
-//     id: 
-//   ),
-// ];
+final customToolBarList = [
+  ToolBarStyle.bold,
+  ToolBarStyle.italic,
+  ToolBarStyle.align,
+  ToolBarStyle.color,
+  ToolBarStyle.background,
+  ToolBarStyle.listBullet,
+  ToolBarStyle.listOrdered,
+  ToolBarStyle.addTable,
+  ToolBarStyle.editTable,
+  ToolBarStyle.link,
+  ToolBarStyle.underline,
+  ToolBarStyle.size,
+];

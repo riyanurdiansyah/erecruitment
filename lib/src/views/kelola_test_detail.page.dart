@@ -643,12 +643,12 @@ class KelolaTestDetailPage extends StatelessWidget {
         () => Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            FloatingActionButton(
-              backgroundColor:
-                  _tC.mainPage.value == 1 ? Colors.grey.shade600 : Colors.blue,
+            FloatingActionButton.small(
               onPressed: _tC.mainPage.value == 1
                   ? null
                   : () => _tC.onChangeMainPage(1),
+              backgroundColor:
+                  _tC.mainPage.value == 1 ? Colors.grey.shade600 : Colors.blue,
               child: AppTextNormal.labelW600(
                 "«",
                 30,
@@ -658,7 +658,7 @@ class KelolaTestDetailPage extends StatelessWidget {
             const SizedBox(
               width: 10,
             ),
-            FloatingActionButton(
+            FloatingActionButton.small(
               backgroundColor:
                   _tC.mainPage.value == 2 ? Colors.grey.shade600 : Colors.blue,
               onPressed: _tC.mainPage.value == 2

@@ -2,6 +2,7 @@ import 'package:erecruitment/src/controllers/dashboard_controller.dart';
 import 'package:erecruitment/src/controllers/home_controller.dart';
 import 'package:erecruitment/src/controllers/ongoing_controller.dart';
 import 'package:erecruitment/src/controllers/test_controller.dart';
+import 'package:erecruitment/src/controllers/user_controller.dart';
 import 'package:erecruitment/src/models/exam_m.dart';
 import 'package:erecruitment/src/repositories/user_repository.dart';
 import 'package:erecruitment/src/views/dashboard_page.dart';
@@ -117,7 +118,12 @@ GoRouter router = GoRouter(
             GoRoute(
               path: AppRouteName.kelolaUser,
               name: AppRouteName.kelolaUser,
+              onExit: (context) {
+                Get.delete<UserController>();
+                return true;
+              },
               pageBuilder: (context, state) {
+                Get.put(UserController());
                 return NoTransitionPage(child: KelolaUserPage());
               },
             ),

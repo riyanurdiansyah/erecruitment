@@ -10,7 +10,6 @@ import 'package:erecruitment/utils/app_constanta_empty.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:quill_html_editor/quill_html_editor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../repositories/auth_repository.dart';
@@ -32,14 +31,9 @@ class DashboardController extends GetxController {
 
   final Rx<bool> isStarting = false.obs;
 
-  late QuillEditorController controller;
-
   @override
   void onInit() async {
     prefs = await SharedPreferences.getInstance();
-    controller = QuillEditorController();
-    controller.onTextChanged((text) {});
-    controller.onEditorLoaded(() {});
     await getUserDetail();
     getMenus();
     // getExams();

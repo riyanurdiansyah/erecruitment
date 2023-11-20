@@ -1,4 +1,5 @@
 import 'package:erecruitment/src/models/exam_m.dart';
+import 'package:erecruitment/src/models/role_m.dart';
 import 'package:erecruitment/src/models/user_m.dart';
 
 final userEmpty = UserM(
@@ -26,4 +27,12 @@ const examEmpty = ExamM(
   number: 0,
   users: [],
   shuffle: false,
+);
+
+const roleEmpty = RoleM(
+  id: "",
+  created: "",
+  updated: "",
+  roleId: 99,
+  roleName: "",
 );

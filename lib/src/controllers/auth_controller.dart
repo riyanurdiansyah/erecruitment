@@ -1,5 +1,4 @@
 import 'package:erecruitment/src/repositories/auth_repository.dart';
-import 'package:erecruitment/src/repositories/user_repository.dart';
 import 'package:erecruitment/utils/app_route.dart';
 import 'package:erecruitment/utils/app_route_name.dart';
 import 'package:flutter/material.dart';

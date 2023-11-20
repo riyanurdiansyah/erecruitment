@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
+import '../models/role_m.dart';
 import '../models/user_m.dart';
 
 abstract class DashboardRepository {
@@ -8,6 +10,12 @@ abstract class DashboardRepository {
   Future<String?> deleteTest(String id);
 
   Future<List<UserM>> getAllUsers();
+
+  Future<List<RoleM>> getAllRole();
+
+  Future<User?> createUser(String email, String password);
+
+  Future<String?> addUserToFirestore(Map<String, dynamic> body);
 }
 
 class DashboardRepositoryImpl implements DashboardRepository {
@@ -49,6 +57,51 @@ class DashboardRepositoryImpl implements DashboardRepository {
       return users;
     } catch (e) {
       return [];
+    }
+  }
+
+  @override
+  Future<List<RoleM>> getAllRole() async {
+    List<RoleM> roles = [];
+    try {
+      final response =
+          await FirebaseFirestore.instance.collection("role").get();
+      if (response.docs.isEmpty) {
+        return [];
+      }
+      for (var data in response.docs) {
+        roles.add(RoleM.fromJson(data.data()));
+      }
+      return roles;
+    } catch (e) {
+      return [];
+    }
+  }
+
+  @override
+  Future<User?> createUser(String email, String password) async {
+    try {
+      final response = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
+      if (response.user != null) {
+        return response.user!;
+      }
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  @override
+  Future<String?> addUserToFirestore(Map<String, dynamic> body) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection("user")
+          .doc(body["id"])
+          .set(body);
+      return null;
+    } catch (e) {
+      return e.toString();
     }
   }
 }

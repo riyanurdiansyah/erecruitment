@@ -300,8 +300,8 @@ class InfoDetailExamPage extends StatelessWidget {
                                       isVisible:
                                           _tC.selectedUser.value != userEmpty),
                                   popupProps: PopupProps.menu(
-                                    disabledItemFn: (item) =>
-                                        _tC.users.contains(item),
+                                    disabledItemFn: (item) => _tC.users
+                                        .contains(_tC.selectedUser.value),
                                     showSearchBox: true,
                                     searchFieldProps: TextFieldProps(
                                       decoration: InputDecoration(
@@ -416,6 +416,7 @@ class InfoDetailExamPage extends StatelessWidget {
                                 textAlign: TextAlign.center,
                               ),
                             ),
+                            const SizedBox(width: 30),
                           ],
                         ),
                       ),

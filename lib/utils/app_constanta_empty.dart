@@ -35,4 +35,5 @@ const roleEmpty = RoleM(
   updated: "",
   roleId: 99,
   roleName: "",
+  page: 0,
 );

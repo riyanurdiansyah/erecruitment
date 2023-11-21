@@ -1,3 +1,4 @@
+import 'package:erecruitment/src/models/role_m.dart';
 import 'package:erecruitment/utils/app_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -7,11 +8,10 @@ import 'package:intl/intl.dart';
 import '../../utils/app_color.dart';
 import '../../utils/app_text_normal.dart';
 import '../controllers/user_controller.dart';
-import '../models/user_m.dart';
 import 'widgets/custom_pagination.dart';
 
-class KelolaUserPage extends StatelessWidget {
-  KelolaUserPage({super.key});
+class KelolaUserRolePage extends StatelessWidget {
+  KelolaUserRolePage({super.key});
 
   final _uC = Get.put(UserController());
 
@@ -35,25 +35,8 @@ class KelolaUserPage extends StatelessWidget {
               child: Row(
                 children: [
                   Expanded(
-                    flex: 2,
                     child: AppTextNormal.labelBold(
-                      "Nama",
-                      16,
-                      Colors.white,
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  Expanded(
-                    child: AppTextNormal.labelBold(
-                      "Email",
-                      16,
-                      Colors.white,
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  Expanded(
-                    child: AppTextNormal.labelBold(
-                      "Posisi",
+                      "Role ID",
                       16,
                       Colors.white,
                       textAlign: TextAlign.center,
@@ -69,7 +52,7 @@ class KelolaUserPage extends StatelessWidget {
                   ),
                   Expanded(
                     child: AppTextNormal.labelBold(
-                      "Mulai",
+                      "Created",
                       16,
                       Colors.white,
                       textAlign: TextAlign.center,
@@ -77,34 +60,38 @@ class KelolaUserPage extends StatelessWidget {
                   ),
                   Expanded(
                     child: AppTextNormal.labelBold(
-                      "Berakhir",
+                      "Updated",
                       16,
                       Colors.white,
                       textAlign: TextAlign.center,
                     ),
                   ),
                   const SizedBox(
-                    width: 80,
+                    width: 12,
+                  ),
+                  const SizedBox(
+                    width: 30,
+                    height: 30,
                   ),
                 ],
               ),
             ),
             Obx(
               () {
-                List<UserM> users = [];
-                if (_uC.usersSearch.isNotEmpty ||
+                List<RoleM> roles = [];
+                if (_uC.rolesSearch.isNotEmpty ||
                     _uC.tcSearch.text.isNotEmpty) {
-                  users = _uC.usersSearch
+                  roles = _uC.rolesSearch
                       .where((e) => e.page == _uC.page.value)
                       .toList();
                 } else {
-                  users =
-                      _uC.users.where((e) => e.page == _uC.page.value).toList();
+                  roles =
+                      _uC.roles.where((e) => e.page == _uC.page.value).toList();
                 }
 
                 return Column(
                   children: List.generate(
-                    users.length,
+                    roles.length,
                     (i) => Column(
                       children: [
                         Container(
@@ -114,9 +101,8 @@ class KelolaUserPage extends StatelessWidget {
                           child: Row(
                             children: [
                               Expanded(
-                                flex: 2,
                                 child: AppTextNormal.labelW500(
-                                  users[i].name,
+                                  roles[i].roleId.toString(),
                                   16,
                                   colorPrimaryDark,
                                   textAlign: TextAlign.center,
@@ -124,7 +110,7 @@ class KelolaUserPage extends StatelessWidget {
                               ),
                               Expanded(
                                 child: AppTextNormal.labelW500(
-                                  users[i].email,
+                                  roles[i].roleName,
                                   16,
                                   colorPrimaryDark,
                                   textAlign: TextAlign.center,
@@ -132,7 +118,7 @@ class KelolaUserPage extends StatelessWidget {
                               ),
                               Expanded(
                                 child: AppTextNormal.labelW500(
-                                  users[i].position,
+                                  "${DateFormat.yMMMd('id').add_jm().format(DateTime.parse(roles[i].created))} WIB",
                                   16,
                                   colorPrimaryDark,
                                   textAlign: TextAlign.center,
@@ -140,28 +126,7 @@ class KelolaUserPage extends StatelessWidget {
                               ),
                               Expanded(
                                 child: AppTextNormal.labelW500(
-                                  _uC.roles
-                                      .firstWhere(
-                                          (e) => e.roleId == users[i].role)
-                                      .roleName,
-                                  16,
-                                  colorPrimaryDark,
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                              Expanded(
-                                child: AppTextNormal.labelW500(
-                                  DateFormat.yMMMd('id')
-                                      .format(DateTime.parse(users[i].started)),
-                                  16,
-                                  colorPrimaryDark,
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                              Expanded(
-                                child: AppTextNormal.labelW500(
-                                  DateFormat.yMMMd('id')
-                                      .format(DateTime.parse(users[i].ended)),
+                                  "${DateFormat.yMMMd('id').add_jm().format(DateTime.parse(roles[i].updated))} WIB",
                                   16,
                                   colorPrimaryDark,
                                   textAlign: TextAlign.center,
@@ -171,39 +136,14 @@ class KelolaUserPage extends StatelessWidget {
                                 width: 12,
                               ),
                               SizedBox(
-                                width: 25,
-                                height: 25,
-                                child: InkWell(
-                                  onTap: () => AppDialog.dialogAddUser(
-                                      isUpdate: true, oldUser: users[i]),
-                                  child: const Icon(
-                                    Icons.mode_edit_rounded,
-                                    size: 20,
-                                    color: colorPrimaryDark,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Container(
-                                width: 2,
+                                width: 30,
                                 height: 30,
-                                color: Colors.grey.shade200,
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              SizedBox(
-                                width: 25,
-                                height: 25,
                                 child: InkWell(
-                                  onTap: () => AppDialog.dialogAddUser(
-                                      isUpdate: true, oldUser: users[i]),
+                                  onTap: () => AppDialog.dialogAddUserRole(
+                                      oldRole: roles[i], isUpdated: true),
                                   child: const Icon(
                                     Icons.double_arrow_rounded,
                                     color: colorPrimaryDark,
-                                    size: 20,
                                   ),
                                 ),
                               ),
@@ -237,13 +177,13 @@ class KelolaUserPage extends StatelessWidget {
                     width: size.width / 6,
                     child: TextFormField(
                       controller: _uC.tcSearch,
-                      onChanged: _uC.onSearchUser,
+                      onChanged: _uC.onSearchUserRole,
                       style: GoogleFonts.poppins(
                         height: 1.4,
                       ),
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       decoration: InputDecoration(
-                        hintText: "Cari user disini..",
+                        hintText: "Cari role user disini..",
                         fillColor: Colors.white,
                         filled: true,
                         hintStyle: GoogleFonts.poppins(
@@ -264,18 +204,18 @@ class KelolaUserPage extends StatelessWidget {
                   ),
                   const Spacer(),
                   Obx(() {
-                    List<UserM> users = [];
-                    if (_uC.usersSearch.isNotEmpty ||
+                    List<RoleM> roles = [];
+                    if (_uC.rolesSearch.isNotEmpty ||
                         _uC.tcSearch.text.isNotEmpty) {
-                      users = _uC.usersSearch;
+                      roles = _uC.rolesSearch;
                     } else {
-                      users = _uC.users;
+                      roles = _uC.roles;
                     }
                     return CustomPagination(
                       currentPage: _uC.page.value,
-                      totalPage: (users.length / 8).ceil() == 0
+                      totalPage: (roles.length / 8).ceil() == 0
                           ? 1
-                          : (users.length / 8).ceil(),
+                          : (roles.length / 8).ceil(),
                       onPageChanged: _uC.onChangepage,
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -296,7 +236,7 @@ class KelolaUserPage extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton.small(
-        onPressed: () => AppDialog.dialogAddUser(),
+        onPressed: () => AppDialog.dialogAddUserRole(),
         backgroundColor: Colors.blue,
         child: AppTextNormal.labelW600(
           "+",

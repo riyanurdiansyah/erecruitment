@@ -127,9 +127,29 @@ class TestController extends GetxController {
     };
 
     final response = await testRepository.updateExam(body);
-    Fluttertoast.showToast(msg: response ?? "Data berhasil diubah");
+    Fluttertoast.showToast(
+        msg: response ?? "Data berhasil diubah", gravity: ToastGravity.BOTTOM);
     if (response == null) {
+      for (int i = 0; i < listUser.length; i++) {
+        addExamToUser(listUser[i], exam.value.id);
+      }
       getExam();
+    }
+  }
+
+  void addExamToUser(String userId, String examId) async {
+    List<String> tempUserExam = [];
+    final oldUser = await dashboardRepository.getUser(userId);
+    if (oldUser != null) {
+      tempUserExam = List<String>.from(oldUser.quizes.map((e) => e)).toList();
+      if (!tempUserExam.contains(examId)) {
+        tempUserExam.add(examId);
+        final body = {
+          "id": userId,
+          "quizes": tempUserExam.map((e) => e).toList(),
+        };
+        await dashboardRepository.updateUserToFirestore(body);
+      }
     }
   }
 
@@ -232,7 +252,8 @@ class TestController extends GetxController {
     };
     final response = await testRepository.updateQuestionIST(body);
     if (response != null) {
-      Fluttertoast.showToast(msg: "ERROR: $response");
+      Fluttertoast.showToast(
+          msg: "ERROR: $response", gravity: ToastGravity.BOTTOM);
     } else {
       cancelEdit();
       getExamQuestions();
@@ -253,7 +274,8 @@ class TestController extends GetxController {
     };
     final response = await testRepository.addQuestionIST(body);
     if (response != null) {
-      Fluttertoast.showToast(msg: "ERROR: $response");
+      Fluttertoast.showToast(
+          msg: "ERROR: $response", gravity: ToastGravity.BOTTOM);
     } else {
       tcOptionQuestion.clear();
       optionsIst.clear();
@@ -268,7 +290,8 @@ class TestController extends GetxController {
     };
     final response = await testRepository.deleteQuestionIST(body);
     if (response != null) {
-      Fluttertoast.showToast(msg: "ERROR: $response");
+      Fluttertoast.showToast(
+          msg: "ERROR: $response", gravity: ToastGravity.BOTTOM);
     } else {
       if (isEdited.value) {
         cancelEdit();

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../models/exam_m.dart';
 import '../models/role_m.dart';
 import '../models/user_m.dart';
 
@@ -16,6 +17,18 @@ abstract class DashboardRepository {
   Future<User?> createUser(String email, String password);
 
   Future<String?> addUserToFirestore(Map<String, dynamic> body);
+
+  Future<String?> updateUserToFirestore(Map<String, dynamic> body);
+
+  Future<String?> addRole(Map<String, dynamic> body);
+
+  Future<String?> updateRole(Map<String, dynamic> body);
+
+  Future<String?> updateExamAddedUSer(Map<String, dynamic> body);
+
+  Future<ExamM?> getExam(String id);
+
+  Future<UserM?> getUser(String id);
 }
 
 class DashboardRepositoryImpl implements DashboardRepository {
@@ -102,6 +115,86 @@ class DashboardRepositoryImpl implements DashboardRepository {
       return null;
     } catch (e) {
       return e.toString();
+    }
+  }
+
+  @override
+  Future<String?> updateUserToFirestore(Map<String, dynamic> body) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection("user")
+          .doc(body["id"])
+          .update(body);
+      return null;
+    } catch (e) {
+      return e.toString();
+    }
+  }
+
+  @override
+  Future<String?> addRole(Map<String, dynamic> body) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection("role")
+          .doc(body["id"])
+          .set(body);
+      return null;
+    } catch (e) {
+      return e.toString();
+    }
+  }
+
+  @override
+  Future<String?> updateRole(Map<String, dynamic> body) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection("role")
+          .doc(body["id"])
+          .update(body);
+      return null;
+    } catch (e) {
+      return e.toString();
+    }
+  }
+
+  @override
+  Future<String?> updateExamAddedUSer(Map<String, dynamic> body) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection("exam")
+          .doc(body["id"])
+          .update(body);
+      return null;
+    } catch (e) {
+      return e.toString();
+    }
+  }
+
+  @override
+  Future<ExamM?> getExam(String id) async {
+    try {
+      final response =
+          await FirebaseFirestore.instance.collection("exam").doc(id).get();
+      if (response.exists) {
+        return ExamM.fromJson(response.data()!);
+      }
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  @override
+  Future<UserM?> getUser(String id) async {
+    try {
+      final response =
+          await FirebaseFirestore.instance.collection("user").doc(id).get();
+      if (response.exists) {
+        return UserM.fromJson(response.data()!);
+      }
+      return null;
+    } catch (e) {
+      return null;
     }
   }
 }

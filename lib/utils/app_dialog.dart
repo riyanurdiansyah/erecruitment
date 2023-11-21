@@ -1,7 +1,9 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:erecruitment/src/controllers/dashboard_controller.dart';
 import 'package:erecruitment/src/controllers/user_controller.dart';
+import 'package:erecruitment/src/models/exam_m.dart';
 import 'package:erecruitment/src/models/role_m.dart';
+import 'package:erecruitment/src/models/user_m.dart';
 import 'package:erecruitment/utils/app_constanta_empty.dart';
 import 'package:erecruitment/utils/app_route.dart';
 import 'package:erecruitment/utils/app_text_normal.dart';
@@ -314,12 +316,19 @@ class AppDialog {
     );
   }
 
-  static dialogAddUser() {
+  static dialogAddUser({
+    UserM? oldUser,
+    bool? isUpdate,
+  }) {
     final uC = Get.find<UserController>();
     final size = MediaQuery.of(rootNavigatorKey.currentContext!).size;
+    if (oldUser != null) {
+      uC.setDataToDialogAddUser(oldUser);
+    }
 
     return showDialog(
       context: rootNavigatorKey.currentContext!,
+      barrierDismissible: false,
       builder: (context) => AlertDialog(
         title: AppTextNormal.labelBold(
           "Tambah User",
@@ -391,7 +400,96 @@ class AppDialog {
                             height: 12,
                           ),
                           TextFormField(
+                            readOnly: isUpdate ?? false,
                             controller: uC.tcEmail,
+                            validator: (val) =>
+                                AppValidator.requiredField(val!),
+                            style: GoogleFonts.poppins(
+                              height: 1.4,
+                            ),
+                            decoration: InputDecoration(
+                              hintStyle: GoogleFonts.poppins(
+                                fontSize: 14,
+                                wordSpacing: 4,
+                              ),
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 0, horizontal: 12),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.grey.shade300),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          AppTextNormal.labelW600(
+                            "Username",
+                            14,
+                            Colors.black,
+                          ),
+                          const SizedBox(
+                            height: 12,
+                          ),
+                          TextFormField(
+                            controller: uC.tcUsername,
+                            validator: (val) =>
+                                AppValidator.requiredField(val!),
+                            style: GoogleFonts.poppins(
+                              height: 1.4,
+                            ),
+                            decoration: InputDecoration(
+                              hintStyle: GoogleFonts.poppins(
+                                fontSize: 14,
+                                wordSpacing: 4,
+                              ),
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 0, horizontal: 12),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.grey.shade300),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 16,
+                    ),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          AppTextNormal.labelW600(
+                            "Posisi",
+                            14,
+                            Colors.black,
+                          ),
+                          const SizedBox(
+                            height: 12,
+                          ),
+                          TextFormField(
+                            controller: uC.tcPosisi,
                             validator: (val) =>
                                 AppValidator.requiredField(val!),
                             style: GoogleFonts.poppins(
@@ -437,6 +535,7 @@ class AppDialog {
                             height: 12,
                           ),
                           TextFormField(
+                            readOnly: isUpdate ?? false,
                             controller: uC.tcPassword,
                             validator: (val) =>
                                 AppValidator.requiredField(val!),
@@ -479,16 +578,51 @@ class AppDialog {
                           const SizedBox(
                             height: 12,
                           ),
-                          DropdownSearch<RoleM>(
-                            clearButtonProps: ClearButtonProps(
-                                isVisible: uC.selectedRole.value != roleEmpty),
-                            popupProps: PopupProps.menu(
-                              showSearchBox: true,
-                              searchFieldProps: TextFieldProps(
-                                decoration: InputDecoration(
+                          Obx(
+                            () => DropdownSearch<RoleM>(
+                              clearButtonProps: ClearButtonProps(
+                                  isVisible:
+                                      uC.selectedRole.value != roleEmpty),
+                              popupProps: PopupProps.menu(
+                                showSearchBox: true,
+                                searchFieldProps: TextFieldProps(
+                                  decoration: InputDecoration(
+                                    fillColor: Colors.white,
+                                    filled: true,
+                                    hintText: "Pilih role...",
+                                    hintStyle: GoogleFonts.poppins(
+                                      fontSize: 14,
+                                      wordSpacing: 4,
+                                    ),
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        vertical: 0, horizontal: 12),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.grey.shade300),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              asyncItems: (String filter) =>
+                                  uC.dashboardRepository.getAllRole(),
+                              itemAsString: (RoleM u) => u.roleName,
+                              selectedItem: uC.selectedRole.value,
+                              onChanged: (RoleM? data) {
+                                if (data != null) {
+                                  uC.selectedRole.value = data;
+                                } else {
+                                  uC.selectedRole.value = roleEmpty;
+                                }
+                              },
+                              dropdownDecoratorProps: DropDownDecoratorProps(
+                                dropdownSearchDecoration: InputDecoration(
+                                  hintText: "Masukkan nama user disini",
                                   fillColor: Colors.white,
                                   filled: true,
-                                  hintText: "Pilih role...",
                                   hintStyle: GoogleFonts.poppins(
                                     fontSize: 14,
                                     wordSpacing: 4,
@@ -503,32 +637,6 @@ class AppDialog {
                                         BorderSide(color: Colors.grey.shade300),
                                     borderRadius: BorderRadius.circular(8),
                                   ),
-                                ),
-                              ),
-                            ),
-                            asyncItems: (String filter) =>
-                                uC.dashboardRepository.getAllRole(),
-                            itemAsString: (RoleM u) => u.roleName,
-                            selectedItem: uC.selectedRole.value,
-                            onChanged: (RoleM? data) {},
-                            dropdownDecoratorProps: DropDownDecoratorProps(
-                              dropdownSearchDecoration: InputDecoration(
-                                hintText: "Masukkan nama user disini",
-                                fillColor: Colors.white,
-                                filled: true,
-                                hintStyle: GoogleFonts.poppins(
-                                  fontSize: 14,
-                                  wordSpacing: 4,
-                                ),
-                                contentPadding: const EdgeInsets.symmetric(
-                                    vertical: 0, horizontal: 12),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Colors.grey.shade300),
-                                  borderRadius: BorderRadius.circular(8),
                                 ),
                               ),
                             ),
@@ -663,28 +771,314 @@ class AppDialog {
                   ],
                 ),
                 const SizedBox(
-                  height: 25,
+                  height: 20,
                 ),
-                SizedBox(
-                  width: double.infinity,
-                  height: 40,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: colorPrimaryDark,
-                    ),
-                    onPressed: () {
-                      rootNavigatorKey.currentContext!.pop();
-                      uC.createUser();
-                    },
-                    child: AppTextNormal.labelW600(
-                      "Simpan",
-                      16,
-                      Colors.white,
+                AppTextNormal.labelW600(
+                  "Pilih Test",
+                  14,
+                  Colors.black,
+                ),
+                const SizedBox(
+                  height: 12,
+                ),
+                Obx(
+                  () => Row(
+                    children: List.generate(
+                      uC.listExamID.length,
+                      (index) => Chip(
+                        backgroundColor: colorPrimaryDark,
+                        deleteIconColor: Colors.white,
+                        label: AppTextNormal.labelW600(
+                          uC.exams
+                              .firstWhere((e) => e.id == uC.listExamID[index])
+                              .title,
+                          12,
+                          Colors.white,
+                        ),
+                        onDeleted: () {
+                          uC.listExamID.removeAt(index);
+                        },
+                      ),
                     ),
                   ),
                 ),
+                const SizedBox(
+                  height: 12,
+                ),
+                SizedBox(
+                  height: 40,
+                  child: Obx(
+                    () => DropdownSearch<ExamM>(
+                      clearButtonProps: ClearButtonProps(
+                          isVisible: uC.selectedExam.value != examEmpty),
+                      popupProps: PopupProps.menu(
+                        showSearchBox: true,
+                        searchFieldProps: TextFieldProps(
+                          decoration: InputDecoration(
+                            fillColor: Colors.white,
+                            filled: true,
+                            hintText: "Pilih test...",
+                            hintStyle: GoogleFonts.poppins(
+                              fontSize: 14,
+                              wordSpacing: 4,
+                            ),
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 0, horizontal: 12),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.grey.shade300),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                        ),
+                      ),
+                      asyncItems: (String filter) =>
+                          uC.menuRepository.getExams(),
+                      itemAsString: (ExamM u) => u.title,
+                      selectedItem: uC.selectedExam.value,
+                      onChanged: (ExamM? data) {
+                        if (data != null) {
+                          if (!uC.listExamID.contains(data.id)) {
+                            uC.listExamID.add(data.id);
+                            uC.selectedExam.value = data;
+                          }
+                        } else {
+                          uC.selectedExam.value = examEmpty;
+                        }
+                      },
+                      dropdownDecoratorProps: DropDownDecoratorProps(
+                        dropdownSearchDecoration: InputDecoration(
+                          hintText: "Masukkan quiz disini",
+                          fillColor: Colors.white,
+                          filled: true,
+                          hintStyle: GoogleFonts.poppins(
+                            fontSize: 14,
+                            wordSpacing: 4,
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 0, horizontal: 12),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.grey.shade300),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 35,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: 40,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.grey.shade500,
+                          ),
+                          onPressed: () {
+                            rootNavigatorKey.currentContext!.pop();
+                            uC.clearTempDataDialogAddUser();
+                          },
+                          child: AppTextNormal.labelW600(
+                            "Batal",
+                            16,
+                            Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 14,
+                    ),
+                    Expanded(
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: 40,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: colorPrimaryDark,
+                          ),
+                          onPressed: () {
+                            rootNavigatorKey.currentContext!.pop();
+                            if (isUpdate == true) {
+                              uC.updateUserToFirestore(oldUser!.id);
+                            } else {
+                              uC.createUser();
+                            }
+                          },
+                          child: AppTextNormal.labelW600(
+                            "Simpan",
+                            16,
+                            Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  static dialogAddUserRole({
+    RoleM? oldRole,
+    bool? isUpdated,
+  }) {
+    final uC = Get.find<UserController>();
+    final size = MediaQuery.of(rootNavigatorKey.currentContext!).size;
+    if (oldRole != null) {
+      uC.setDataToDialogAddUserRole(oldRole);
+    }
+
+    return showDialog(
+      context: rootNavigatorKey.currentContext!,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        title: AppTextNormal.labelBold(
+          "Tambah Role",
+          16,
+          Colors.black,
+        ),
+        content: SizedBox(
+          width: size.width / 4,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              AppTextNormal.labelW600(
+                "Role ID",
+                14,
+                Colors.black,
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              TextFormField(
+                controller: uC.tcRole,
+                validator: (val) => AppValidator.requiredField(val!),
+                style: GoogleFonts.poppins(
+                  height: 1.4,
+                ),
+                readOnly: isUpdated ?? false,
+                keyboardType: TextInputType.number,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                decoration: InputDecoration(
+                  hintStyle: GoogleFonts.poppins(
+                    fontSize: 14,
+                    wordSpacing: 4,
+                  ),
+                  contentPadding:
+                      const EdgeInsets.symmetric(vertical: 0, horizontal: 12),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey.shade300),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              AppTextNormal.labelW600(
+                "Role Name",
+                14,
+                Colors.black,
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              TextFormField(
+                controller: uC.tcRoleName,
+                validator: (val) => AppValidator.requiredField(val!),
+                style: GoogleFonts.poppins(
+                  height: 1.4,
+                ),
+                decoration: InputDecoration(
+                  hintStyle: GoogleFonts.poppins(
+                    fontSize: 14,
+                    wordSpacing: 4,
+                  ),
+                  contentPadding:
+                      const EdgeInsets.symmetric(vertical: 0, horizontal: 12),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey.shade300),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 35,
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: SizedBox(
+                      width: double.infinity,
+                      height: 40,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.grey.shade500,
+                        ),
+                        onPressed: () {
+                          rootNavigatorKey.currentContext!.pop();
+                          uC.clearTempDataDialogAddUser();
+                        },
+                        child: AppTextNormal.labelW600(
+                          "Batal",
+                          16,
+                          Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 14,
+                  ),
+                  Expanded(
+                    child: SizedBox(
+                      width: double.infinity,
+                      height: 40,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: colorPrimaryDark,
+                        ),
+                        onPressed: () {
+                          if (isUpdated == true) {
+                            uC.updateRole(oldRole!.id);
+                          } else {
+                            uC.addRole();
+                          }
+                        },
+                        child: AppTextNormal.labelW600(
+                          "Simpan",
+                          16,
+                          Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ),

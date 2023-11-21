@@ -20,4 +20,6 @@ abstract class AppRouteName {
   static const String kelolaTestDetail = "kelola-test-detail";
 
   static const String kelolaUser = "kelola-user";
+
+  static const String kelolaUserRole = "kelola-user-role";
 }

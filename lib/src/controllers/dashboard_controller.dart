@@ -86,14 +86,16 @@ class DashboardController extends GetxController {
   void addExams(Map<String, dynamic> body) async {
     final response = await dashboardRepository.addTest(body);
     if (response != null) {
-      Fluttertoast.showToast(msg: "Gagal menambahkan data");
+      Fluttertoast.showToast(
+          msg: "Gagal menambahkan data", gravity: ToastGravity.BOTTOM);
     }
   }
 
   void deleteExams(String id) async {
     final response = await dashboardRepository.deleteTest(id);
     if (response != null) {
-      Fluttertoast.showToast(msg: "Gagal menghapus data");
+      Fluttertoast.showToast(
+          msg: "Gagal menghapus data", gravity: ToastGravity.BOTTOM);
     }
   }
 

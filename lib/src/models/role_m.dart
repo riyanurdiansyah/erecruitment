@@ -12,6 +12,7 @@ class RoleM extends Equatable {
   final String updated;
   final int roleId;
   final String roleName;
+  final int page;
 
   const RoleM({
     required this.id,
@@ -19,6 +20,7 @@ class RoleM extends Equatable {
     required this.updated,
     required this.roleId,
     required this.roleName,
+    required this.page,
   });
 
   RoleM copyWith({
@@ -27,6 +29,7 @@ class RoleM extends Equatable {
     String? updated,
     int? roleId,
     String? roleName,
+    int? page,
   }) =>
       RoleM(
         id: id ?? this.id,
@@ -34,6 +37,7 @@ class RoleM extends Equatable {
         updated: updated ?? this.updated,
         roleId: roleId ?? this.roleId,
         roleName: roleName ?? this.roleName,
+        page: page ?? this.page,
       );
 
   factory RoleM.fromJson(Map<String, dynamic> json) => RoleM(
@@ -42,6 +46,7 @@ class RoleM extends Equatable {
         updated: json["updated"],
         roleId: json["role_id"],
         roleName: json["role_name"],
+        page: json["page"] ?? 0,
       );
 
   Map<String, dynamic> toJson() => {
@@ -53,5 +58,5 @@ class RoleM extends Equatable {
       };
 
   @override
-  List<Object?> get props => [id, created, updated, roleId, roleName];
+  List<Object?> get props => [id, created, updated, roleId, roleName, page];
 }

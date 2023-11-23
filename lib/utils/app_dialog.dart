@@ -1,5 +1,6 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:erecruitment/src/controllers/dashboard_controller.dart';
+import 'package:erecruitment/src/controllers/test_type_controller.dart';
 import 'package:erecruitment/src/controllers/user_controller.dart';
 import 'package:erecruitment/src/models/exam_m.dart';
 import 'package:erecruitment/src/models/role_m.dart';
@@ -949,7 +950,7 @@ class AppDialog {
       barrierDismissible: false,
       builder: (context) => AlertDialog(
         title: AppTextNormal.labelBold(
-          "Tambah Role",
+          "Tambah Type",
           16,
           Colors.black,
         ),
@@ -1066,6 +1067,119 @@ class AppDialog {
                             uC.updateRole(oldRole!.id);
                           } else {
                             uC.addRole();
+                          }
+                        },
+                        child: AppTextNormal.labelW600(
+                          "Simpan",
+                          16,
+                          Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  static dialogAddExamType({
+    RoleM? oldRole,
+    bool? isUpdated,
+  }) {
+    final tC = Get.find<TestTypeController>();
+    final size = MediaQuery.of(rootNavigatorKey.currentContext!).size;
+    if (oldRole != null) {}
+
+    return showDialog(
+      context: rootNavigatorKey.currentContext!,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        title: AppTextNormal.labelBold(
+          "Tambah Role",
+          16,
+          Colors.black,
+        ),
+        content: SizedBox(
+          width: size.width / 4,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              AppTextNormal.labelW600(
+                "Test Type",
+                14,
+                Colors.black,
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              TextFormField(
+                controller: tC.tcType,
+                validator: (val) => AppValidator.requiredField(val!),
+                style: GoogleFonts.poppins(
+                  height: 1.4,
+                ),
+                decoration: InputDecoration(
+                  hintStyle: GoogleFonts.poppins(
+                    fontSize: 14,
+                    wordSpacing: 4,
+                  ),
+                  contentPadding:
+                      const EdgeInsets.symmetric(vertical: 0, horizontal: 12),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey.shade300),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 35,
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: SizedBox(
+                      width: double.infinity,
+                      height: 40,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.grey.shade500,
+                        ),
+                        onPressed: () {
+                          rootNavigatorKey.currentContext!.pop();
+                          // uC.clearTempDataDialogAddUser();
+                        },
+                        child: AppTextNormal.labelW600(
+                          "Batal",
+                          16,
+                          Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 14,
+                  ),
+                  Expanded(
+                    child: SizedBox(
+                      width: double.infinity,
+                      height: 40,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: colorPrimaryDark,
+                        ),
+                        onPressed: () {
+                          rootNavigatorKey.currentContext!.pop();
+                          if (isUpdated == true) {
+                          } else {
+                            tC.addExamType();
                           }
                         },
                         child: AppTextNormal.labelW600(

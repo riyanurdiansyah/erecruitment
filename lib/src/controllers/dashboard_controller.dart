@@ -29,14 +29,16 @@ class DashboardController extends GetxController {
 
   final Rx<UserM> user = userEmpty.obs;
 
+  final Rx<int> role = 99.obs;
+
   final Rx<bool> isStarting = false.obs;
 
   @override
   void onInit() async {
     prefs = await SharedPreferences.getInstance();
+    role.value = prefs.getInt("role") ?? 99;
     await getUserDetail();
     getMenus();
-    // getExams();
     super.onInit();
   }
 
@@ -73,8 +75,9 @@ class DashboardController extends GetxController {
     });
   }
 
-  void getMenus() async {
-    sidebars.value = await menuRepository.getMenus(prefs.getInt("role") ?? 99);
+  Future getMenus() async {
+    sidebars.clear();
+    sidebars.value = await menuRepository.getMenus(role.value);
   }
 
   void getExams() async {

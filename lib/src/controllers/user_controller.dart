@@ -117,7 +117,7 @@ class UserController extends GetxController {
               e.username.toLowerCase().contains(query.toLowerCase()))
           .toList();
       for (int i = 0; i < usersTemp.length; i++) {
-        pageTemp = (i + 1) / 2;
+        pageTemp = (i + 1) / 8;
         usersTemp[i] = usersTemp[i].copyWith(page: pageTemp.ceil());
       }
       usersSearch.value = usersTemp.where((e) => e.role != 0).toList();
@@ -136,7 +136,7 @@ class UserController extends GetxController {
           .where((e) => e.roleName.toLowerCase().contains(query.toLowerCase()))
           .toList();
       for (int i = 0; i < rolesTemp.length; i++) {
-        pageTemp = (i + 1) / 2;
+        pageTemp = (i + 1) / 8;
         rolesTemp[i] = rolesTemp[i].copyWith(page: pageTemp.ceil());
       }
       rolesSearch.value = rolesTemp;

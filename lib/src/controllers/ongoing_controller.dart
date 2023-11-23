@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:html';
 
 import 'package:camera/camera.dart';
 import 'package:erecruitment/src/controllers/dashboard_controller.dart';
@@ -71,10 +70,10 @@ class OngoingController extends GetxController {
     recordVideo();
   }
 
-  void streamPermission() {
-    timerPermission =
-        Timer.periodic(const Duration(seconds: 1), (_) => checkPermission());
-  }
+  // void streamPermission() {
+  //   timerPermission =
+  //       Timer.periodic(const Duration(seconds: 1), (_) => checkPermission());
+  // }
 
   Future addTempDataSubmit() async {
     final uid = FirebaseAuth.instance.currentUser!.uid;
@@ -90,27 +89,27 @@ class OngoingController extends GetxController {
     await ongoingRepository.addDataSubmit(body);
   }
 
-  Future<bool> checkPermission() async {
-    final permCamera = await window.navigator.permissions!.query(
-      {
-        "name": "camera",
-      },
-    );
-    final perMic = await window.navigator.permissions!.query(
-      {
-        "name": "microphone",
-      },
-    );
+  // Future<bool> checkPermission() async {
+  // final permCamera = await window.navigator.permissions!.query(
+  //   {
+  //     "name": "camera",
+  //   },
+  // );
+  // final perMic = await window.navigator.permissions!.query(
+  //   {
+  //     "name": "microphone",
+  //   },
+  // );
 
-    if (permCamera.state == "denied" || perMic.state == "denied") {
-      grantedPermission.value = false;
-      return false;
-    } else {
-      timerPermission?.cancel();
-      grantedPermission.value = true;
-      return true;
-    }
-  }
+  // if (permCamera.state == "denied" || perMic.state == "denied") {
+  //   grantedPermission.value = false;
+  //   return false;
+  // } else {
+  //   timerPermission?.cancel();
+  //   grantedPermission.value = true;
+  //   return true;
+  // }
+  // }
 
   Future initCamera() async {
     final cameras = await availableCameras();

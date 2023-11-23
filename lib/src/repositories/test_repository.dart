@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:erecruitment/src/models/exam_m.dart';
+import 'package:erecruitment/src/models/exam_type_m.dart';
 import 'package:erecruitment/src/models/question_m.dart';
 
 import '../models/user_m.dart';
@@ -8,6 +9,8 @@ abstract class TestRepository {
   Future<ExamM?> getExam(String id);
 
   Future<UserM?> getUserDetail(String id);
+
+  Future<List<ExamTypeM>> getExamTypes();
 
   Future<List<QuestionsM>> getQuestionIST(String id);
 
@@ -18,6 +21,8 @@ abstract class TestRepository {
   Future<String?> updateQuestionIST(Map<String, dynamic> body);
 
   Future<String?> deleteQuestionIST(Map<String, dynamic> body);
+
+  Future<String?> addExamType(Map<String, dynamic> body);
 }
 
 class TestRepositoryImpl implements TestRepository {
@@ -123,6 +128,38 @@ class TestRepositoryImpl implements TestRepository {
       return UserM.fromJson(response.data()!);
     } catch (e) {
       return null;
+    }
+  }
+
+  @override
+  Future<List<ExamTypeM>> getExamTypes() async {
+    List<ExamTypeM> types = [];
+    try {
+      final response =
+          await FirebaseFirestore.instance.collection("exam_type").get();
+      if (response.docs.isEmpty) {
+        return [];
+      }
+      for (var data in response.docs) {
+        types.add(ExamTypeM.fromJson(data.data()));
+      }
+      return types;
+    } catch (e) {
+      return [];
+    }
+  }
+
+  @override
+  Future<String?> addExamType(Map<String, dynamic> body) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection("exam_type")
+          .doc(body["id"])
+          .set(body);
+
+      return null;
+    } catch (e) {
+      return e.toString();
     }
   }
 }

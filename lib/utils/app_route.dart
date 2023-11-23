@@ -2,6 +2,7 @@ import 'package:erecruitment/src/controllers/dashboard_controller.dart';
 import 'package:erecruitment/src/controllers/home_controller.dart';
 import 'package:erecruitment/src/controllers/ongoing_controller.dart';
 import 'package:erecruitment/src/controllers/test_controller.dart';
+import 'package:erecruitment/src/controllers/test_type_controller.dart';
 import 'package:erecruitment/src/controllers/user_controller.dart';
 import 'package:erecruitment/src/models/exam_m.dart';
 import 'package:erecruitment/src/repositories/user_repository.dart';
@@ -22,6 +23,7 @@ import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
 import '../src/views/home_page.dart';
+import '../src/views/kelola_test_type_page.dart';
 import 'app_route_name.dart';
 
 final rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -41,14 +43,13 @@ CustomTransitionPage buildPageWithDefaultTransition<T>({
 }
 
 GoRouter router = GoRouter(
-  // errorBuilder: (context, state) => const NotFoundPage(),
+  errorBuilder: (context, state) => Container(),
   navigatorKey: rootNavigatorKey,
   initialLocation: "/",
   debugLogDiagnostics: true,
   redirect: (context, state) {
     return UserRepository.isLoggedIn();
   },
-
   routes: [
     ShellRoute(
       navigatorKey: shellNavigatorKey,
@@ -114,6 +115,18 @@ GoRouter router = GoRouter(
               name: AppRouteName.result,
               pageBuilder: (context, state) {
                 return const NoTransitionPage(child: ResultPage());
+              },
+            ),
+            GoRoute(
+              path: AppRouteName.kelolaTestType,
+              name: AppRouteName.kelolaTestType,
+              onExit: (context) {
+                Get.delete<TestTypeController>();
+                return true;
+              },
+              pageBuilder: (context, state) {
+                Get.put(TestTypeController());
+                return NoTransitionPage(child: KelolaTestTypePage());
               },
             ),
             GoRoute(

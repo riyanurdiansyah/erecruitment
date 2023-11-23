@@ -1,17 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
   @override
   void onInit() async {
-    print("ON INIT");
+    debugPrint("ON INIT");
     await onCheckCloud();
     super.onInit();
   }
 
   @override
   void dispose() {
-    print("ON DISPOSE");
+    debugPrint("ON DISPOSE");
     super.dispose();
   }
 
@@ -19,9 +20,9 @@ class HomeController extends GetxController {
     try {
       final response =
           await FirebaseFirestore.instance.collection("sidebar").get();
-      print("CEK RES : ${response.docs}");
+      debugPrint("CEK RES : ${response.docs}");
     } catch (e) {
-      print("CEK RES ERROR : ${e.toString()}");
+      debugPrint("CEK RES ERROR : ${e.toString()}");
     }
   }
 }

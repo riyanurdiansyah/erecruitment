@@ -112,29 +112,38 @@ class OngoingController extends GetxController {
   // }
 
   Future initCamera() async {
-    final cameras = await availableCameras();
-    final front = cameras.firstWhere(
-        (camera) => camera.lensDirection == CameraLensDirection.front);
-    cameraController = CameraController(front, ResolutionPreset.max);
-    await cameraController.initialize();
+    try {
+      final cameras = await availableCameras();
+      // final front = cameras.firstWhere(
+      //     (camera) => camera.lensDirection == CameraLensDirection.front);
+      cameraController = CameraController(cameras[0], ResolutionPreset.max,
+          enableAudio: false);
+      await cameraController.initialize();
+    } catch (e) {
+      print("ERROR Q ${e.toString()}");
+    }
   }
 
   Future recordVideo() async {
-    if (isRecording.value) {
-      if (kDebugMode) {
-        print("ON STOPPED");
+    try {
+      if (isRecording.value) {
+        if (kDebugMode) {
+          print("ON STOPPED");
+        }
+        changeLoading(true);
+        final file = await cameraController.stopVideoRecording();
+        await uploadVideoRecorded(file);
+        isRecording.value = false;
+      } else {
+        if (kDebugMode) {
+          print("ON RECORDED");
+        }
+        await cameraController.prepareForVideoRecording();
+        await cameraController.startVideoRecording();
+        isRecording.value = true;
       }
-      changeLoading(true);
-      final file = await cameraController.stopVideoRecording();
-      await uploadVideoRecorded(file);
-      isRecording.value = false;
-    } else {
-      if (kDebugMode) {
-        print("ON RECORDED");
-      }
-      await cameraController.prepareForVideoRecording();
-      await cameraController.startVideoRecording();
-      isRecording.value = true;
+    } catch (e) {
+      print("ERROR RECORD : ${e.toString()}");
     }
   }
 

@@ -167,10 +167,8 @@ class Siderbar extends StatelessWidget {
         onTap: () {
           AppDialog.dialogLogout(
             title: "Keluar",
-            subtitle: "Yakin ingin keluar?",
-            ontap: () async => await _dC
-                .signOut()
-                .then((value) => context.goNamed(AppRouteName.signin)),
+            subtitle: "Yakin ingin keluarx?",
+            ontap: () => context.goNamed(AppRouteName.signout),
           );
         },
         leading: const Icon(

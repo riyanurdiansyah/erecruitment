@@ -1,6 +1,7 @@
 import 'package:erecruitment/src/repositories/auth_repository.dart';
 import 'package:erecruitment/utils/app_route.dart';
 import 'package:erecruitment/utils/app_route_name.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
@@ -19,9 +20,12 @@ class AuthController extends GetxController {
 
   final errorMessage = "".obs;
 
+  final Rx<bool> isLoggedIn = false.obs;
+
   @override
   void onInit() async {
     prefs = await SharedPreferences.getInstance();
+    isLoggedIn.value = await isAuthenticated();
     super.onInit();
   }
 
@@ -30,6 +34,15 @@ class AuthController extends GetxController {
     tcUsername.dispose();
     tcPassword.dispose();
     super.dispose();
+  }
+
+  Future<bool> isAuthenticated() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      return true;
+    }
+
+    return false;
   }
 
   void signIn() async {
@@ -52,6 +65,7 @@ class AuthController extends GetxController {
       Future.delayed(const Duration(seconds: 2), () {
         isLoading.value = false;
         if (loggedIn != null) {
+          isLoggedIn.value = true;
           prefs.setString("username", user.username);
           prefs.setString("email", user.email);
           prefs.setInt("role", user.role);

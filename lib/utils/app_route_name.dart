@@ -3,6 +3,8 @@ abstract class AppRouteName {
 
   static const String signin = "signin";
 
+  static const String signout = "signout";
+
   static const String home = "home";
 
   static const String profile = "profile";

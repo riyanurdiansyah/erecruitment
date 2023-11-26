@@ -65,6 +65,67 @@ class InfoDetailExamPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       AppTextNormal.labelW600(
+                        "Informasi Test",
+                        18,
+                        Colors.black,
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      ToolBar(
+                        toolBarConfig: customToolBarList,
+                        padding: const EdgeInsets.all(8),
+                        iconSize: 18,
+                        // iconColor: _toolbarIconColor,
+                        activeIconColor: Colors.greenAccent.shade400,
+                        controller: _tC.controller,
+                        direction: Axis.horizontal,
+                      ),
+                      Container(
+                        width: double.infinity,
+                        height: 2,
+                        color: Colors.grey.shade200,
+                      ),
+                      Expanded(
+                        child: QuillHtmlEditor(
+                          hintText: 'Hint text goes here',
+                          text: _tC.informasiTest.value,
+                          controller: _tC.controller,
+                          isEnabled: true,
+                          ensureVisible: false,
+                          minHeight: size.height / 1.5,
+                          autoFocus: false,
+                          // textStyle: editorTextStyle,
+                          // hintTextStyle: _hintTextStyle,
+                          hintTextAlign: TextAlign.start,
+                          padding: const EdgeInsets.only(
+                              left: 10, top: 10, right: 10),
+                          hintTextPadding: const EdgeInsets.only(left: 20),
+                          // backgroundColor: _backgroundColor,
+                          inputAction: InputAction.newline,
+                          loadingBuilder: (context) {
+                            return const Center(
+                              child: CircularProgressIndicator(
+                                strokeWidth: 1,
+                                color: colorPrimaryDark,
+                              ),
+                            );
+                          },
+                          onEditorResized: (height) =>
+                              debugPrint('Editor resized $height'),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  width: 20,
+                ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      AppTextNormal.labelW600(
                         "Nama Test",
                         18,
                         Colors.black,
@@ -573,67 +634,6 @@ class InfoDetailExamPage extends StatelessWidget {
                           ),
                         ),
                       )
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  width: 20,
-                ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      AppTextNormal.labelW600(
-                        "Informasi Test",
-                        18,
-                        Colors.black,
-                      ),
-                      const SizedBox(
-                        height: 12,
-                      ),
-                      ToolBar(
-                        toolBarConfig: customToolBarList,
-                        // toolBarColor: _toolbarColor,
-                        padding: const EdgeInsets.all(8),
-                        iconSize: 25,
-                        // iconColor: _toolbarIconColor,
-                        activeIconColor: Colors.greenAccent.shade400,
-                        controller: _tC.controller,
-                        direction: Axis.horizontal,
-                      ),
-                      Container(
-                        width: double.infinity,
-                        height: 2,
-                        color: Colors.grey.shade200,
-                      ),
-                      Expanded(
-                        child: QuillHtmlEditor(
-                          hintText: 'Hint text goes here',
-                          text: _tC.informasiTest.value,
-                          controller: _tC.controller,
-                          isEnabled: true,
-                          ensureVisible: false,
-                          minHeight: size.height / 1.4,
-                          autoFocus: false,
-                          // textStyle: editorTextStyle,
-                          // hintTextStyle: _hintTextStyle,
-                          hintTextAlign: TextAlign.start,
-                          padding: const EdgeInsets.only(left: 10, top: 10),
-                          hintTextPadding: const EdgeInsets.only(left: 20),
-                          // backgroundColor: _backgroundColor,
-                          inputAction: InputAction.newline,
-                          loadingBuilder: (context) {
-                            return const Center(
-                              child: CircularProgressIndicator(
-                                strokeWidth: 1,
-                                color: colorPrimaryDark,
-                              ),
-                            );
-                          },
-                          onEditorResized: (height) =>
-                              debugPrint('Editor resized $height'),
-                        ),
-                      ),
                     ],
                   ),
                 ),

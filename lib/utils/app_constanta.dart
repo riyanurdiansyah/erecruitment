@@ -2,6 +2,7 @@ import 'package:erecruitment/src/models/sidebar_m.dart';
 import 'package:quill_html_editor/quill_html_editor.dart';
 
 final customToolBarList = [
+  ToolBarStyle.video,
   ToolBarStyle.bold,
   ToolBarStyle.italic,
   ToolBarStyle.align,

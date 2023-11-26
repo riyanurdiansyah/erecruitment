@@ -72,7 +72,7 @@ class TestPage extends StatelessWidget {
                                       .withOpacity(0.2),
                                 ),
                                 child: AppTextNormal.labelW600(
-                                  exams[index].title,
+                                  exams[index].subname,
                                   30,
                                   Colors.black,
                                   maxLines: 3,

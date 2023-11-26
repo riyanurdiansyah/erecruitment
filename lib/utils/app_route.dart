@@ -1,6 +1,7 @@
 import 'package:erecruitment/src/controllers/dashboard_controller.dart';
 import 'package:erecruitment/src/controllers/home_controller.dart';
 import 'package:erecruitment/src/controllers/ongoing_controller.dart';
+import 'package:erecruitment/src/controllers/result_controller.dart';
 import 'package:erecruitment/src/controllers/test_controller.dart';
 import 'package:erecruitment/src/controllers/test_type_controller.dart';
 import 'package:erecruitment/src/controllers/user_controller.dart';
@@ -15,6 +16,7 @@ import 'package:erecruitment/src/views/ongoing_page.dart';
 import 'package:erecruitment/src/views/profile_page.dart';
 import 'package:erecruitment/src/views/result_page.dart';
 import 'package:erecruitment/src/views/signin_page.dart';
+import 'package:erecruitment/src/views/signout_page.dart';
 import 'package:erecruitment/src/views/test_page.dart';
 import 'package:erecruitment/utils/app_constanta_empty.dart';
 import 'package:flutter/foundation.dart';
@@ -72,6 +74,11 @@ GoRouter router = GoRouter(
           },
           redirect: (context, state) {
             final oC = Get.put(DashboardController());
+            // final aC = Get.put(AuthController());
+
+            // if (!aC.isLoggedIn.value) {
+            //   return "/signin";
+            // }
             if (oC.isStarting.value) {
               return "/ongoing";
             } else {
@@ -114,7 +121,8 @@ GoRouter router = GoRouter(
               path: AppRouteName.result,
               name: AppRouteName.result,
               pageBuilder: (context, state) {
-                return const NoTransitionPage(child: ResultPage());
+                Get.put(ResultController());
+                return NoTransitionPage(child: ResultPage());
               },
             ),
             GoRoute(
@@ -214,6 +222,13 @@ GoRouter router = GoRouter(
         oC.time.value = exam?.time ?? 40;
 
         return NoTransitionPage(child: OngoingPage());
+      },
+    ),
+    GoRoute(
+      path: '/signout',
+      name: AppRouteName.signout,
+      builder: (context, state) {
+        return const SignoutPage();
       },
     ),
     GoRoute(

@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:erecruitment/utils/app_color.dart';
 import 'package:erecruitment/utils/app_dialog.dart';
 import 'package:erecruitment/utils/app_route.dart';
 import 'package:erecruitment/utils/app_route_name.dart';
@@ -19,6 +20,7 @@ class KelolaTestPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: colorPrimary,
       body: Column(
         children: [
           StreamBuilder<List<ExamM>>(

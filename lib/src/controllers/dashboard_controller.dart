@@ -80,7 +80,7 @@ class DashboardController extends GetxController {
     sidebars.value = await menuRepository.getMenus(role.value);
   }
 
-  void getExams() async {
+  Future getExams() async {
     final data = await menuRepository.getExams();
 
     exams.value = data.where((e) => user.value.quizes.contains(e.id)).toList();

@@ -1,4 +1,5 @@
 import 'package:erecruitment/src/controllers/auth_controller.dart';
+import 'package:erecruitment/src/views/widgets/signin_google.dart';
 import 'package:erecruitment/utils/app_color.dart';
 import 'package:erecruitment/utils/app_text_normal.dart';
 import 'package:erecruitment/utils/app_validator.dart';
@@ -134,6 +135,8 @@ class SigninPage extends StatelessWidget {
                               ),
                             ),
                           ),
+                          const SizedBox(
+                              width: 125, height: 80, child: GoogleSignIn()),
                         ],
                       ),
                     ),

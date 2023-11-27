@@ -199,6 +199,21 @@ class UserController extends GetxController {
         await dashboardRepository.createUser(tcEmail.text, tcPassword.text);
     if (response != null) {
       addUserToFirestore(response);
+      sendEmail();
+    }
+  }
+
+  void sendEmail() async {
+    final body = {
+      "password": tcPassword.text,
+      "username": tcUsername.text,
+      "receiver": tcEmail.text,
+      "name": tcNama.text,
+    };
+
+    final response = await dashboardRepository.sendMail(body);
+    if (response != null) {
+      ///handle error send email
     }
   }
 

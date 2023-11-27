@@ -1,5 +1,10 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dio/dio.dart';
+import 'package:erecruitment/utils/app_constanta.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
 import '../models/exam_m.dart';
 import '../models/role_m.dart';
@@ -29,9 +34,48 @@ abstract class DashboardRepository {
   Future<ExamM?> getExam(String id);
 
   Future<UserM?> getUser(String id);
+
+  Future<String?> sendMail(Map<String, dynamic> body);
+
+  Future<String?> addErrorMailer(Map<String, dynamic> body);
+
+  Stream<List<ExamM>> streamExamForAdmin();
+
+  Stream<List<ExamM>> streamSubExamForAdmin(String id);
 }
 
 class DashboardRepositoryImpl implements DashboardRepository {
+  final Dio _dio = Dio();
+
+  @override
+  Stream<List<ExamM>> streamSubExamForAdmin(String id) {
+    List<ExamM> exams = [];
+    Stream<QuerySnapshot<Map<String, dynamic>>> stream = FirebaseFirestore
+        .instance
+        .collection("exam")
+        .doc(id)
+        .collection("subtest")
+        .snapshots();
+    return stream.map((e) => e.docs).map((ev) {
+      print("CEK SUB : $ev");
+      exams = examsMFromJson(json.encode(ev.map((e) => e.data()).toList()));
+      exams.sort(((a, b) => a.title.compareTo(b.title)));
+      return exams;
+    });
+  }
+
+  @override
+  Stream<List<ExamM>> streamExamForAdmin() {
+    List<ExamM> exams = [];
+    Stream<QuerySnapshot<Map<String, dynamic>>> stream =
+        FirebaseFirestore.instance.collection("exam").snapshots();
+    return stream.map((e) => e.docs).map((ev) {
+      exams = examsMFromJson(json.encode(ev.map((e) => e.data()).toList()));
+      exams.sort(((a, b) => a.title.compareTo(b.title)));
+      return exams;
+    });
+  }
+
   @override
   Future<String?> addTest(Map<String, dynamic> body) async {
     try {
@@ -41,6 +85,7 @@ class DashboardRepositoryImpl implements DashboardRepository {
           .set(body);
       return null;
     } catch (e) {
+      debugPrint(e.toString());
       return e.toString();
     }
   }
@@ -51,6 +96,7 @@ class DashboardRepositoryImpl implements DashboardRepository {
       await FirebaseFirestore.instance.collection("exam").doc(id).delete();
       return null;
     } catch (e) {
+      debugPrint(e.toString());
       return e.toString();
     }
   }
@@ -69,6 +115,7 @@ class DashboardRepositoryImpl implements DashboardRepository {
       }
       return users;
     } catch (e) {
+      debugPrint(e.toString());
       return [];
     }
   }
@@ -87,6 +134,7 @@ class DashboardRepositoryImpl implements DashboardRepository {
       }
       return roles;
     } catch (e) {
+      debugPrint(e.toString());
       return [];
     }
   }
@@ -101,6 +149,7 @@ class DashboardRepositoryImpl implements DashboardRepository {
       }
       return null;
     } catch (e) {
+      debugPrint(e.toString());
       return null;
     }
   }
@@ -114,6 +163,7 @@ class DashboardRepositoryImpl implements DashboardRepository {
           .set(body);
       return null;
     } catch (e) {
+      debugPrint(e.toString());
       return e.toString();
     }
   }
@@ -127,6 +177,7 @@ class DashboardRepositoryImpl implements DashboardRepository {
           .update(body);
       return null;
     } catch (e) {
+      debugPrint(e.toString());
       return e.toString();
     }
   }
@@ -140,6 +191,7 @@ class DashboardRepositoryImpl implements DashboardRepository {
           .set(body);
       return null;
     } catch (e) {
+      debugPrint(e.toString());
       return e.toString();
     }
   }
@@ -153,6 +205,7 @@ class DashboardRepositoryImpl implements DashboardRepository {
           .update(body);
       return null;
     } catch (e) {
+      debugPrint(e.toString());
       return e.toString();
     }
   }
@@ -166,6 +219,7 @@ class DashboardRepositoryImpl implements DashboardRepository {
           .update(body);
       return null;
     } catch (e) {
+      debugPrint(e.toString());
       return e.toString();
     }
   }
@@ -180,6 +234,7 @@ class DashboardRepositoryImpl implements DashboardRepository {
       }
       return null;
     } catch (e) {
+      debugPrint(e.toString());
       return null;
     }
   }
@@ -194,7 +249,36 @@ class DashboardRepositoryImpl implements DashboardRepository {
       }
       return null;
     } catch (e) {
+      debugPrint(e.toString());
       return null;
+    }
+  }
+
+  @override
+  Future<String?> sendMail(Map<String, dynamic> body) async {
+    try {
+      final response = await _dio.post(sendmailUrl, data: body);
+      if (response.statusCode == 200) {
+        return null;
+      }
+
+      return "Failed send email";
+    } catch (e) {
+      debugPrint(e.toString());
+      return e.toString();
+    }
+  }
+
+  @override
+  Future<String?> addErrorMailer(Map<String, dynamic> body) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection("mailer")
+          .doc(body["id"])
+          .set(body);
+      return null;
+    } catch (e) {
+      return e.toString();
     }
   }
 }

@@ -27,6 +27,7 @@ const examEmpty = ExamM(
   number: 0,
   users: [],
   shuffle: false,
+  subquizes: [],
 );
 
 const roleEmpty = RoleM(

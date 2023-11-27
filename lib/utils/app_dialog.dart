@@ -673,16 +673,29 @@ class AppDialog {
                             ),
                             readOnly: true,
                             onTap: () async {
-                              final date = await showDatePicker(
+                              await showDatePicker(
+                                      context: context,
+                                      initialDate: DateTime.now(),
+                                      firstDate: DateTime.now()
+                                          .add(const Duration(days: -365)),
+                                      lastDate: DateTime.now()
+                                          .add(const Duration(days: 365)))
+                                  .then((date) async {
+                                if (date == null) return;
+                                final selectedTime = await showTimePicker(
                                   context: context,
-                                  initialDate: DateTime.now(),
-                                  firstDate: DateTime.now()
-                                      .add(const Duration(days: -365)),
-                                  lastDate: DateTime.now()
-                                      .add(const Duration(days: 365)));
-                              if (date != null) {
+                                  initialTime:
+                                      TimeOfDay.fromDateTime(DateTime.now()),
+                                );
+
+                                date = DateTime(
+                                    date.year,
+                                    date.month,
+                                    date.day,
+                                    selectedTime?.hour ?? 0,
+                                    selectedTime?.minute ?? 0);
                                 uC.selectedDate(date: date, type: 1);
-                              }
+                              });
                             },
                             keyboardType: TextInputType.number,
                             inputFormatters: [
@@ -732,16 +745,29 @@ class AppDialog {
                               height: 1.4,
                             ),
                             onTap: () async {
-                              final date = await showDatePicker(
+                              await showDatePicker(
+                                      context: context,
+                                      initialDate: DateTime.now(),
+                                      firstDate: DateTime.now()
+                                          .add(const Duration(days: -365)),
+                                      lastDate: DateTime.now()
+                                          .add(const Duration(days: 365)))
+                                  .then((date) async {
+                                if (date == null) return;
+                                final selectedTime = await showTimePicker(
                                   context: context,
-                                  initialDate: DateTime.now(),
-                                  firstDate: DateTime.now()
-                                      .add(const Duration(days: -365)),
-                                  lastDate: DateTime.now()
-                                      .add(const Duration(days: 365)));
-                              if (date != null) {
+                                  initialTime:
+                                      TimeOfDay.fromDateTime(DateTime.now()),
+                                );
+
+                                date = DateTime(
+                                    date.year,
+                                    date.month,
+                                    date.day,
+                                    selectedTime?.hour ?? 0,
+                                    selectedTime?.minute ?? 0);
                                 uC.selectedDate(date: date, type: 2);
-                              }
+                              });
                             },
                             keyboardType: TextInputType.number,
                             inputFormatters: [

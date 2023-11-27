@@ -21,6 +21,7 @@ class ExamM extends Equatable {
   final int number;
   final List<String> users;
   final bool shuffle;
+  final List<ExamM> subquizes;
 
   const ExamM({
     required this.id,
@@ -34,6 +35,7 @@ class ExamM extends Equatable {
     required this.number,
     required this.users,
     required this.shuffle,
+    required this.subquizes,
   });
 
   ExamM copyWith({
@@ -48,6 +50,7 @@ class ExamM extends Equatable {
     int? number,
     List<String>? users,
     bool? shuffle,
+    List<ExamM>? subquizes,
   }) =>
       ExamM(
         id: id ?? this.id,
@@ -61,22 +64,26 @@ class ExamM extends Equatable {
         number: number ?? this.number,
         users: users ?? this.users,
         shuffle: shuffle ?? this.shuffle,
+        subquizes: subquizes ?? this.subquizes,
       );
 
   factory ExamM.fromJson(Map<String, dynamic> json) => ExamM(
-        id: json["id"],
-        title: json["title"],
-        created: json["created"],
-        updated: json["updated"],
-        type: json["type"],
+        id: json["id"] ?? "",
+        title: json["title"] ?? "",
+        created: json["created"] ?? "",
+        updated: json["updated"] ?? "",
+        type: json["type"] ?? "",
         informasi: json["informasi"] ?? "",
-        time: json["time"],
-        number: json["number"],
-        subname: json["subname"],
+        time: json["time"] ?? 0,
+        number: json["number"] ?? 0,
+        subname: json["subname"] ?? "",
         users: json["users"] == null
             ? []
             : List<String>.from(json["users"].map((x) => x)),
         shuffle: json["shuffle"] ?? false,
+        subquizes: json["subquizes"] == null
+            ? []
+            : List<ExamM>.from(json["subquizes"].map((x) => ExamM.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -91,6 +98,7 @@ class ExamM extends Equatable {
         "number": number,
         "users": users,
         "shuffle": shuffle,
+        "subquizes": subquizes,
       };
 
   @override
@@ -105,6 +113,7 @@ class ExamM extends Equatable {
         time,
         number,
         users,
-        shuffle
+        shuffle,
+        subquizes,
       ];
 }

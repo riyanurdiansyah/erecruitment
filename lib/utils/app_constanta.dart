@@ -1,6 +1,8 @@
 import 'package:erecruitment/src/models/sidebar_m.dart';
 import 'package:quill_html_editor/quill_html_editor.dart';
 
+const sendmailUrl = "https://arfriend.vercel.app/api/send-email";
+
 final customToolBarList = [
   ToolBarStyle.video,
   ToolBarStyle.bold,

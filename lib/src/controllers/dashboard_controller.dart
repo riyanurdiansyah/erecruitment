@@ -27,6 +27,8 @@ class DashboardController extends GetxController {
 
   final RxList<ExamM> exams = <ExamM>[].obs;
 
+  final RxList<ExamM> subexams = <ExamM>[].obs;
+
   final Rx<UserM> user = userEmpty.obs;
 
   final Rx<int> role = 99.obs;
@@ -51,13 +53,16 @@ class DashboardController extends GetxController {
   }
 
   Stream<List<ExamM>> streamExamForAdmin() {
-    Stream<QuerySnapshot<Map<String, dynamic>>> stream =
-        FirebaseFirestore.instance.collection("exam").snapshots();
-    return stream.map((e) => e.docs).map((ev) {
-      exams.value =
-          examsMFromJson(json.encode(ev.map((e) => e.data()).toList()));
-      exams.sort(((a, b) => a.title.compareTo(b.title)));
+    return dashboardRepository.streamExamForAdmin().map((event) {
+      exams.value = event;
       return exams;
+    });
+  }
+
+  Stream<List<ExamM>> streamSubExamForAdmin(String id) {
+    return dashboardRepository.streamSubExamForAdmin(id).map((event) {
+      subexams.value = event;
+      return subexams;
     });
   }
 

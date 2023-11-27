@@ -210,15 +210,25 @@ class KelolaTestDetailPage extends StatelessWidget {
                                               child: Row(
                                                 children: [
                                                   if (questions[index]
-                                                      .options[innerIndex]
-                                                      .answer)
+                                                          .options[innerIndex]
+                                                          .answer ||
+                                                      questions[index]
+                                                          .options
+                                                          .where((e) =>
+                                                              e.answer == true)
+                                                          .isEmpty)
                                                     const Icon(
                                                       Icons.check_rounded,
                                                       color: Colors.green,
                                                     ),
                                                   if (!questions[index]
-                                                      .options[innerIndex]
-                                                      .answer)
+                                                          .options[innerIndex]
+                                                          .answer &&
+                                                      questions[index]
+                                                          .options
+                                                          .where((e) =>
+                                                              e.answer == true)
+                                                          .isNotEmpty)
                                                     const Icon(
                                                       Icons.close_rounded,
                                                       color: Colors.red,

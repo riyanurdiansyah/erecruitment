@@ -126,6 +126,12 @@ class KelolaTestPage extends StatelessWidget {
                                       horizontal: 14),
                                   child: Row(
                                     children: [
+                                      if (exams[index].subquizes.isNotEmpty)
+                                        AppTextNormal.labelW600(
+                                          "${exams[index].subquizes.length} Subtest",
+                                          14,
+                                          Colors.grey,
+                                        ),
                                       const Spacer(),
                                       ElevatedButton(
                                         style: ButtonStyle(

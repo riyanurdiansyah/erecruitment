@@ -151,8 +151,7 @@ class KelolaUserPage extends StatelessWidget {
                               ),
                               Expanded(
                                 child: AppTextNormal.labelW500(
-                                  DateFormat.yMMMd('id')
-                                      .format(DateTime.parse(users[i].started)),
+                                  "${DateFormat.yMMMd('id').add_jm().format(DateTime.parse(users[i].started))} WIB",
                                   16,
                                   colorPrimaryDark,
                                   textAlign: TextAlign.center,
@@ -160,8 +159,7 @@ class KelolaUserPage extends StatelessWidget {
                               ),
                               Expanded(
                                 child: AppTextNormal.labelW500(
-                                  DateFormat.yMMMd('id')
-                                      .format(DateTime.parse(users[i].ended)),
+                                  "${DateFormat.yMMMd('id').add_jm().format(DateTime.parse(users[i].ended))} WIB",
                                   16,
                                   colorPrimaryDark,
                                   textAlign: TextAlign.center,

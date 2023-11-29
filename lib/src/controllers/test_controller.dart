@@ -14,6 +14,8 @@ import '../models/user_m.dart';
 class TestController extends GetxController {
   final Rx<ExamM> exam = examEmpty.obs;
 
+  final RxList<ExamM> examSubs = <ExamM>[].obs;
+
   final Rx<bool> isEdited = false.obs;
 
   final Rx<String> examId = "".obs;
@@ -91,14 +93,11 @@ class TestController extends GetxController {
     double pageTemp = 0;
     final response = await testRepository.getExam(examId.value);
     if (response != null) {
-      exam.value = response;
-      tcNama.text = response.title;
-      tcNamaSamaran.text = response.subname;
-      tcWaktu.text = response.time.toString();
-      tcJumlahSoal.text = response.number.toString();
-      tcTipe.text = response.type;
-      informasiTest.value = response.informasi;
-
+      if (response.subquizes.isNotEmpty) {
+        examSubs.value = List.from(response.subquizes);
+        examSubs.insert(0, response);
+      }
+      setExamToVariable(response);
       for (int i = 0; i < response.users.length; i++) {
         final dataUser = await testRepository.getUserDetail(response.users[i]);
         if (dataUser != null) {
@@ -113,6 +112,17 @@ class TestController extends GetxController {
     }
   }
 
+  void setExamToVariable(ExamM data) async {
+    exam.value = data;
+    tcNama.text = data.title;
+    tcNamaSamaran.text = data.subname;
+    tcWaktu.text = data.time.toString();
+    tcJumlahSoal.text = data.number.toString();
+    tcTipe.text = data.type;
+    informasiTest.value = data.informasi;
+    controller.setText(data.informasi);
+  }
+
   Future updateExam() async {
     final listUser = List<String>.from(users.map((e) => e.id));
     final body = {
@@ -123,7 +133,7 @@ class TestController extends GetxController {
       "time": int.parse(tcWaktu.text),
       "type": tcTipe.text,
       "informasi": await controller.getText(),
-      "users": listUser.map((e) => e).toList(),
+      // "users": listUser.map((e) => e).toList(),
     };
 
     final response = await testRepository.updateExam(body);

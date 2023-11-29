@@ -26,6 +26,10 @@ class Siderbar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Drawer(
+        width: double.infinity,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.zero,
+        ),
         elevation: 0,
         child: Material(
           color: colorPrimaryDark,
@@ -186,8 +190,40 @@ class Siderbar extends StatelessWidget {
 
   Widget _buildSubMenu(List<SidebarM> submenus) {
     return Column(
-      children: submenus.map((submenu) {
-        return ListTile(
+      children: submenus.map(
+        (submenu) {
+          return ListTile(
+            onTap: () {
+              const Uuid uuid = Uuid();
+
+              String randomUuid = uuid.v4();
+
+              debugPrint("Random UUID: $randomUuid");
+              debugPrint("Random DATE: ${DateTime.now().toIso8601String()}");
+              rootNavigatorKey.currentContext?.goNamed(submenu.route);
+            },
+            title: AppTextNormal.labelW600(
+              submenu.title,
+              16,
+              Colors.white,
+            ),
+          );
+        },
+      ).toList(),
+    );
+  }
+
+  Widget _buildMenu(SidebarM sidebar) {
+    if (sidebar.submenus.isEmpty) {
+      return Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          color: sidebar.route == route.split("/")[1] ? Colors.white : null,
+        ),
+        child: ListTile(
+          selectedColor: Colors.amber,
+          focusColor: Colors.red,
+          selectedTileColor: Colors.black,
           onTap: () {
             const Uuid uuid = Uuid();
 
@@ -195,37 +231,15 @@ class Siderbar extends StatelessWidget {
 
             debugPrint("Random UUID: $randomUuid");
             debugPrint("Random DATE: ${DateTime.now().toIso8601String()}");
-            rootNavigatorKey.currentContext?.goNamed(submenu.route);
+            rootNavigatorKey.currentContext?.goNamed(sidebar.route);
           },
           title: AppTextNormal.labelW600(
-            submenu.title,
+            sidebar.title,
             16,
-            Colors.white,
+            sidebar.route == route.split("/")[1]
+                ? colorPrimaryDark
+                : Colors.white,
           ),
-        );
-      }).toList(),
-    );
-  }
-
-  Widget _buildMenu(SidebarM sidebar) {
-    if (sidebar.submenus.isEmpty) {
-      return ListTile(
-        selectedColor: Colors.amber,
-        focusColor: Colors.red,
-        selectedTileColor: Colors.black,
-        onTap: () {
-          const Uuid uuid = Uuid();
-
-          String randomUuid = uuid.v4();
-
-          debugPrint("Random UUID: $randomUuid");
-          debugPrint("Random DATE: ${DateTime.now().toIso8601String()}");
-          rootNavigatorKey.currentContext?.goNamed(sidebar.route);
-        },
-        title: AppTextNormal.labelW600(
-          sidebar.title,
-          16,
-          Colors.white,
         ),
       );
     }
@@ -235,12 +249,18 @@ class Siderbar extends StatelessWidget {
       title: AppTextNormal.labelW600(
         sidebar.title,
         16,
-        Colors.white,
+        sidebar.route == route.split("/")[1] ? colorPrimaryDark : Colors.white,
       ),
       iconColor: Colors.white,
       collapsedIconColor: Colors.white,
       children: List.generate(sidebar.submenus.length, (index) {
         if (sidebar.submenus[index].submenus.isEmpty) {
+          if (index + 1 == sidebar.submenus.length) {
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: _buildMenu(sidebar.submenus[index]),
+            );
+          }
           return _buildMenu(sidebar.submenus[index]);
         }
         return _buildSubMenu(sidebar.submenus[index].submenus);

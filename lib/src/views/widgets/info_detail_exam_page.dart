@@ -434,8 +434,13 @@ class InfoDetailExamPage extends StatelessWidget {
                             height: 36,
                             child: ElevatedButton(
                               style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all(colorPrimaryDark),
+                                shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(6),
+                                  ),
+                                ),
+                                backgroundColor: MaterialStateProperty.all(
+                                    colorPrimaryDark.withOpacity(0.6)),
                               ),
                               onPressed: () => _tC.addUsersToTemp(),
                               child: AppTextNormal.labelBold(
@@ -626,6 +631,15 @@ class InfoDetailExamPage extends StatelessWidget {
                         width: double.infinity,
                         height: 40,
                         child: ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(colorPrimaryDark),
+                            shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                            ),
+                          ),
                           onPressed: () => _tC.updateExam(),
                           child: AppTextNormal.labelBold(
                             "Simpan",

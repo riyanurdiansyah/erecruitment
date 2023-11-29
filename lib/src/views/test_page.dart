@@ -110,6 +110,9 @@ class TestPage extends StatelessWidget {
                                     const Spacer(),
                                     ElevatedButton(
                                       style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all(
+                                                colorPrimaryDark),
                                         shape: MaterialStateProperty.all<
                                             RoundedRectangleBorder>(
                                           RoundedRectangleBorder(

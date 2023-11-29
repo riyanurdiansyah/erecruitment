@@ -128,16 +128,13 @@ class KelolaTestPage extends StatelessWidget {
                                     children: [
                                       if (exams[index].subquizes.isNotEmpty)
                                         AppTextNormal.labelW600(
-                                          "${exams[index].subquizes.length} Subtest",
+                                          "${exams[index].subquizes.length} Subtes",
                                           14,
                                           Colors.grey,
                                         ),
                                       const Spacer(),
                                       ElevatedButton(
                                         style: ButtonStyle(
-                                          backgroundColor:
-                                              MaterialStateProperty.all(
-                                                  Colors.red),
                                           shape: MaterialStateProperty.all<
                                               RoundedRectangleBorder>(
                                             RoundedRectangleBorder(
@@ -160,6 +157,7 @@ class KelolaTestPage extends StatelessWidget {
                                         },
                                         child: const Icon(
                                           Icons.delete_rounded,
+                                          color: Colors.red,
                                           size: 20,
                                         ),
                                       ),

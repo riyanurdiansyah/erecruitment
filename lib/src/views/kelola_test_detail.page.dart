@@ -494,7 +494,14 @@ class KelolaTestDetailPage extends StatelessWidget {
                                           style: ButtonStyle(
                                             backgroundColor:
                                                 MaterialStateProperty.all(
-                                                    colorPrimaryDark),
+                                                    colorPrimaryDark
+                                                        .withOpacity(0.6)),
+                                            shape: MaterialStateProperty.all(
+                                              RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(6),
+                                              ),
+                                            ),
                                           ),
                                           onPressed: () =>
                                               _tC.addToListOption(),
@@ -615,6 +622,17 @@ class KelolaTestDetailPage extends StatelessWidget {
                                           width: double.infinity,
                                           height: 40,
                                           child: ElevatedButton(
+                                            style: ButtonStyle(
+                                              backgroundColor:
+                                                  MaterialStateProperty.all(
+                                                      colorPrimaryDark),
+                                              shape: MaterialStateProperty.all(
+                                                RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(6),
+                                                ),
+                                              ),
+                                            ),
                                             onPressed: () {
                                               if (_tC.isEdited.value) {
                                                 _tC.updateQuestionIst();
@@ -666,7 +684,30 @@ class KelolaTestDetailPage extends StatelessWidget {
               ),
             ),
             const SizedBox(
-              width: 10,
+              width: 5,
+            ),
+            Row(
+              children: List.generate(
+                _tC.examSubs.length,
+                (index) => Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                  child: FloatingActionButton.small(
+                    backgroundColor: Colors.white,
+                    onPressed: () async {
+                      _tC.controller.clear();
+                      _tC.setExamToVariable(_tC.examSubs[index]);
+                    },
+                    child: AppTextNormal.labelW600(
+                      index == 0 ? "Main" : _tC.examSubs[index].title,
+                      12,
+                      colorPrimaryDark,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(
+              width: 5,
             ),
             FloatingActionButton.small(
               backgroundColor:
